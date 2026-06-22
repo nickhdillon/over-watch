@@ -4,37 +4,17 @@
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-900">
-        <flux:header class="px-4!">
-            <flux:sidebar.toggle class="sm:hidden mr-2" icon="bars-2" inset="left" />
+        <flux:header class="px-4! space-x-2!">
+            <x-app-logo href="{{ route('dashboard') }}" wire:navigate class="hidden sm:flex" />
 
-            <x-app-logo href="{{ route('dashboard') }}" wire:navigate />
-
-            <flux:navbar class="-mb-px max-sm:hidden">
-                <flux:navbar.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                    {{ __('Dashboard') }}
-                </flux:navbar.item>
-            </flux:navbar>
+            @if (request()->routeIs('project*')) 
+                <x-project-switcher />
+            @endif
 
             <flux:spacer />
 
             <x-desktop-user-menu />
         </flux:header>
-
-        <!-- Mobile Menu -->
-        <flux:sidebar collapsible="mobile" sticky class="sm:hidden border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
-            <flux:sidebar.header>
-                <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
-                <flux:sidebar.collapse class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2" />
-            </flux:sidebar.header>
-
-            <flux:sidebar.nav>
-                <flux:sidebar.group>
-                    <flux:sidebar.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard')  }}
-                    </flux:sidebar.item>
-                </flux:sidebar.group>
-            </flux:sidebar.nav>
-        </flux:sidebar>
 
         {{ $slot }}
 

@@ -20,5 +20,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => 'password'
         ]);
+
+        $this->call([
+            ProjectSeeder::class
+        ]);
     }
 }

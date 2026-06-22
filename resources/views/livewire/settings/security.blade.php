@@ -1,4 +1,4 @@
-<section class="w-full">
+<section class="w-full sm:py-6 sm:px-32!">
     @include('partials.settings-heading')
 
     <flux:heading class="sr-only">{{ __('Security settings') }}</flux:heading>
