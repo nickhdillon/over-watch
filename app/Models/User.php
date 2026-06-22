@@ -72,8 +72,8 @@ class User extends Authenticatable implements PasskeyUser
         return $this->hasMany(Ticket::class);
     }
 
-    // public function tags(): HasMany
-    // {
-    //     return $this->hasMany(Tag::class);
-    // }
+    public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class);
+    }
 }

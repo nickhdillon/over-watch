@@ -43,7 +43,7 @@
     ::before,
     ::backdrop,
     ::file-selector-button {
-        border-color: var(--color-gray-200, currentColor);
+        border-color: var(--color-neutral-200, currentColor);
     }
 }
 
@@ -52,7 +52,13 @@
 }
 
 [data-flux-label] {
-    @apply  !mb-0 !leading-tight;
+    @apply  mb-0! leading-tight!;
+}
+
+[data-flux-select]>button,
+[data-flux-input]>input,
+[data-flux-date-picker]>button {
+    @apply h-[38px];
 }
 
 input:focus[data-flux-control],
@@ -60,7 +66,3 @@ textarea:focus[data-flux-control],
 select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
 }
-
-/* \[:where(&)\]:size-4 {
-    @apply size-4;
-} */

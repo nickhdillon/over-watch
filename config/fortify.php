@@ -73,7 +73,7 @@ return [
     |
     */
 
-    'home' => '/dashboard',
+    'home' => '/',
 
     /*
     |--------------------------------------------------------------------------
@@ -168,9 +168,6 @@ return [
             'confirm' => true,
             'confirmPassword' => true,
             // 'window' => 0
-        ]),
-        Features::passkeys([
-            'confirmPassword' => true,
         ]),
     ],
 

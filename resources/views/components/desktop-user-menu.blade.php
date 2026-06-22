@@ -16,8 +16,8 @@
         />
     @endif
 
-    <flux:menu>
-        <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
+    <flux:menu class="w-55">
+        <div class="flex items-center gap-2 p-1 text-start text-sm">
             @if (auth()->user()->avatar)
                 <flux:avatar
                     circle
@@ -40,18 +40,31 @@
                 <flux:text class="truncate" size="sm">{{ auth()->user()->email }}</flux:text>
             </div>
         </div>
+
         <flux:menu.separator />
+
+        <flux:radio.group x-data variant="segmented" size="sm" x-model="$flux.appearance">
+            <flux:radio value="light" icon="sun" />
+            <flux:radio value="dark" icon="moon" />
+            <flux:radio value="system" icon="computer-desktop" />
+        </flux:radio.group>
+
+        <flux:menu.separator />
+
         <flux:menu.radio.group>
-            <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
+            <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate class="p-1!">
                 {{ __('Settings') }}
             </flux:menu.item>
+
+            <flux:menu.separator />
+
             <form method="POST" action="{{ route('logout') }}" class="w-full">
                 @csrf
                 <flux:menu.item
                     as="button"
                     type="submit"
                     icon="arrow-right-start-on-rectangle"
-                    class="w-full cursor-pointer"
+                    class="w-full cursor-pointer p-1!"
                     data-test="logout-button"
                 >
                     {{ __('Log out') }}

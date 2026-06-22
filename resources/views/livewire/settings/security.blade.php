@@ -33,7 +33,7 @@
             />
 
             <div class="flex items-center gap-4">
-                <flux:button variant="primary" type="submit" data-test="update-password-button">{{ __('Save') }}</flux:button>
+                <flux:button variant="primary" type="submit" data-test="update-password-button" size="sm">{{ __('Save') }}</flux:button>
             </div>
         </form>
 
@@ -53,6 +53,7 @@
                                 <flux:button
                                     variant="danger"
                                     wire:click="disable"
+                                    size="sm"
                                 >
                                     {{ __('Disable 2FA') }}
                                 </flux:button>
@@ -69,6 +70,7 @@
                             <flux:button
                                 variant="primary"
                                 wire:click="enable"
+                                size="sm"
                             >
                                 {{ __('Enable 2FA') }}
                             </flux:button>
@@ -133,6 +135,7 @@
                                     variant="outline"
                                     class="flex-1"
                                     wire:click="resetVerification"
+                                    size="sm"
                                 >
                                     {{ __('Back') }}
                                 </flux:button>
@@ -142,6 +145,7 @@
                                     class="flex-1"
                                     wire:click="confirmTwoFactor"
                                     x-bind:disabled="$wire.code.length < 6"
+                                    size="sm"
                                 >
                                     {{ __('Confirm') }}
                                 </flux:button>
@@ -177,6 +181,7 @@
                                 variant="primary"
                                 class="w-full"
                                 wire:click="showVerificationIfNecessary"
+                                size="sm"
                             >
                                 {{ $this->modalConfig['buttonText'] }}
                             </flux:button>
@@ -205,9 +210,9 @@
                                     }
                                 }"
                             >
-                                <div class="flex items-stretch w-full border rounded-xl dark:border-stone-700">
+                                <div class="flex items-stretch w-full border rounded-lg dark:border-stone-700">
                                     @empty($manualSetupKey)
-                                        <div class="flex items-center justify-center w-full p-3 bg-stone-100 dark:bg-stone-700">
+                                        <div class="flex items-center justify-center w-full p-2 bg-stone-100 dark:bg-stone-700">
                                             <flux:icon.loading variant="mini"/>
                                         </div>
                                     @else
@@ -215,18 +220,18 @@
                                             type="text"
                                             readonly
                                             value="{{ $manualSetupKey }}"
-                                            class="w-full p-3 bg-transparent outline-none text-stone-900 dark:text-stone-100"
+                                            class="w-full text-sm p-2 bg-transparent outline-none text-stone-900 dark:text-stone-100"
                                         />
 
                                         <button
                                             @click="copy()"
-                                            class="px-3 transition-colors border-l cursor-pointer border-stone-200 dark:border-stone-600"
+                                            class="px-2 transition-colors border-l cursor-pointer border-stone-200 dark:border-stone-600"
                                         >
-                                            <flux:icon.document-duplicate x-show="!copied" variant="outline"></flux:icon>
+                                            <flux:icon.document-duplicate x-show="!copied" variant="outline" class="size-5"></flux:icon>
                                             <flux:icon.check
                                                 x-show="copied"
                                                 variant="solid"
-                                                class="text-green-500"
+                                                class="text-green-500 size-5"
                                             ></flux:icon>
                                         </button>
                                     @endempty
@@ -312,12 +317,14 @@
                 <flux:button
                     variant="outline"
                     wire:click="closeDeleteModal"
+                    size="sm"
                 >
                     {{ __('Cancel') }}
                 </flux:button>
                 <flux:button
                     variant="danger"
                     wire:click="deletePasskey"
+                    size="sm"
                 >
                     {{ __('Remove passkey') }}
                 </flux:button>

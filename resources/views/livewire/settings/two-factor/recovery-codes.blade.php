@@ -23,6 +23,7 @@
                 @click="showRecoveryCodes = true;"
                 aria-expanded="false"
                 aria-controls="recovery-codes-section"
+                size="sm"
             >
                 {{ __('View recovery codes') }}
             </flux:button>
@@ -35,6 +36,7 @@
                 @click="showRecoveryCodes = false"
                 aria-expanded="true"
                 aria-controls="recovery-codes-section"
+                size="sm"
             >
                 {{ __('Hide recovery codes') }}
             </flux:button>
@@ -45,6 +47,7 @@
                     icon="arrow-path"
                     variant="filled"
                     wire:click="regenerateRecoveryCodes"
+                    size="sm"
                 >
                     {{ __('Regenerate codes') }}
                 </flux:button>
