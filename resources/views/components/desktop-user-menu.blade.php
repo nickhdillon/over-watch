@@ -1,19 +1,40 @@
 <flux:dropdown position="bottom" align="start">
-    <flux:sidebar.profile
-        circle
-        :chevron="false"
-        :initials="auth()->user()->initials()"
-        data-test="sidebar-menu-button"
-    />
+    @if (auth()->user()->avatar)
+        <flux:sidebar.profile
+            circle
+            :chevron="false"
+            :initials="auth()->user()->initials()"
+            :avatar="Storage::disk('s3')->url('avatars/' . auth()->user()->avatar)"
+            data-test="sidebar-menu-button"
+        />
+    @else
+        <flux:sidebar.profile
+            circle
+            :chevron="false"
+            :initials="auth()->user()->initials()"
+            data-test="sidebar-menu-button"
+        />
+    @endif
 
     <flux:menu>
         <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
-            <flux:avatar
-                circle
-                size="sm"
-                :name="auth()->user()->name"
-                :initials="auth()->user()->initials()"
-            />
+            @if (auth()->user()->avatar)
+                <flux:avatar
+                    circle
+                    size="sm"
+                    :name="auth()->user()->name"
+                    :initials="auth()->user()->initials()"
+                    :src="Storage::disk('s3')->url('avatars/' . auth()->user()->avatar)"
+                />
+            @else
+                <flux:avatar
+                    circle
+                    size="sm"
+                    :name="auth()->user()->name"
+                    :initials="auth()->user()->initials()"
+                />
+            @endif
+
             <div class="grid flex-1 -space-y-0.5 text-start text-sm leading-tight">
                 <flux:heading class="truncate">{{ auth()->user()->name }}</flux:heading>
                 <flux:text class="truncate" size="sm">{{ auth()->user()->email }}</flux:text>
