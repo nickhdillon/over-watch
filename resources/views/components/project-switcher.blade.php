@@ -18,7 +18,7 @@
                 wire:navigate
                 class="flex items-center hover:bg-neutral-100 dark:hover:bg-neutral-700 gap-2 h-7 p-1 pr-1.5 rounded-md w-full text-left text-sm"
             >
-                @if (! $current_project->image_path) 
+                @if (! $current_project->image_path)
                     <div class="flex relative size-5 items-center justify-center rounded-sm bg-neutral-400 dark:bg-neutral-600 border border-neutral-200 dark:border-white/10">
                         <span class="text-xs font-medium text-white">
                             {{ Str::substr($current_project?->name, 0, 1) }}
