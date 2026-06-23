@@ -13,8 +13,8 @@
 		>
 			<div class="flex items-center gap-2">
 				@if ($color)
-					<span class="size-4 rounded-sm bg-{{ $color instanceof \App\Enums\Color ? $color->value : $color }}-500"></span>
-					<span>{{ $color instanceof \App\Enums\Color ? $color->label() : \App\Enums\Color::from($color)->label() }}</span>
+					<span class="size-4 rounded-sm bg-{{ $color instanceof Color ? $color : $color }}-500"></span>
+					<span>{{ $color instanceof Color ? $color->label() : Color::from($color)->label() }}</span>
 				@else
 					<span class="text-neutral-500">Choose color...</span>
 				@endif
@@ -52,14 +52,14 @@
 			@foreach (Color::cases() as $option)
 				<button
 					type="button"
-					wire:click="$set('color', '{{ $option->value }}')"
+					wire:click="$set('color', '{{ $option }}')"
 					x-on:click="open = false"
 					class="flex w-full items-center gap-2 rounded-sm px-2 py-2 text-left text-sm hover:bg-neutral-100 dark:hover:bg-neutral-700"
 				>
-					<span class="size-4 rounded-sm bg-{{ $option->value }}-500"></span>
+					<span class="size-4 rounded-sm bg-{{ $option }}-500"></span>
 					<span>{{ $option->label() }}</span>
 
-					@if (($color instanceof \App\Enums\Color ? $color->value : $color) === $option->value)
+					@if (($color instanceof Color ? $color : $color) === $option)
 						<flux:spacer />
 						<flux:icon.check class="size-4 text-neutral-500 stroke-[2.5px]" />
 					@endif
