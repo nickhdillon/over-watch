@@ -28,7 +28,7 @@ class ProjectForm extends Component
 
     public ?string $image_path = null;
 
-    public ?Color $color = null;
+    public ?string $color = null;
 
     public function mount(): void
     {
@@ -36,9 +36,9 @@ class ProjectForm extends Component
             $this->name = $this->project->name;
             $this->description = $this->project->description;
             $this->image_path = $this->project->image_path;
-            $this->color = $this->project->color;
+            $this->color = $this->project->color?->value;
         } else {
-            $this->color = Arr::random(Color::cases());
+            $this->color = Arr::random(Color::cases())->value;
         }
     }
 

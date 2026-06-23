@@ -92,11 +92,29 @@
                         wire:navigate
                         class="flex items-center gap-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 p-2! rounded w-full text-left text-sm"
                     >
-                        <div class="flex size-5 items-center justify-center rounded-sm bg-{{ $project->color }}-500">
-                            <span class="text-xs font-medium text-white">
-                                {{ Str::substr($project->name, 0, 1) }}
-                            </span>
-                        </div>
+                        @if (! $project->image_path)
+                            <div class="flex relative size-5 items-center justify-center rounded-sm bg-neutral-400 dark:bg-neutral-600 border border-neutral-200 dark:border-white/10">
+                                <span class="text-xs font-medium text-white">
+                                    {{ Str::substr($project->name, 0, 1) }}
+                                </span>
+
+                                @if ($project->color) 
+                                    <div class="absolute -bottom-0.75 -right-0.75 bg-{{ $project->color }}-500 size-1.75 rounded-xs"></div>
+                                @endif
+                            </div>
+                        @else
+                            <div class="flex relative size-5 items-center justify-center rounded-sm border border-neutral-200 dark:border-white/10">
+                                <img
+                                    src="{{ Storage::disk('s3')->url($project->image_path) }}"
+                                    alt="{{ $project->name }}"
+                                    class="rounded-sm"
+                                />
+
+                                @if ($project->color) 
+                                    <div class="absolute -bottom-0.75 -right-0.75 bg-{{ $project->color }}-500 size-1.75 rounded-xs"></div>
+                                @endif
+                            </div>
+                        @endif
 
                         <span>{{ $project->name }}</span>
                     </a>
