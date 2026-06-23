@@ -1,23 +1,35 @@
 @php
     use App\Models\Project;
 
-    $current_project = Project::firstWhere('slug', request()->route('project'));
+    $current_project = request()->route('project');
+
+    if (is_string($current_project)) {
+        $current_project = Project::firstWhere('slug', $current_project);
+    }
 @endphp
 
 <div x-data="{ menuOpen: false }" class="flex items-center">
-    <div class="hidden sm:block text-neutral-600 dark:text-neutral-500 pr-2">/</div>
+    <div class="text-neutral-300 dark:text-neutral-500 pr-2">/</div>
 
-    <div>
-        <a href="{{ route('project', $current_project) }}" wire:navigate class="flex items-center hover:bg-neutral-100 dark:hover:bg-neutral-700 gap-2 h-7 p-1 pr-1.5 rounded-md w-full text-left text-sm">
-            <div class="flex size-5 items-center justify-center rounded-sm bg-{{ $current_project?->color }}-500">
-                <span class="text-xs font-medium text-white">
-                    {{ Str::substr($current_project?->name, 0, 1) }}
+    @if ($current_project)
+        <div>
+            <a
+                href="{{ route('project', $current_project) }}"
+                wire:navigate
+                class="flex items-center hover:bg-neutral-100 dark:hover:bg-neutral-700 gap-2 h-7 p-1 pr-1.5 rounded-md w-full text-left text-sm"
+            >
+                <div class="flex size-5 items-center justify-center rounded-sm bg-{{ $current_project?->color }}-500">
+                    <span class="text-xs font-medium text-white">
+                        {{ Str::substr($current_project?->name, 0, 1) }}
+                    </span>
+                </div>
+
+                <span class="text-sm font-medium text-neutral-700 dark:text-white">
+                    {{ $current_project?->name }}
                 </span>
-            </div>
-
-            <span>{{ $current_project?->name }}</span>
-        </a>
-    </div>
+            </a>
+        </div>
+    @endif
 
     <div class="relative flex">
         <button
@@ -53,31 +65,39 @@
             x-on:click="menuOpen = false"
             x-on:click.outside="menuOpen = false"
             x-on:scroll.window="menuOpen = false"
-            class="absolute left-0 top-full mt-1.5 z-50 flex w-50 origin-top flex-col rounded-lg border border-neutral-300 bg-white p-1 shadow-md dark:border-neutral-700/50 dark:bg-neutral-800 [&>a]:w-full [&>a]:p-2.5"
+            class="absolute left-0 top-full mt-1.5 z-50 flex w-50 origin-top flex-col rounded-lg border border-neutral-300 bg-white shadow-md dark:border-neutral-700/50 dark:bg-neutral-800 [&>a]:w-full [&>a]:p-2.5"
         >
-            @foreach (auth()->user()->projects as $project)
-                <a href="{{ route('project', $project->slug) }}" wire:navigate class="flex items-center gap-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 p-2! rounded w-full text-left text-sm">
-                    <div class="flex size-5 items-center justify-center rounded-sm bg-{{ $project->color }}-500">
-                        <span class="text-xs font-medium text-white">
-                            {{ Str::substr($project->name, 0, 1) }}
-                        </span>
+            <div class="p-1">
+                @foreach (auth()->user()->projects as $project)
+                    <a
+                        href="{{ route('project', $project->slug) }}"
+                        wire:navigate
+                        class="flex items-center gap-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 p-2! rounded w-full text-left text-sm"
+                    >
+                        <div class="flex size-5 items-center justify-center rounded-sm bg-{{ $project->color }}-500">
+                            <span class="text-xs font-medium text-white">
+                                {{ Str::substr($project->name, 0, 1) }}
+                            </span>
+                        </div>
+
+                        <span>{{ $project->name }}</span>
+                    </a>
+                @endforeach
+            </div>
+
+            <flux:separator class="bg-neutral-300! dark:bg-neutral-700/50!" />
+
+            <div class="p-1">
+                <button class="hover:bg-[#18b69b]/10 flex items-center gap-2 p-2 rounded w-full text-left text-sm">
+                    <div class="size-5 flex items-center justify-center">
+                        <div class="border border-neutral-300 dark:border-neutral-700 rounded-sm bg-white dark:bg-neutral-800">
+                            <flux:icon name="plus" class="size-4 p-px text-[#18b69b]" />
+                        </div>
                     </div>
 
-                    <span>{{ $project->name }}</span>
-                </a>
-            @endforeach
-
-            <flux:separator class="my-1 bg-neutral-300! dark:bg-neutral-700/50!" />
-
-            <button class="hover:bg-[#18b69b]/10 flex items-center gap-2 p-2 rounded w-full text-left text-sm">
-                <div class="size-5 flex items-center justify-center">
-                    <div class="border border-neutral-300 dark:border-neutral-700 rounded-sm bg-white dark:bg-neutral-800">
-                        <flux:icon name="plus" class="size-4 p-px text-[#18b69b]" />
-                    </div>
-                </div>
-
-                <span class="text-[#18b69b] font-medium">New project</span>
-            </button>
+                    <span class="text-[#18b69b] font-medium">New project</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>

@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Project;
+use App\Models\Ticket;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -24,6 +27,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Relation::enforceMorphMap([
+            'project' => Project::class,
+            'ticket' => Ticket::class,
+        ]);
+
         $this->configureDefaults();
     }
 

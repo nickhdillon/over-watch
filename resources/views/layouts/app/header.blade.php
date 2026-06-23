@@ -5,9 +5,9 @@
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-900">
         <flux:header class="px-4! space-x-2!">
-            <x-app-logo href="{{ route('dashboard') }}" wire:navigate class="hidden sm:flex" />
+            <x-app-logo href="{{ route('dashboard') }}" wire:navigate />
 
-            @if (request()->routeIs('project*')) 
+            @if (request()->routeIs('project*'))
                 <x-project-switcher />
             @endif
 
