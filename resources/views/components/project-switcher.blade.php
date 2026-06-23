@@ -14,15 +14,33 @@
     @if ($current_project)
         <div>
             <a
-                href="{{ route('project', $current_project) }}"
+                href="{{ route('project.view', $current_project) }}"
                 wire:navigate
                 class="flex items-center hover:bg-neutral-100 dark:hover:bg-neutral-700 gap-2 h-7 p-1 pr-1.5 rounded-md w-full text-left text-sm"
             >
-                <div class="flex size-5 items-center justify-center rounded-sm bg-{{ $current_project?->color }}-500">
-                    <span class="text-xs font-medium text-white">
-                        {{ Str::substr($current_project?->name, 0, 1) }}
-                    </span>
-                </div>
+                @if (! $current_project->image_path) 
+                    <div class="flex relative size-5 items-center justify-center rounded-sm bg-neutral-400 dark:bg-neutral-600 border border-neutral-200 dark:border-white/10">
+                        <span class="text-xs font-medium text-white">
+                            {{ Str::substr($current_project?->name, 0, 1) }}
+                        </span>
+    
+                        @if ($current_project->color) 
+                            <div class="absolute -bottom-0.75 -right-0.75 bg-{{ $current_project->color }}-500 size-1.75 rounded-xs"></div>
+                        @endif
+                    </div>
+                @else
+                    <div class="flex relative size-5 items-center justify-center rounded-sm border border-neutral-200 dark:border-white/10">
+                        <img
+                            src="{{ Storage::disk('s3')->url($current_project->image_path) }}"
+                            alt="{{ $current_project->name }}"
+                            class="rounded-sm"
+                        />
+    
+                        @if ($current_project->color) 
+                            <div class="absolute -bottom-0.75 -right-0.75 bg-{{ $current_project->color }}-500 size-1.75 rounded-xs"></div>
+                        @endif
+                    </div>
+                @endif
 
                 <span class="text-sm font-medium text-neutral-700 dark:text-white">
                     {{ $current_project?->name }}
@@ -70,7 +88,7 @@
             <div class="p-1">
                 @foreach (auth()->user()->projects as $project)
                     <a
-                        href="{{ route('project', $project->slug) }}"
+                        href="{{ route('project.view', $project->slug) }}"
                         wire:navigate
                         class="flex items-center gap-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 p-2! rounded w-full text-left text-sm"
                     >
@@ -88,7 +106,7 @@
             <flux:separator class="bg-neutral-300! dark:bg-neutral-700/50!" />
 
             <div class="p-1">
-                <button class="hover:bg-[#18b69b]/10 flex items-center gap-2 p-2 rounded w-full text-left text-sm">
+                <a href="{{ route('project.create') }}" wire:navigate class="hover:bg-[#18b69b]/10 flex items-center gap-2 p-2 rounded w-full text-left text-sm">
                     <div class="size-5 flex items-center justify-center">
                         <div class="border border-neutral-300 dark:border-neutral-700 rounded-sm bg-white dark:bg-neutral-800">
                             <flux:icon name="plus" class="size-4 p-px text-[#18b69b]" />
@@ -96,7 +114,7 @@
                     </div>
 
                     <span class="text-[#18b69b] font-medium">New project</span>
-                </button>
+                </a>
             </div>
         </div>
     </div>
