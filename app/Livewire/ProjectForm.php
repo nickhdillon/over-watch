@@ -34,13 +34,11 @@ class ProjectForm extends Component
 
     public function mount(): void
     {
-        if ($this->project) {
-            $this->name = $this->project->name;
-            $this->url = $this->project->url;
-            $this->description = $this->project->description;
-            $this->image_path = $this->project->image_path;
-            $this->color = $this->project->color;
-        }
+        $this->name = $this->project->name;
+        $this->url = $this->project->url;
+        $this->description = $this->project->description;
+        $this->image_path = $this->project->image_path;
+        $this->color = $this->project->color;
     }
 
     public function rules(): array
