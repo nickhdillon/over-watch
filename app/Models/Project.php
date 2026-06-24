@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\Color;
+use App\Models\Concerns\HasPriority;
 use App\Models\Concerns\HasRecentViews;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,7 @@ class Project extends Model
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
     use HasFactory;
     use HasRecentViews;
+    use HasPriority;
 
     protected function casts(): array
     {

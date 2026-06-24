@@ -14,6 +14,7 @@ enum Color: string
     case GREEN = 'green';
     case INDIGO = 'indigo';
     case LIME = 'lime';
+    case NEUTRAL = 'neutral';
     case ORANGE = 'orange';
     case PINK = 'pink';
     case PURPLE = 'purple';
@@ -35,6 +36,7 @@ enum Color: string
             self::GREEN => 'Green',
             self::INDIGO => 'Indigo',
             self::LIME => 'Lime',
+            self::NEUTRAL => 'Neutral',
             self::ORANGE => 'Orange',
             self::PINK => 'Pink',
             self::PURPLE => 'Purple',

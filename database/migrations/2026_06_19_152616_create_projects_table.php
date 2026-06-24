@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('image_path')->nullable();
             $table->string('color')->nullable();
+            $table->string('priority');
             $table->timestamps();
         });
     }

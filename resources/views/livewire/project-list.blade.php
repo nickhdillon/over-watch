@@ -8,7 +8,9 @@
             Projects
         </flux:navbar.item>
 
-        <flux:navbar.item href="#">Tickets</flux:navbar.item>
+        <flux:navbar.item :href="route('tickets')" :current="request()->routeIs('tickets')">
+            Tickets
+        </flux:navbar.item>
     </flux:navbar>
 
     <div class="border-t sm:border border-neutral-200 space-y-3 shadow-xs dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2">
@@ -30,7 +32,7 @@
                     <a
                         href="{{ route('project.view', $project) }}"
                         wire:navigate
-                        class="group flex items-center gap-3 hover:bg-neutral-50 dark:hover:bg-neutral-800 p-3.5 first:rounded-t-xl last:rounded-b-xl"
+                        class="group flex items-center gap-3 hover:bg-neutral-50 dark:hover:bg-neutral-800 p-3.5 first:rounded-t-lg last:rounded-b-lg"
                     >
                         @if (! $project->image_path)
                             <div class="flex relative size-7 sm:size-8 items-center justify-center rounded-sm bg-neutral-400 dark:bg-neutral-600 border border-neutral-200 dark:border-white/10">

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Enums\Color;
+use App\Enums\Priority;
 use App\Models\Project;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -27,7 +28,8 @@ class ProjectFactory extends Factory
             'url' => 'https://pure-finance.app',
             'description' => 'Personal finance app',
             'image_path' => null,
-            'color' => Arr::random(Color::cases())
+            'color' => Arr::random(Color::cases()),
+            'priority' => Arr::random(Priority::cases()),
         ];
     }
 }

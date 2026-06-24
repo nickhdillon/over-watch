@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\Priority;
+use App\Enums\TicketStatus;
+use App\Models\Concerns\HasPriority;
 use App\Models\Concerns\HasRecentViews;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +19,15 @@ class Ticket extends Model
     /** @use HasFactory<\Database\Factories\TicketFactory> */
     use HasFactory;
     use HasRecentViews;
+    use HasPriority;
+
+    public function casts(): array
+    {
+        return [
+            'status' => TicketStatus::class,
+            'priority' => Priority::class
+        ];
+    }
 
     public function project(): BelongsTo
     {

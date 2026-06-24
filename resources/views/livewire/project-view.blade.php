@@ -4,7 +4,9 @@
             Overview
         </flux:navbar.item>
 
-        <flux:navbar.item href="#">Tickets</flux:navbar.item>
+        <flux:navbar.item :href="route('project.tickets', $project)" :current="request()->routeIs('project.tickets')">
+            Tickets
+        </flux:navbar.item>
 
         <flux:navbar.item :href="route('project.edit', $project)" :current="request()->routeIs('project.edit')">
             Settings

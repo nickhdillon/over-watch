@@ -56,8 +56,8 @@
     <div class="relative flex">
         <button
             type="button"
-            class="flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md h-7 w-6"
             x-on:click="menuOpen = ! menuOpen"
+            class="flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md h-7 w-6"
         >
             <svg
                 viewBox="0 0 16 16"
