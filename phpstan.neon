@@ -11,3 +11,6 @@ parameters:
         - routes/
 
     level: 5
+
+    ignoreErrors:
+        - '#Call to an undefined method .*::orderByPriority\(\)#'

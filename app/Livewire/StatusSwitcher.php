@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
-use App\Enums\TicketStatus;
 use App\Models\Ticket;
 use Livewire\Component;
+use App\Enums\TicketStatus;
 use Illuminate\Contracts\View\View;
 
 class StatusSwitcher extends Component

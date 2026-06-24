@@ -14,6 +14,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
+/**
+ * @property TicketStatus|null $status
+ * @property Priority|null $priority
+ */
 class Ticket extends Model
 {
     /** @use HasFactory<\Database\Factories\TicketFactory> */
