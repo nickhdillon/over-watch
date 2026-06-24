@@ -7,20 +7,22 @@ namespace App\Livewire;
 use App\Enums\Color;
 use App\Models\Project;
 use Livewire\Component;
-use App\Enums\ProjectRole;
 use Illuminate\Support\Arr;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class ProjectForm extends Component
 {
     use WithFileUploads;
 
-    public ?Project $project = null;
+    public Project $project;
 
     public string $name = '';
+
+    public ?string $url = null;
 
     public ?string $description = null;
 
@@ -34,11 +36,10 @@ class ProjectForm extends Component
     {
         if ($this->project) {
             $this->name = $this->project->name;
+            $this->url = $this->project->url;
             $this->description = $this->project->description;
             $this->image_path = $this->project->image_path;
             $this->color = $this->project->color;
-        } else {
-            $this->color = Arr::random(Color::cases());
         }
     }
 
@@ -46,6 +47,7 @@ class ProjectForm extends Component
     {
         return [
             'name' => ['string', 'required'],
+            'url' => ['string', 'url', 'nullable'],
             'description' => ['string', 'nullable'],
             'image' => ['file', 'max:12288', 'mimes:jpg,jpeg,png,heic,svg,avif,webp', 'nullable'],
             'image_path' => ['string', 'nullable'],
@@ -53,28 +55,30 @@ class ProjectForm extends Component
         ];
     }
 
-    public function save()
-    {   
-        $validated = $this->validate();
-
-        $project = Project::updateOrCreate(
-            ['id' => $this->project?->id],
-            Arr::except($validated, ['image'])
-        );
-
-        if ($project->wasRecentlyCreated) {
-            $project->users()->attach(auth()->id(), ['role' => ProjectRole::OWNER->value]);
-        }
+    public function save(): void
+    {
+        $this->project->update(Arr::except($this->validate(), ['image']));
 
         if ($this->image instanceof TemporaryUploadedFile) {
-            $project->update([
+            $this->project->update([
                 'image_path' => $this->image->storePubliclyAs(
-                    "projects/{$project->id}",
+                    "projects/{$this->project->id}",
                     "image.{$this->image->getClientOriginalExtension()}",
                     's3',
                 ),
             ]);
         }
+
+        $this->redirectRoute('project.edit', $this->project);
+    }
+
+    public function deleteImage(): void
+    {
+        Storage::disk('s3')->delete($this->image_path);
+
+        $this->project->update(['image_path' => null]);
+
+        $this->redirectRoute('project.edit', $this->project);
     }
 
     public function render(): View

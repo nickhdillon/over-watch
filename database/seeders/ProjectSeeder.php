@@ -21,16 +21,19 @@ class ProjectSeeder extends Seeder
                 [
                     'name' => 'Pure Finance',
                     'slug' => 'pure-finance',
+                    'url' => 'https://pure-finance.app',
                     'description' => 'Personal finance app'
                 ],
                 [
                     'name' => 'Audio Archive',
                     'slug' => 'audio-archive',
+                    'url' => 'https://audio-archive.app',
                     'description' => 'Personal audio player and library'
                 ],
                 [
                     'name' => 'Movie Vault',
                     'slug' => 'movie-vault',
+                    'url' => 'https://movie-vault.app',
                     'description' => 'Personal movie and tv show collection'
                 ]
             )

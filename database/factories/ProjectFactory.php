@@ -24,6 +24,7 @@ class ProjectFactory extends Factory
         return [
             'name' => 'Pure Finance',
             'slug' => 'pure-finance',
+            'url' => 'https://pure-finance.app',
             'description' => 'Personal finance app',
             'image_path' => null,
             'color' => Arr::random(Color::cases())
