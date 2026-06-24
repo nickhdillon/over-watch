@@ -7,7 +7,7 @@
         <flux:header class="px-6! space-x-2!">
             <x-app-logo href="{{ route('dashboard') }}" wire:navigate />
 
-            @if (request()->routeIs('project*') && ! request()->routeIs('project.create'))
+            @if (request()->routeIs('project.*') && ! request()->routeIs('project.create'))
                 <x-project-switcher />
             @endif
 

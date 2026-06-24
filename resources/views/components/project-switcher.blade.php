@@ -132,6 +132,18 @@
             <flux:separator class="bg-neutral-300! dark:bg-neutral-700/50!" />
 
             <div class="p-1">
+                <flux:modal.trigger name="new-project" x-on:click.stop>
+                    <button type="button" class="hover:bg-[#18b69b]/10 flex items-center gap-2 p-2 rounded w-full text-left text-sm">
+                        <div class="size-5 flex items-center justify-center">
+                            <div class="border border-neutral-300 dark:border-neutral-700 rounded-sm bg-white dark:bg-neutral-800">
+                                <flux:icon name="plus" class="size-4 p-px text-[#18b69b]" />
+                            </div>
+                        </div>
+
+                        <span class="text-[#18b69b] font-medium">New project</span>
+                    </button>
+                </flux:modal.trigger>
+                
                 <livewire:project-form-modal />
             </div>
         </div>

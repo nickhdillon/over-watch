@@ -1,4 +1,4 @@
-<x-layouts::app>
+<div>
     <flux:navbar class="px-4">
         <flux:navbar.item href="/" :current="request()->is('/')">
             Overview
@@ -13,10 +13,20 @@
 
     <div class="border-t sm:border border-neutral-200 space-y-3 shadow-xs dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2">
         <div class="p-4 sm:py-12 mx-auto sm:w-11/12">
-            <h1 class="mb-4 font-medium">Recent projects</h1>
+            <div class="flex items-center justify-between gap-2 mb-4">
+                <h1 class="font-medium">Projects</h1>
+
+                <div>
+                    <flux:modal.trigger name="new-project">
+                        <flux:button icon="plus" size="sm">New project</flux:button>
+                    </flux:modal.trigger>
+                    
+                    <livewire:project-form-modal />
+                </div>
+            </div>
             
             <div class="border border-neutral-300 dark:border-neutral-700 bg-white/50 dark:bg-neutral-800/50 rounded-lg divide-y divide-neutral-200 dark:divide-neutral-700 shadow-xs">
-                @foreach ($recent_projects as $project)
+                @foreach ($this->projects as $project)
                     <a
                         href="{{ route('project.view', $project) }}"
                         wire:navigate
@@ -58,4 +68,4 @@
             </div>
         </div>
     </div>
-</x-layouts::app>
+</div>
