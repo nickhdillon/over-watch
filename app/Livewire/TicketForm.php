@@ -87,6 +87,8 @@ class TicketForm extends Component
             'priority',
             'due_date'
         ]);
+
+        $this->priority = Priority::MEDIUM;
     }
 
     public function save(): void

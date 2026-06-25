@@ -36,13 +36,15 @@
                     <flux:error name="description" />
                 </flux:field>
 
-                <x-option-picker
-                    label="Priority"
-                    model="priority"
-                    :value="$priority"
-                    :options="\App\Enums\Priority::options()"
-                    placeholder="Choose priority..."
-                />
+                <div wire:key="ticket-priority-picker-{{ $ticket?->id ?? 'new' }}-{{ $priority->value }}">
+                    <x-option-picker
+                        label="Priority"
+                        model="priority"
+                        :value="$priority->value"
+                        :options="\App\Enums\Priority::options()"
+                        placeholder="Choose priority..."
+                    />
+                </div>
 
                 <flux:field>
                     <flux:label>Due Date</flux:label>

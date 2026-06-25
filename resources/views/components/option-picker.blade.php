@@ -14,13 +14,18 @@
             this.open = false;
         },
     }"
+    x-effect="
+        if (value !== @js($value?->value ?? $value)) {
+            value = @js($value?->value ?? $value)
+        }
+    "
 >
     <flux:label>{{ $label }}</flux:label>
 
     <div class="relative">
         <button
             type="button"
-            x-on:click="open = ! open"group-
+            x-on:click="open = ! open"
             x-on:click.outside="open = false"
             class="w-full group flex border rounded-lg items-center justify-between disabled:shadow-none dark:shadow-none appearance-none text-base sm:text-sm py-2 h-[38px] leading-5.5 ps-3 pe-3 bg-white dark:bg-white/10 dark:disabled:bg-white/7 text-neutral-700 disabled:text-neutral-500 placeholder-neutral-400 disabled:placeholder-neutral-400/70 dark:text-neutral-300 dark:disabled:text-neutral-400 dark:placeholder-neutral-400 dark:disabled:placeholder-neutral-500 shadow-xs border-neutral-200 border-b-neutral-300/80 disabled:border-b-neutral-200 dark:border-white/10 dark:disabled:border-white/5 data-invalid:shadow-none data-invalid:border-red-500 dark:data-invalid:border-red-500 disabled:data-invalid:border-red-500 dark:disabled:data-invalid:border-red-500 focus:outline-hidden focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-accent-foreground"
         >
