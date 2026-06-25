@@ -4,7 +4,9 @@
             Overview
         </flux:navbar.item>
 
-        <flux:navbar.item href="#">Tickets</flux:navbar.item>
+        <flux:navbar.item :href="route('project.tickets', $project)" :current="request()->routeIs('project.tickets')">
+            Tickets
+        </flux:navbar.item>
 
         <flux:navbar.item :href="route('project.edit', $project)" :current="request()->routeIs('project.edit')">
             Settings
@@ -40,7 +42,22 @@
                             <flux:error name="description" />
                         </flux:field>
 
-                        <x-color-picker :$color />
+                        <x-option-picker
+                            label="Color"
+                            model="color"
+                            :value="$color"
+                            :options="\App\Enums\Color::options()"
+                            placeholder="Choose color..."
+                            nullable
+                        />
+
+                        <x-option-picker
+                            label="Priority"
+                            model="priority"
+                            :value="$priority"
+                            :options="\App\Enums\Priority::options()"
+                            placeholder="Choose priority..."
+                        />
 
                         <flux:field>
                             <flux:label for="image">Image</flux:label>

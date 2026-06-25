@@ -29,7 +29,8 @@ class Ticket extends Model
     {
         return [
             'status' => TicketStatus::class,
-            'priority' => Priority::class
+            'priority' => Priority::class,
+            'due_date' => 'date'
         ];
     }
 

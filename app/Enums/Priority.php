@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use Illuminate\Support\Facades\Blade;
+
 enum Priority: string
 {
     case HIGH = 'high';
@@ -44,5 +46,20 @@ enum Priority: string
             self::MEDIUM => 'hover:bg-amber-400/10 dark:hover:bg-amber-400/10',
             self::LOW => 'hover:bg-blue-400/10 dark:hover:bg-blue-400/10',
         };
+    }
+
+    public static function options(): array
+    {
+        return collect(self::cases())
+            ->map(fn (self $priority): array => [
+                'value' => $priority->value,
+                'label' => $priority->label(),
+                'color' => $priority->color(),
+                'icon' => Blade::render(
+                    '<flux:icon :$icon class="size-4 stroke-[2.5px]" />',
+                    ['icon' => $priority->icon()],
+                ),
+            ])
+            ->all();
     }
 }

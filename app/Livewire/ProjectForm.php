@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Enums\Color;
+use App\Enums\Priority;
 use App\Models\Project;
 use Livewire\Component;
 use Illuminate\Support\Arr;
@@ -32,6 +33,8 @@ class ProjectForm extends Component
 
     public ?Color $color = null;
 
+    public Priority $priority = Priority::MEDIUM;
+
     public function mount(): void
     {
         $this->name = $this->project->name;
@@ -39,6 +42,7 @@ class ProjectForm extends Component
         $this->description = $this->project->description;
         $this->image_path = $this->project->image_path;
         $this->color = $this->project->color;
+        $this->priority = $this->project->priority;
     }
 
     public function rules(): array
@@ -49,7 +53,8 @@ class ProjectForm extends Component
             'description' => ['string', 'nullable'],
             'image' => ['file', 'max:12288', 'mimes:jpg,jpeg,png,heic,svg,avif,webp', 'nullable'],
             'image_path' => ['string', 'nullable'],
-            'color' => ['nullable', Rule::enum(Color::class)]
+            'color' => ['nullable', Rule::enum(Color::class)],
+            'priority' => ['required', Rule::enum(Priority::class)],
         ];
     }
 

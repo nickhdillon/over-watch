@@ -4,10 +4,8 @@ namespace App\Providers;
 
 use App\Models\Project;
 use App\Models\Ticket;
-use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
@@ -40,8 +38,6 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function configureDefaults(): void
     {
-        Date::use(CarbonImmutable::class);
-
         DB::prohibitDestructiveCommands(
             app()->isProduction(),
         );

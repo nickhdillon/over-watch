@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
+use Flux\Flux;
+use App\Models\Ticket;
 use App\Models\Project;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
@@ -25,6 +27,18 @@ class TicketList extends Component
             ->with(['assignee', 'project'])
             ->orderByPriority()
             ->get();
+    }
+
+    public function delete(int $ticket_id): void
+    {
+        Ticket::find($ticket_id)->delete();
+
+        Flux::toast(
+            variant: 'success',
+            text: 'Ticket successfully deleted',
+        );
+
+        $this->redirectRoute('tickets', navigate: true);
     }
 
     public function render(): View

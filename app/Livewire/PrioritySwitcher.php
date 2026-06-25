@@ -5,24 +5,24 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Enums\Priority;
-use App\Models\Ticket;
 use Livewire\Component;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 
 class PrioritySwitcher extends Component
 {
-    public Ticket $ticket;
+    public Model $model;
 
     public Priority $priority;
 
     public function mount(): void
     {
-        $this->priority = $this->ticket->priority;
+        $this->priority = $this->model->priority;
     }
 
     public function updatedPriority(): void
     {
-        $this->ticket->update(['priority' => $this->priority]);
+        $this->model->update(['priority' => $this->priority]);
     }
 
     public function render(): View

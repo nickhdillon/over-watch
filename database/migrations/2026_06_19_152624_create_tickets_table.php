@@ -17,12 +17,14 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->string('priority');
             $table->unsignedInteger('position')->default(0);
             $table->date('due_date')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
+
+            $table->index(['project_id', 'status', 'position']);
         });
     }
 

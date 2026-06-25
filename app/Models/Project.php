@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\Color;
+use App\Enums\Priority;
 use App\Models\Concerns\HasPriority;
 use App\Models\Concerns\HasRecentViews;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * @property Color|null $color
+ * @property Priority|null $priority
  */
 class Project extends Model
 {
@@ -27,7 +29,8 @@ class Project extends Model
     protected function casts(): array
     {
         return [
-            'color' => Color::class
+            'color' => Color::class,
+            'priority' => Priority::class
         ];
     }
 

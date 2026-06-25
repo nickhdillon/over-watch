@@ -48,4 +48,15 @@ enum Color: string
             self::YELLOW => 'Yellow'
         };
     }
+
+    public static function options(): array
+    {
+        return collect(self::cases())
+            ->map(fn (self $color): array => [
+                'value' => $color->value,
+                'label' => $color->label(),
+                'swatch' => "bg-{$color->value}-500",
+            ])
+            ->all();
+    }
 }
