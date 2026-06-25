@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
+use App\Models\Ticket;
 use App\Enums\Priority;
+use App\Models\Project;
 use Livewire\Component;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
 
 class PrioritySwitcher extends Component
 {
-    public Model $model;
+    public Project|Ticket $model;
 
     public Priority $priority;
 
