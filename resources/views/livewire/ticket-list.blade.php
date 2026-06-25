@@ -50,9 +50,15 @@
                         ></button>
 
                         <div class="pointer-events-none flex min-w-0 items-center justify-between gap-3 py-2.5 px-3.5">
-                            <p class="text-sm flex-1 min-w-0 truncate font-medium text-neutral-700 dark:text-white">
-                                {{ $ticket->title }}
-                            </p>
+                            <div class="flex flex-1 items-center gap-2 min-w-0 truncate">
+                                <p class="text-xs font-medium text-neutral-500 dark:text-neutral-300">
+                                    {{ $ticket->issueKey }}
+                                </p>
+
+                                <p class="text-sm font-medium truncate text-neutral-700 dark:text-white">
+                                    {{ $ticket->title }}
+                                </p>
+                            </div>
 
                             <div class="pointer-events-auto z-20 flex shrink-0 items-center gap-2.5 sm:gap-6">
                                 <livewire:status-switcher :$ticket />

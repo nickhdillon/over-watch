@@ -17,21 +17,25 @@ class ProjectSeeder extends Seeder
     public function run(): void
     {
         $projects = Project::factory(3)
+            ->for(User::first(), 'owner')
             ->sequence(
                 [
                     'name' => 'Pure Finance',
+                    'key' => 'PURE',
                     'slug' => 'pure-finance',
                     'url' => 'https://pure-finance.app',
                     'description' => 'Personal finance app'
                 ],
                 [
                     'name' => 'Audio Archive',
+                    'key' => 'AUD',
                     'slug' => 'audio-archive',
                     'url' => 'https://audio-archive.app',
                     'description' => 'Personal audio player and library'
                 ],
                 [
                     'name' => 'Movie Vault',
+                    'key' => 'MOV',
                     'slug' => 'movie-vault',
                     'url' => 'https://movie-vault.app',
                     'description' => 'Personal movie and tv show collection'

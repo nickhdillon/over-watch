@@ -1,4 +1,4 @@
-@use('App\Enums\TicketStatus', 'Status')
+@use('App\Enums\Status', 'Status')
 @use('App\Enums\Color', 'Color')
 
 <div x-data="{ statusModalOpen: false }">
@@ -36,10 +36,10 @@
                     type="button"
                     wire:click="$set('status', '{{ $option }}')"
                     x-on:click="statusModalOpen = false"
-                    class="flex w-full items-center gap-2 rounded-sm px-1.75 py-1.25 text-left text-sm {{ $option->textColors() }} {{ $option->bgHoverColors() }}"
+                    class="flex w-full items-center gap-2 rounded-md px-1.75 py-1.25 text-left text-sm {{ $option->textColors() }} {{ $option->bgHoverColors() }}"
                 >
                     <div class="flex items-center gap-2">
-                        <div class="{{ $option->indicatorColors() }} size-3.5 rounded-xs"></div>
+                        <div class="{{ $option->indicatorColors() }} size-3.5 rounded-sm"></div>
 
                         <span class="font-medium">{{ $option->label() }}</span>
                     </div>

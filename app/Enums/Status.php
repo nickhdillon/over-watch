@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-enum TicketStatus: string
+enum Status: string
 {
     case TO_DO = 'to-do';
     case IN_PROGRESS = 'in-progress';

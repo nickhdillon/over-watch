@@ -62,6 +62,11 @@ class User extends Authenticatable implements PasskeyUser
             ->implode('');
     }
 
+    public function ownedProjects(): HasMany
+    {
+        return $this->hasMany(Project::class, 'owner_id');
+    }
+
     public function projects(): BelongsToMany
     {
         return $this->belongsToMany(Project::class)->withPivot('role');

@@ -6,14 +6,14 @@ namespace App\Livewire;
 
 use App\Models\Ticket;
 use Livewire\Component;
-use App\Enums\TicketStatus;
+use App\Enums\Status;
 use Illuminate\Contracts\View\View;
 
 class StatusSwitcher extends Component
 {
     public Ticket $ticket;
 
-    public TicketStatus $status;
+    public Status $status;
 
     public function mount(): void
     {

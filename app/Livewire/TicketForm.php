@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
+use App\Enums\Status;
 use App\Models\Ticket;
 use App\Enums\Priority;
 use App\Models\Project;
 use Livewire\Component;
 use Livewire\Attributes\On;
-use App\Enums\TicketStatus;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Collection;
@@ -98,7 +98,7 @@ class TicketForm extends Component
         $is_creating = ! $this->ticket;
 
         $status = $is_creating
-            ? TicketStatus::TO_DO
+            ? Status::TO_DO
             : $this->ticket->status;
 
         Ticket::updateOrCreate(
@@ -120,7 +120,7 @@ class TicketForm extends Component
         );
     }
 
-    private function nextPosition(?TicketStatus $status): int
+    private function nextPosition(?Status $status): int
     {
         return ((int) Ticket::query()
             ->where('project_id', $this->project?->id)

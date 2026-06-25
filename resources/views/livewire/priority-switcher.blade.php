@@ -33,7 +33,7 @@
                     type="button"
                     wire:click="$set('priority', '{{ $option }}')"
                     x-on:click="priorityModalOpen = false"
-                    class="flex w-full items-center gap-2 rounded-sm px-1.75 py-1.25 text-left text-sm {{ $option->bgHoverColors() }}"
+                    class="flex w-full items-center gap-2 rounded-md px-1.75 py-1.25 text-left text-sm {{ $option->bgHoverColors() }}"
                 >
                     <div class="flex items-center gap-2">
                         <flux:icon :icon="$option->icon()" class="size-4 {{ $option->color() }} stroke-[2.5px]" />

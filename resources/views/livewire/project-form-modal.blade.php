@@ -1,4 +1,22 @@
-<div>
+<div
+    x-data="{
+        name: @entangle('name'),
+        key: @entangle('key'),
+        keyCustomized: false,
+
+        suggestKey(value) {
+            return value
+                .toUpperCase()
+                .replace(/[^A-Z0-9]/g, '')
+                .slice(0, 4);
+        },
+    }"
+    x-effect="
+        if (! keyCustomized) {
+            key = suggestKey(name);
+        }
+    "
+>
     <flux:modal name="new-project" class="w-90! sm:w-xl!">
         <div class="space-y-6">
             <div>
@@ -10,9 +28,27 @@
                 <flux:field>
                     <flux:label>Name</flux:label>
 
-                    <flux:input type="text" wire:model='name' required />
+                    <flux:input type="text" x-model='name' required />
 
                     <flux:error name="name" />
+                </flux:field>
+
+                <flux:field>
+                    <flux:label>Key</flux:label>
+
+                    <flux:input
+                        type="text"
+                        x-model='key'
+                        x-on:input="keyCustomized = true; key = suggestKey(key)"
+                        maxlength="4"
+                        required
+                    />
+
+                    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+                        A short identifier for tickets (e.g. <span class="font-medium">PUR</span>, <span class="font-medium">AUD</span>, <span class="font-medium">MOV</span>).
+                    </p>
+
+                    <flux:error name="key" />
                 </flux:field>
 
                 <flux:field>

@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\Status;
+use App\Enums\Priority;
 
 return new class extends Migration
 {
@@ -15,15 +17,17 @@ return new class extends Migration
             $table->id();
             $table->foreignId('project_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->unsignedInteger('sequence');
             $table->string('title');
             $table->text('description')->nullable();
-            $table->string('status')->nullable();
-            $table->string('priority');
+            $table->string('status')->default(Status::TO_DO);
+            $table->string('priority')->default(Priority::MEDIUM);
             $table->unsignedInteger('position')->default(0);
             $table->date('due_date')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
 
+            $table->unique(['project_id', 'sequence']);
             $table->index(['project_id', 'status', 'position']);
         });
     }

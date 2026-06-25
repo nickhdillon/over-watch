@@ -80,7 +80,7 @@
                 <button
                     type="button"
                     x-on:click.stop="choose(option.value)"
-                    class="flex w-full items-center gap-2 rounded-sm px-2 py-2 text-left text-sm hover:bg-neutral-100 dark:hover:bg-neutral-700"
+                    class="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm hover:bg-neutral-100 dark:hover:bg-neutral-700"
                 >
                     <template x-if="option.swatch">
                         <span class="size-4 rounded-sm" :class="option.swatch"></span>

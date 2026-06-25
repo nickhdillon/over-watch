@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Enums\Priority;
-use App\Enums\TicketStatus;
+use App\Enums\Status;
 use App\Models\Project;
 use App\Models\Ticket;
 use App\Models\User;
@@ -57,6 +57,7 @@ class TicketSeeder extends Seeder
                 Ticket::factory()->create([
                     'project_id' => $project->id,
                     'user_id' => $user->id,
+                    'sequence' => $index + 1,
                     'title' => $title,
                     'priority' => match ($index) {
                         0 => Priority::HIGH,
@@ -64,11 +65,11 @@ class TicketSeeder extends Seeder
                         default => Priority::LOW
                     },
                     'status' => match ($index) {
-                        0 => TicketStatus::TO_DO,
-                        1 => TicketStatus::IN_PROGRESS,
-                        2 => TicketStatus::IN_REVIEW,
-                        3 => TicketStatus::DONE,
-                        default => TicketStatus::TO_DO
+                        0 => Status::TO_DO,
+                        1 => Status::IN_PROGRESS,
+                        2 => Status::IN_REVIEW,
+                        3 => Status::DONE,
+                        default => Status::TO_DO
                     },
                 ]);
             }

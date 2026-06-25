@@ -9,6 +9,7 @@ use App\Enums\Priority;
 use App\Models\Project;
 use Livewire\Component;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\View\View;
@@ -22,6 +23,8 @@ class ProjectForm extends Component
     public Project $project;
 
     public string $name = '';
+
+    public string $key = '';
 
     public ?string $url = null;
 
@@ -38,6 +41,7 @@ class ProjectForm extends Component
     public function mount(): void
     {
         $this->name = $this->project->name;
+        $this->key = $this->project->key;
         $this->url = $this->project->url;
         $this->description = $this->project->description;
         $this->image_path = $this->project->image_path;
@@ -49,6 +53,17 @@ class ProjectForm extends Component
     {
         return [
             'name' => ['string', 'required'],
+            'key' => [
+                'required',
+                'string',
+                'min:3',
+                'max:4',
+                'alpha_num',
+                'uppercase',
+                Rule::unique('projects', 'key')
+                    ->where('owner_id', auth()->id())
+                    ->ignore($this->project)
+            ],
             'url' => ['string', 'url', 'nullable'],
             'description' => ['string', 'nullable'],
             'image' => ['file', 'max:12288', 'mimes:jpg,jpeg,png,heic,svg,avif,webp', 'nullable'],
@@ -58,8 +73,19 @@ class ProjectForm extends Component
         ];
     }
 
+    protected function normalizeKey(): void
+    {
+        $this->key = Str::of($this->key)
+            ->upper()
+            ->replaceMatches('/[^A-Z0-9]/', '')
+            ->substr(0, 4)
+            ->toString();
+    }
+
     public function save(): void
     {
+        $this->normalizeKey();
+        
         $this->project->update(Arr::except($this->validate(), ['image']));
 
         if ($this->image instanceof TemporaryUploadedFile) {

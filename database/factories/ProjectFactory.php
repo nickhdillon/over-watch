@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Enums\Color;
+use App\Models\User;
 use App\Enums\Priority;
 use App\Models\Project;
 use Illuminate\Support\Arr;
@@ -23,7 +24,9 @@ class ProjectFactory extends Factory
     public function definition(): array
     {
         return [
+            'owner_id' => User::first()->id,
             'name' => 'Pure Finance',
+            'key' => 'PFI',
             'slug' => 'pure-finance',
             'url' => 'https://pure-finance.app',
             'description' => 'Personal finance app',
