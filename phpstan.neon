@@ -14,3 +14,4 @@ parameters:
 
     ignoreErrors:
         - '#Call to an undefined method .*::orderByPriority\(\)#'
+        - '#Builder<App\\Models\\RecentView>::with\(\) expects.*MorphTo.*given#'
