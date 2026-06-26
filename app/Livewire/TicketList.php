@@ -33,6 +33,12 @@ class TicketList extends Component
             ->get();
     }
 
+    #[Computed]
+    public function ticketsByStatus(): Collection
+    {
+        return $this->tickets->groupBy(fn (Ticket $ticket): string => $ticket->status->value);
+    }
+
     public function updatedView(string $view): void
     {
         $this->redirectRoute(

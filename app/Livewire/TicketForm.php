@@ -110,6 +110,9 @@ class TicketForm extends Component
                 'project_id' => $this->project_id,
                 'user_id' => auth()->id(),
                 'status' => $status,
+                'sequence' => $is_creating
+                    ? $this->nextSequence()
+                    : $this->ticket->sequence,
                 'position' => $is_creating
                     ? $this->nextPosition($status)
                     : $this->ticket->position,
@@ -120,6 +123,13 @@ class TicketForm extends Component
             $this->project ? 'project.tickets' : 'tickets',
             $this->project,
         );
+    }
+
+    private function nextSequence(): int
+    {
+        return ((int) Ticket::query()
+            ->where('project_id', $this->project_id)
+            ->max('sequence')) + 1;
     }
 
     private function nextPosition(?Status $status): int

@@ -29,7 +29,7 @@ class Dashboard extends Component
                 }
             ])
             ->latest('last_viewed_at')
-            ->limit(5)
+            ->limit(10)
             ->get()
             ->pluck('viewable');
     }
