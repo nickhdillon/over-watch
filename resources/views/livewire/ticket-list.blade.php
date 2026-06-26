@@ -14,7 +14,13 @@
                 </div>
 
                 <flux:modal.trigger x-on:click="$flux.modal('ticket-form').show()">
-                    <flux:button icon="plus" size="sm">New ticket</flux:button>
+                    <flux:button
+                        variant="primary"
+                        icon="plus"
+                        size="sm"
+                    >
+                        New ticket
+                    </flux:button>
                 </flux:modal.trigger>
             </div>
             
@@ -63,40 +69,6 @@
                                             class="size-7"
                                         />
                                     @endif
-
-                                    {{-- <flux:dropdown>
-                                        <flux:button icon="ellipsis-horizontal" variant="ghost" size="sm" />
-
-                                        <flux:menu>
-                                            <flux:modal.trigger x-on:click="$dispatch('load-ticket', { ticket_id: {{ $ticket->id }} })">
-                                                <flux:menu.item icon="pencil-square">
-                                                    Edit
-                                                </flux:menu.item>
-                                            </flux:modal.trigger>
-
-                                            <flux:modal.trigger name="delete-ticket{{ $ticket->id }}">
-                                                <flux:menu.item variant="danger" icon="trash">
-                                                    Delete
-                                                </flux:menu.item>
-                                            </flux:modal.trigger>
-
-                                            <flux:modal name="delete-ticket{{ $ticket->id }}" class="w-90! sm:w-120!">
-                                                <flux:heading size="lg">Delete Ticket</flux:heading>
-
-                                                <flux:text class="mt-2">
-                                                    Are you sure you want to delete this ticket?
-                                                </flux:text>
-
-                                                <div class="mt-4 flex">
-                                                    <flux:spacer />
-
-                                                    <flux:button wire:click="delete({{ $ticket->id }})" variant="danger" size="sm">
-                                                        Yes, delete
-                                                    </flux:button>
-                                                </div>
-                                            </flux:modal>
-                                        </flux:menu>
-                                    </flux:dropdown> --}}
                                 </div>
                             </div>
                         </div>

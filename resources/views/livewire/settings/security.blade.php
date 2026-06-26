@@ -1,4 +1,4 @@
-<section class="w-full sm:py-6 sm:px-32!">
+<section class="w-full p-6 sm:px-32!">
     @include('partials.settings-heading')
 
     <flux:heading class="sr-only">{{ __('Security settings') }}</flux:heading>
@@ -83,7 +83,7 @@
         @if ($canManageTwoFactor)
             <flux:modal
                 name="two-factor-setup-modal"
-                class="max-w-md md:min-w-md"
+                class="max-w-90 md:min-w-md"
                 @close="closeModal"
                 wire:model="showModal"
             >

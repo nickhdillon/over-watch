@@ -8,7 +8,13 @@
 
                 <div>
                     <flux:modal.trigger name="new-project">
-                        <flux:button icon="plus" size="sm">New project</flux:button>
+                        <flux:button
+                            variant="primary"
+                            icon="plus"
+                            size="sm"
+                        >
+                            New project
+                        </flux:button>
                     </flux:modal.trigger>
                     
                     <livewire:project-form-modal />
@@ -31,7 +37,7 @@
                         <div class="pointer-events-none flex items-center justify-between gap-3 p-3.5">
                             <div class="flex items-center gap-3">
                                 @if (! $project->image_path)
-                                    <div class="flex relative size-7 sm:size-8 items-center justify-center rounded-sm bg-neutral-400 dark:bg-neutral-600 border border-neutral-200 dark:border-white/10">
+                                    <div class="flex relative size-8 items-center justify-center rounded-sm bg-neutral-400 dark:bg-neutral-600 border border-neutral-200 dark:border-white/10">
                                         <span class="text-md font-medium text-white">
                                             {{ Str::of($project->name)->substr(0, 1)->upper() }}
                                         </span>
@@ -43,7 +49,7 @@
                                         @endif
                                     </div>
                                 @else
-                                    <div class="flex relative size-7 sm:size-8 items-center justify-center rounded-sm border border-neutral-200 dark:border-white/10">
+                                    <div class="flex relative size-8 items-center justify-center rounded-sm border border-neutral-200 dark:border-white/10">
                                         <img
                                             src="{{ Storage::disk('s3')->url($project->image_path) }}"
                                             alt="{{ $project->name }}"
@@ -58,13 +64,35 @@
                                     </div>
                                 @endif
 
-                                <span class="text-sm font-medium text-neutral-700 dark:text-white">
-                                    {{ $project->name }}
-                                </span>
+                                <div class="flex flex-col -space-y-0.5">
+                                    <p class="text-sm font-medium text-neutral-700 dark:text-white">
+                                        {{ $project->name }}
+                                    </p>
+
+                                    @if ($project->repository_url) 
+                                        <a
+                                            href="{{ $project->repository_url }}"
+                                            target="_blank"
+                                            class="text-[13px] text-neutral-500"
+                                        >
+                                            {{ Str::after($project->repository_url, '.com/') }}
+                                        </a>
+                                    @endif
+                                </div>
                             </div>
 
-                            <div class="pointer-events-auto z-20 relative flex items-center gap-3">
+                            <div class="pointer-events-auto z-20 relative flex items-center gap-2.5">
                                 <livewire:priority-switcher :model="$project" />
+
+                                @if ($project->url) 
+                                    <flux:button
+                                        icon="arrow-top-right-on-square"
+                                        :href="$project->url"
+                                        target="_blank"
+                                        size="sm"
+                                        variant="ghost"
+                                    />
+                                @endif
                             </div>
                         </div>
                     </div>

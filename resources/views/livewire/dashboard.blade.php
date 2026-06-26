@@ -1,14 +1,20 @@
 <div>
     <x-secondary-navbar />
 
-    <div class="border-t sm:border border-neutral-200 space-y-3 shadow-xs dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2">
-        <div class="p-4 sm:py-12 mx-auto sm:w-11/12">
+    <div class="border-t sm:border border-neutral-200 sm:space-y-6 shadow-xs dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2">
+        <div class="p-4 sm:pt-12 mx-auto sm:w-11/12">
             <div class="flex items-center justify-between gap-2 mb-4">
                 <h1 class="font-medium">Recent projects</h1>
 
                 <div>
                     <flux:modal.trigger name="new-project">
-                        <flux:button icon="plus" size="sm">New project</flux:button>
+                        <flux:button
+                            variant="primary"
+                            icon="plus"
+                            size="sm"
+                        >
+                            New project
+                        </flux:button>
                     </flux:modal.trigger>
                     
                     <livewire:project-form-modal />
@@ -31,7 +37,7 @@
                         <div class="pointer-events-none flex items-center justify-between gap-3 p-3.5">
                             <div class="flex items-center gap-3">
                                 @if (! $project->image_path)
-                                    <div class="relative flex size-7 sm:size-8 items-center justify-center rounded-sm border border-neutral-200 bg-neutral-400 dark:border-white/10 dark:bg-neutral-600">
+                                    <div class="relative flex size-8 items-center justify-center rounded-sm border border-neutral-200 bg-neutral-400 dark:border-white/10 dark:bg-neutral-600">
                                         <span class="text-md font-medium text-white">
                                             {{ Str::of($project->name)->substr(0, 1)->upper() }}
                                         </span>
@@ -43,7 +49,7 @@
                                         @endif
                                     </div>
                                 @else
-                                    <div class="relative flex size-7 sm:size-8 items-center justify-center rounded-sm border border-neutral-200 dark:border-white/10">
+                                    <div class="relative flex size-8 items-center justify-center rounded-sm border border-neutral-200 dark:border-white/10">
                                         <img
                                             src="{{ Storage::disk('s3')->url($project->image_path) }}"
                                             alt="{{ $project->name }}"
@@ -58,39 +64,25 @@
                                     </div>
                                 @endif
 
-                                <span class="text-sm font-medium text-neutral-700 dark:text-white">
-                                    {{ $project->name }}
-                                </span>
+                                <div class="flex flex-col -space-y-0.5">
+                                    <p class="text-sm font-medium text-neutral-700 dark:text-white">
+                                        {{ $project->name }}
+                                    </p>
+
+                                    @if ($project->repository_url) 
+                                        <a
+                                            href="{{ $project->repository_url }}"
+                                            target="_blank"
+                                            class="text-[13px] text-neutral-500"
+                                        >
+                                            {{ Str::after($project->repository_url, '.com/') }}
+                                        </a>
+                                    @endif
+                                </div>
                             </div>
 
                             <div class="pointer-events-auto z-20 relative flex items-center gap-2.5">
                                 <livewire:priority-switcher :model="$project" />
-                                
-                                @if ($project->repository_url)
-                                    <flux:button
-                                        :href="$project->repository_url"
-                                        target="_blank"
-                                        variant="ghost"
-                                        size="sm"
-                                        class="px-1.5!"
-                                    >
-                                        <svg
-                                            class="size-5 stroke-[1.5px] stroke-neutral-800 dark:stroke-neutral-100"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        >
-                                            <path d="M16 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-                                            <path d="M12 8m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-                                            <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-                                            <path d="M12 15v-6" />
-                                            <path d="M15 11l-2 -2" />
-                                            <path d="M11 7l-1.9 -1.9" />
-                                            <path d="M13.446 2.6l7.955 7.954a2.045 2.045 0 0 1 0 2.892l-7.955 7.955a2.045 2.045 0 0 1 -2.892 0l-7.955 -7.955a2.045 2.045 0 0 1 0 -2.892l7.955 -7.955a2.045 2.045 0 0 1 2.892 0z" />
-                                        </svg>
-                                    </flux:button>
-                                @endif
 
                                 @if ($project->url) 
                                     <flux:button
@@ -108,12 +100,18 @@
             </div>
         </div>
 
-        <div class="p-4 sm:py-12 mx-auto sm:w-11/12">
+        <div class="p-4 mx-auto sm:w-11/12">
             <div class="flex items-center justify-between gap-2 mb-4">
                 <h1 class="font-medium">Recent tickets</h1>
 
                 <flux:modal.trigger x-on:click="$flux.modal('ticket-form').show()">
-                    <flux:button icon="plus" size="sm">New ticket</flux:button>
+                    <flux:button
+                        variant="primary"
+                        icon="plus"
+                        size="sm"
+                    >
+                        New ticket
+                    </flux:button>
                 </flux:modal.trigger>
             </div>
             
@@ -161,40 +159,6 @@
                                         class="size-7"
                                     />
                                 @endif
-
-                                {{-- <flux:dropdown>
-                                    <flux:button icon="ellipsis-horizontal" variant="ghost" size="sm" />
-
-                                    <flux:menu>
-                                        <flux:modal.trigger x-on:click="$dispatch('load-ticket', { ticket_id: {{ $ticket->id }} })">
-                                            <flux:menu.item icon="pencil-square">
-                                                Edit
-                                            </flux:menu.item>
-                                        </flux:modal.trigger>
-
-                                        <flux:modal.trigger name="delete-ticket{{ $ticket->id }}">
-                                            <flux:menu.item variant="danger" icon="trash">
-                                                Delete
-                                            </flux:menu.item>
-                                        </flux:modal.trigger>
-
-                                        <flux:modal name="delete-ticket{{ $ticket->id }}" class="w-90! sm:w-120!">
-                                            <flux:heading size="lg">Delete Ticket</flux:heading>
-
-                                            <flux:text class="mt-2">
-                                                Are you sure you want to delete this ticket?
-                                            </flux:text>
-
-                                            <div class="mt-4 flex">
-                                                <flux:spacer />
-
-                                                <flux:button wire:click="delete({{ $ticket->id }})" variant="danger" size="sm">
-                                                    Yes, delete
-                                                </flux:button>
-                                            </div>
-                                        </flux:modal>
-                                    </flux:menu>
-                                </flux:dropdown> --}}
                             </div>
                         </div>
                     </div>
