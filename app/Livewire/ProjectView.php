@@ -8,6 +8,8 @@ use Livewire\Component;
 use App\Models\RecentView;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class ProjectView extends Component
 {
@@ -23,9 +25,16 @@ class ProjectView extends Component
     {
         return RecentView::query()
             ->where('user_id', auth()->id())
-            ->whereHasMorph('viewable', [Ticket::class])
-            ->where('viewable_id', $this->project->id)
-            ->with('viewable')
+            ->whereHasMorph(
+                'viewable',
+                [Ticket::class],
+                fn (Builder $query): Builder => $query->where('project_id', $this->project->id)
+            )
+            ->with([
+                'viewable' => function (MorphTo $morphTo): void {
+                    $morphTo->morphWith([Ticket::class => ['assignee', 'project']]);
+                }
+            ])
             ->latest('last_viewed_at')
             ->limit(5)
             ->get()

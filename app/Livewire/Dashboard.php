@@ -11,6 +11,7 @@ use App\Models\RecentView;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Dashboard extends Component
 {
@@ -19,7 +20,14 @@ class Dashboard extends Component
         return RecentView::query()
             ->where('user_id', auth()->id())
             ->whereHasMorph('viewable', [$type])
-            ->with('viewable')
+            ->with([
+                'viewable' => function (MorphTo $morphTo): void {
+                    $morphTo->morphWith([
+                        Project::class => ['owner'],
+                        Ticket::class => ['assignee', 'project']
+                    ]);
+                }
+            ])
             ->latest('last_viewed_at')
             ->limit(5)
             ->get()
