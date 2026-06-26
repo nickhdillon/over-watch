@@ -1,17 +1,5 @@
 <div>
-    <flux:navbar class="px-4">
-        <flux:navbar.item href="/" :current="request()->is('/')">
-            Overview
-        </flux:navbar.item>
-
-        <flux:navbar.item :href="route('projects')" :current="request()->routeIs('projects')">
-            Projects
-        </flux:navbar.item>
-
-        <flux:navbar.item :href="route('tickets')" :current="request()->routeIs('tickets')">
-            Tickets
-        </flux:navbar.item>
-    </flux:navbar>
+    <x-secondary-navbar />
 
     <div class="border-t sm:border border-neutral-200 space-y-3 shadow-xs dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2">
         <div class="p-4 sm:py-12 mx-auto sm:w-11/12">

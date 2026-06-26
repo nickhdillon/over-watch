@@ -8,12 +8,16 @@ use Flux\Flux;
 use App\Models\Ticket;
 use App\Models\Project;
 use Livewire\Component;
+use Livewire\Attributes\Url;
 use Livewire\Attributes\Computed;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 
 class TicketList extends Component
 {
+    #[Url(keep: true)]
+    public string $view = 'list';
+
     public ?Project $project = null;
 
     #[Computed]
@@ -27,6 +31,18 @@ class TicketList extends Component
             ->with(['assignee', 'project'])
             ->orderByPriority()
             ->get();
+    }
+
+    public function updatedView(string $view): void
+    {
+        $this->redirectRoute(
+            $this->project ? 'project.tickets' : 'tickets',
+            array_filter([
+                'project' => $this->project,
+                'view' => $view,
+            ]),
+            navigate: true
+        );
     }
 
     public function delete(int $ticket_id): void

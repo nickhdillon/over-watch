@@ -8,7 +8,13 @@
     }
 @endphp
 
-<div x-data="{ menuOpen: false }" class="flex items-center">
+<div
+    x-data="{ menuOpen: false }"
+    x-on:click.outside="menuOpen = false"
+    x-on:click.away="menuOpen = false"
+    x-on:keydown.escape="menuOpen = false"
+    class="flex items-center"
+>
     <div class="text-neutral-300 dark:text-neutral-500 pr-2">/</div>
 
     @if ($current_project)
@@ -57,8 +63,7 @@
         <button
             type="button"
             x-ref="button"
-            x-on:click.prevent.stop="menuOpen = ! menuOpen"
-            x-on:click.outside="menuOpen = false"
+            x-on:click="menuOpen = ! menuOpen"
             class="flex h-7 w-6 items-center justify-center rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-700"
         >
             <svg
@@ -88,9 +93,6 @@
                 x-transition:leave-start="opacity-100 translate-y-0"
                 x-transition:leave-end="opacity-0 -translate-y-1"
                 x-anchor.bottom-start="$refs.button"
-                x-on:click="menuOpen = false"
-                x-on:click.outside="menuOpen = false"
-                x-on:scroll.window="menuOpen = false"
                 class="mt-1 z-50 w-50 rounded-lg border border-neutral-300 bg-white shadow-md dark:border-neutral-700/50 dark:bg-neutral-800 [&>a]:w-full [&>a]:p-2.5"
             >
                 <div class="p-1">

@@ -28,6 +28,8 @@ class ProjectForm extends Component
 
     public ?string $url = null;
 
+    public ?string $repository_url = null;
+
     public ?string $description = null;
 
     public ?TemporaryUploadedFile $image = null;
@@ -43,6 +45,7 @@ class ProjectForm extends Component
         $this->name = $this->project->name;
         $this->key = $this->project->key;
         $this->url = $this->project->url;
+        $this->repository_url = $this->project->repository_url;
         $this->description = $this->project->description;
         $this->image_path = $this->project->image_path;
         $this->color = $this->project->color;
@@ -65,6 +68,7 @@ class ProjectForm extends Component
                     ->ignore($this->project)
             ],
             'url' => ['string', 'url', 'nullable'],
+            'repository_url' => ['string', 'url', 'nullable'],
             'description' => ['string', 'nullable'],
             'image' => ['file', 'max:12288', 'mimes:jpg,jpeg,png,heic,svg,avif,webp', 'nullable'],
             'image_path' => ['string', 'nullable'],

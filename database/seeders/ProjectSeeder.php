@@ -24,6 +24,7 @@ class ProjectSeeder extends Seeder
                     'key' => 'PURE',
                     'slug' => 'pure-finance',
                     'url' => 'https://pure-finance.app',
+                    'repository_url' => 'https://github.com/nickhdillon/pure-finance',
                     'description' => 'Personal finance app'
                 ],
                 [
@@ -31,6 +32,7 @@ class ProjectSeeder extends Seeder
                     'key' => 'AUD',
                     'slug' => 'audio-archive',
                     'url' => 'https://audio-archive.app',
+                    'repository_url' => 'https://github.com/nickhdillon/audio-archive',
                     'description' => 'Personal audio player and library'
                 ],
                 [
@@ -38,6 +40,7 @@ class ProjectSeeder extends Seeder
                     'key' => 'MOV',
                     'slug' => 'movie-vault',
                     'url' => 'https://movie-vault.app',
+                    'repository_url' => 'https://github.com/nickhdillon/movie-vault',
                     'description' => 'Personal movie and tv show collection'
                 ]
             )

@@ -19,6 +19,8 @@ class ProjectFormModal extends Component
 
     public ?string $url = null;
 
+    public ?string $repository_url = null;
+
     public ?string $description = null;
 
     public function rules(): array
@@ -36,6 +38,7 @@ class ProjectFormModal extends Component
                     ->where('owner_id', auth()->id())
             ],
             'url' => ['string', 'url', 'nullable'],
+            'repository_url' => ['string', 'url', 'nullable'],
             'description' => ['string', 'nullable']
         ];
     }

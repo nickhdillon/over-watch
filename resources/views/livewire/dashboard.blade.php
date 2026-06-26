@@ -1,17 +1,5 @@
 <div>
-    <flux:navbar class="px-4">
-        <flux:navbar.item href="/" :current="request()->is('/')">
-            Overview
-        </flux:navbar.item>
-
-        <flux:navbar.item :href="route('projects')" :current="request()->routeIs('projects')">
-            Projects
-        </flux:navbar.item>
-
-        <flux:navbar.item :href="route('tickets')" :current="request()->routeIs('tickets')">
-            Tickets
-        </flux:navbar.item>
-    </flux:navbar>
+    <x-secondary-navbar />
 
     <div class="border-t sm:border border-neutral-200 space-y-3 shadow-xs dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2">
         <div class="p-4 sm:py-12 mx-auto sm:w-11/12">
@@ -75,8 +63,44 @@
                                 </span>
                             </div>
 
-                            <div class="pointer-events-auto z-20 relative flex items-center gap-3">
+                            <div class="pointer-events-auto z-20 relative flex items-center gap-2.5">
                                 <livewire:priority-switcher :model="$project" />
+                                
+                                @if ($project->repository_url)
+                                    <flux:button
+                                        :href="$project->repository_url"
+                                        target="_blank"
+                                        variant="ghost"
+                                        size="sm"
+                                        class="px-1.5!"
+                                    >
+                                        <svg
+                                            class="size-5 stroke-[1.5px] stroke-neutral-800 dark:stroke-neutral-100"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <path d="M16 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                                            <path d="M12 8m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                                            <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                                            <path d="M12 15v-6" />
+                                            <path d="M15 11l-2 -2" />
+                                            <path d="M11 7l-1.9 -1.9" />
+                                            <path d="M13.446 2.6l7.955 7.954a2.045 2.045 0 0 1 0 2.892l-7.955 7.955a2.045 2.045 0 0 1 -2.892 0l-7.955 -7.955a2.045 2.045 0 0 1 0 -2.892l7.955 -7.955a2.045 2.045 0 0 1 2.892 0z" />
+                                        </svg>
+                                    </flux:button>
+                                @endif
+
+                                @if ($project->url) 
+                                    <flux:button
+                                        icon="arrow-top-right-on-square"
+                                        :href="$project->url"
+                                        target="_blank"
+                                        size="sm"
+                                        variant="ghost"
+                                    />
+                                @endif
                             </div>
                         </div>
                     </div>

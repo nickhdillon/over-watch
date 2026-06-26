@@ -11,11 +11,7 @@
                 .slice(0, 4);
         },
     }"
-    x-effect="
-        if (! keyCustomized) {
-            key = suggestKey(name);
-        }
-    "
+    x-effect="if (! keyCustomized) key = suggestKey(name);"
 >
     <flux:modal name="new-project" class="w-90! sm:w-xl!">
         <div class="space-y-6">
@@ -57,6 +53,14 @@
                     <flux:input type="text" wire:model='url' />
 
                     <flux:error name="url" />
+                </flux:field>
+
+                <flux:field>
+                    <flux:label>Repository URL</flux:label>
+
+                    <flux:input type="text" wire:model='repository_url' />
+
+                    <flux:error name="repository_url" />
                 </flux:field>
 
                 <flux:field>

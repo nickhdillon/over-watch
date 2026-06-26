@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('key', 4);
             $table->string('slug');
             $table->string('url')->nullable();
+            $table->string('repository_url')->nullable();
             $table->text('description')->nullable();
             $table->string('image_path')->nullable();
             $table->string('color')->nullable();

@@ -58,7 +58,7 @@
                     <flux:spacer />
 
                     <flux:button
-                        x-on:click="$flux.modal('{{ $ticket ? ('edit-ticket' . $ticket->id) : 'new-ticket' }}').close()"
+                        x-on:click="$flux.modal('ticket-form').close()"
                         type="button"
                         size="sm"
                         variant="ghost"

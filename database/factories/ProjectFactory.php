@@ -29,6 +29,7 @@ class ProjectFactory extends Factory
             'key' => 'PFI',
             'slug' => 'pure-finance',
             'url' => 'https://pure-finance.app',
+            'repository_url' => 'https://github.com/nickhdillon/pure-finance',
             'description' => 'Personal finance app',
             'image_path' => null,
             'color' => Arr::random(Color::cases()),
