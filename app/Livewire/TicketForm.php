@@ -74,6 +74,8 @@ class TicketForm extends Component
         $this->priority = $this->ticket->priority;
         $this->due_date = $this->ticket->due_date;
 
+        $this->ticket->trackRecentView();
+
         $this->show_ticket_form = true;
     }
 

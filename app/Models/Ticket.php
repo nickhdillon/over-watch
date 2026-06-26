@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
 
 /**
+ * @property Project $project
  * @property Carbon|null $due_date
  * @property Status|null $status
  * @property Priority|null $priority

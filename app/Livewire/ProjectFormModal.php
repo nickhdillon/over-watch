@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Models\Project;
 use App\Enums\ProjectRole;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -52,7 +53,10 @@ class ProjectFormModal extends Component
     {
         $this->normalizeKey();
         
-        $project = auth()->user()->ownedProjects()->create($this->validate());
+        $project = Project::create([
+            ...$this->validate(),
+            'owner_id' => auth()->id(),
+        ]);
 
         $project->users()->attach(auth()->id(), ['role' => ProjectRole::OWNER->value]);
 
