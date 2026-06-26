@@ -10,8 +10,9 @@ use App\Models\Project;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Computed;
+use Illuminate\Support\Collection;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class TicketList extends Component
 {
@@ -20,8 +21,11 @@ class TicketList extends Component
 
     public ?Project $project = null;
 
+    /**
+     * @return EloquentCollection<int, Ticket>
+    */
     #[Computed]
-    public function tickets(): Collection
+    public function tickets(): EloquentCollection
     {
         $query = $this->project
             ? $this->project->tickets()
@@ -33,10 +37,13 @@ class TicketList extends Component
             ->get();
     }
 
+    /**
+     * @return Collection<string, EloquentCollection<int, Ticket>>
+     */
     #[Computed]
     public function ticketsByStatus(): Collection
     {
-        return $this->tickets->groupBy(fn (Ticket $ticket): string => $ticket->status->value);
+        return $this->tickets()->groupBy(fn (Ticket $ticket): string => $ticket->status->value);
     }
 
     public function updatedView(string $view): void
