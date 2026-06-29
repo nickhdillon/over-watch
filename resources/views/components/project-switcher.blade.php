@@ -32,7 +32,7 @@
     
                         @if ($current_project->color) 
                             <div class="absolute bottom-[-4.2px] right-[-4.2px] p-[2.1px] bg-white group-hover:bg-neutral-100 dark:bg-neutral-900 dark:group-hover:bg-neutral-700 rounded-sm">
-                                <div class="bg-{{ $current_project->color }}-500 size-1.5 sm:size-1.75 rounded-xs"></div>
+                                <div class="{{ $current_project->color->background() }} size-1.5 sm:size-1.75 rounded-xs"></div>
                             </div>
                         @endif
                     </div>
@@ -46,7 +46,7 @@
     
                         @if ($current_project->color) 
                             <div class="absolute bottom-[-4.2px] right-[-4.2px] p-[2.1px] bg-white group-hover:bg-neutral-100 dark:bg-neutral-900 dark:group-hover:bg-neutral-700 rounded-sm">
-                                <div class="bg-{{ $current_project->color }}-500 size-1.5 sm:size-1.75 rounded-xs"></div>
+                                <div class="{{ $current_project->color->background() }} size-1.5 sm:size-1.75 rounded-xs"></div>
                             </div>
                         @endif
                     </div>
@@ -110,7 +110,7 @@
 
                                     @if ($project->color) 
                                         <div class="absolute -bottom-1 -right-1 p-0.5 bg-white group-hover:bg-neutral-100 dark:bg-neutral-800 dark:group-hover:bg-neutral-700 rounded-sm">
-                                            <div class="bg-{{ $project->color }}-500 size-1.5 sm:size-1.75 rounded-xs"></div>
+                                            <div class="{{ $project->color->background() }} size-1.5 sm:size-1.75 rounded-xs"></div>
                                         </div>
                                     @endif
                                 </div>
@@ -124,7 +124,7 @@
 
                                     @if ($project->color) 
                                         <div class="absolute -bottom-1 -right-1 p-0.5 bg-white group-hover:bg-neutral-100 dark:bg-neutral-800 dark:group-hover:bg-neutral-700 rounded-sm">
-                                            <div class="bg-{{ $project->color }}-500 size-1.5 sm:size-1.75 rounded-xs"></div>
+                                            <div class="{{ $project->color->background() }} size-1.5 sm:size-1.75 rounded-xs"></div>
                                         </div>
                                     @endif
                                 </div>

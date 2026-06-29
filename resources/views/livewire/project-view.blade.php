@@ -10,7 +10,7 @@
 
                         @if ($project->color) 
                             <div class="absolute -bottom-1.75 -right-1.75 p-0.75 sm:p-[3.5px] bg-white dark:bg-[#1A1A1A] rounded-md">
-                                <div class="bg-{{ $project->color }}-500 size-3 sm:size-3.5 rounded-[3px]"></div>
+                                <div class="{{ $project->color->background() }} size-3 sm:size-3.5 rounded-[3px]"></div>
                             </div>
                         @endif
                     </div>
@@ -24,7 +24,7 @@
 
                         @if ($project->color) 
                             <div class="absolute -bottom-1.75 -right-1.75 p-0.75 sm:p-[3.5px] bg-white dark:bg-[#1A1A1A] rounded-md">
-                                <div class="bg-{{ $project->color }}-500 size-3 sm:size-3.5 rounded-[3px]"></div>
+                                <div class="{{ $project->color->background() }} size-3 sm:size-3.5 rounded-[3px]"></div>
                             </div>
                         @endif
                     </div>

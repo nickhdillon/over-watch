@@ -49,6 +49,30 @@ enum Color: string
         };
     }
 
+    public function background(): string
+    {
+        return match ($this) {
+            self::AMBER => 'bg-amber-500',
+            self::BLUE => 'bg-blue-500',
+            self::CYAN => 'bg-cyan-500',
+            self::EMERALD => 'bg-emerald-500',
+            self::FUCHSIA => 'bg-fuchsia-500',
+            self::GREEN => 'bg-green-500',
+            self::INDIGO => 'bg-indigo-500',
+            self::LIME => 'bg-lime-500',
+            self::NEUTRAL => 'bg-neutral-500',
+            self::ORANGE => 'bg-orange-500',
+            self::PINK => 'bg-pink-500',
+            self::PURPLE => 'bg-purple-500',
+            self::RED => 'bg-red-500',
+            self::ROSE => 'bg-rose-500',
+            self::SKY => 'bg-sky-500',
+            self::TEAL => 'bg-teal-500',
+            self::VIOLET => 'bg-violet-500',
+            self::YELLOW => 'bg-yellow-500'
+        };
+    }
+
     public static function options(): array
     {
         return collect(self::cases())

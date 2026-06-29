@@ -42,7 +42,7 @@
 
                                         @if ($project->color) 
                                             <div class="absolute -bottom-1.75 -right-1.75 p-0.75 sm:p-[3.5px] bg-white group-hover:bg-neutral-50 dark:bg-[#202020] dark:group-hover:bg-neutral-800 rounded-sm">
-                                                <div class="bg-{{ $project->color }}-500 size-2 sm:size-2.5 rounded-xs"></div>
+                                                <div class="{{ $project->color->background() }} size-2 sm:size-2.5 rounded-xs"></div>
                                             </div>
                                         @endif
                                     </div>
@@ -56,7 +56,7 @@
 
                                         @if ($project->color) 
                                             <div class="absolute -bottom-1.75 -right-1.75 p-0.75 sm:p-[3.5px] bg-white group-hover:bg-neutral-50 dark:bg-[#202020] dark:group-hover:bg-neutral-800 rounded-sm">
-                                                <div class="bg-{{ $project->color }}-500 size-2 sm:size-2.5 rounded-xs"></div>
+                                                <div class="{{ $project->color->background() }} size-2 sm:size-2.5 rounded-xs"></div>
                                             </div>
                                         @endif
                                     </div>

@@ -35,7 +35,7 @@
                             </p>
 
                             <div class="flex items-center gap-2.5">
-                                <div class="bg-{{ $tag->color }}-500 size-3 sm:size-3.5 rounded-[3px]"></div>
+                                <div class="{{ $tag->color->background() }} size-3 sm:size-3.5 rounded-[3px]"></div>
                                 <p class="text-sm">{{ $tag->color->label() }}</p>
                             </div>
                         </div>
