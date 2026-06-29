@@ -7,20 +7,6 @@
 
             <form wire:submit='save' class="space-y-6">
                 <flux:field>
-                    <flux:label>Project</flux:label>
-
-                    <flux:select variant="listbox" placeholder="Select a project" wire:model='project_id' clearable>
-                        @foreach ($projects as $project)
-                            <flux:select.option value="{{ $project->id }}">
-                                {{ $project->name }}
-                            </flux:select.option>
-                        @endforeach
-                    </flux:select>
-
-                    <flux:error name="project_id" />
-                </flux:field>
-
-                <flux:field>
                     <flux:label>Name</flux:label>
 
                     <flux:input type="text" wire:model='name' required />
