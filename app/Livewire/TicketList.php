@@ -8,41 +8,44 @@ use App\Models\Ticket;
 use App\Models\Project;
 use Livewire\Component;
 use Livewire\Attributes\Url;
+use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class TicketList extends Component
 {
+    use WithPagination;
+
     #[Url(keep: true)]
     public string $view = 'list';
 
     public ?Project $project = null;
 
     /**
-     * @return EloquentCollection<int, Ticket>
-    */
+     * @return LengthAwarePaginator<int, Ticket>|EloquentCollection<int, Ticket>
+     */
     #[Computed]
-    public function tickets(): EloquentCollection
+    public function tickets(): LengthAwarePaginator|EloquentCollection
     {
+        /** @var Builder<Ticket> $query */
         $query = $this->project
             ? $this->project->tickets()
             : auth()->user()->tickets();
 
-        /** @var EloquentCollection<int, Ticket> $tickets */
         $tickets = $query
             ->with(['assignee', 'project', 'tags'])
-            ->orderBy('position')
-            ->get();
+            ->orderBy('position');
 
-        return $tickets;
+        return $this->view === 'list'
+            ? $tickets->paginate(25)
+            : $tickets->get();
     }
 
-    /**
-     * @return Collection<string, EloquentCollection<int, Ticket>>
-     */
     #[Computed]
     public function ticketsByStatus(): Collection
     {

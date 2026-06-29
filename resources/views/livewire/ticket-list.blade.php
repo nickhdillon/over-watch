@@ -86,6 +86,8 @@
                             </div>
                         </div>
                     @endforeach
+
+                    <flux:pagination :paginator="$this->tickets" class="px-3! pb-3! border-none!" />
                 </div>
             @else
                 <div class="overflow-x-auto md:-m-6 md:p-6 pb-4">

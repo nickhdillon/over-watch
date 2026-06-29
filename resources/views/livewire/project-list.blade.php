@@ -71,7 +71,7 @@
                                         <a
                                             href="{{ $project->repository_url }}"
                                             target="_blank"
-                                            class="text-[13px] text-neutral-500"
+                                            class="text-[13px] text-neutral-500 dark:text-neutral-400"
                                         >
                                             {{ Str::after($project->repository_url, '.com/') }}
                                         </a>

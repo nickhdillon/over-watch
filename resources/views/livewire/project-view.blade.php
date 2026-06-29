@@ -39,10 +39,10 @@
                         <a
                             href="{{ $project->repository_url }}"
                             target="_blank"
-                            class="text-sm max-w-full min-w-0 flex items-center gap-1.5 text-neutral-500"
+                            class="text-sm max-w-full min-w-0 flex items-center gap-1.5 text-neutral-500 dark:text-neutral-400"
                         >
                             <svg
-                                class="size-5 shrink-0 stroke-[1.5px] stroke-neutral-500"
+                                class="size-5 shrink-0 stroke-[1.5px] stroke-neutral-500 dark:stroke-neutral-400"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke-linecap="round"
