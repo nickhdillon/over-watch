@@ -34,11 +34,11 @@
                 @endif
 
                 <flux:field>
-                    <flux:label>Title</flux:label>
+                    <flux:label>Name</flux:label>
 
-                    <flux:input type="text" wire:model='title' required />
+                    <flux:input type="text" wire:model='name' required />
 
-                    <flux:error name="title" />
+                    <flux:error name="name" />
                 </flux:field>
 
                 <flux:field>

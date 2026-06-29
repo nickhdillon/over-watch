@@ -13,7 +13,6 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
-use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,7 +29,7 @@ class TicketForm extends Component
 
     public ?int $project_id = null;
 
-    public string $title = '';
+    public string $name = '';
 
     public ?string $description = null;
     
@@ -46,7 +45,7 @@ class TicketForm extends Component
     {
         return [
             'project_id' => ['required', 'int'],
-            'title' => ['string', 'required'],
+            'name' => ['string', 'required'],
             'description' => ['string', 'nullable'],
             'priority' => ['required', Rule::enum(Priority::class)],
             'tags' => ['nullable', 'array'],
@@ -82,10 +81,14 @@ class TicketForm extends Component
             ->select(['name', 'color'])
             ->orderBy('name')
             ->get()
-            ->map(fn (Tag $tag): array => [
-                'name' => $tag->name,
-                'color' => $tag->color->value,
-            ])
+            ->map(function ($tag): array {
+                /** @var Tag $tag */
+
+                return [
+                    'name' => $tag->name,
+                    'color' => $tag->color->value,
+                ];
+            })
             ->all() ?? [];
 
         return $this;
@@ -113,7 +116,7 @@ class TicketForm extends Component
     {
         $this->ticket = Ticket::with('tags')->find($ticket_id);
         $this->project_id = $this->ticket->project_id;
-        $this->title = $this->ticket->title;
+        $this->name = $this->ticket->name;
         $this->description = $this->ticket->description;
         $this->priority = $this->ticket->priority;
         $this->tags = $this->ticket
@@ -143,7 +146,7 @@ class TicketForm extends Component
     {
         $this->reset([
             'ticket',
-            'title',
+            'name',
             'description',
             'priority',
             'tags',

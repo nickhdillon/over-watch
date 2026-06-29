@@ -32,7 +32,7 @@
                             wire:key='{{ $ticket->id }}'
                         >
                             <button
-                                aria-label="View {{ $ticket->title }}"
+                                aria-label="View {{ $ticket->name }}"
                                 class="absolute inset-0 z-10 rounded-[inherit]"
                                 x-on:click="$dispatch('load-ticket', { ticket_id: {{ $ticket->id }} })"
                             ></button>
@@ -40,11 +40,11 @@
                             <div class="pointer-events-none flex min-w-0 items-center justify-between gap-3 py-2.5 px-3.5">
                                 <div class="flex flex-1 items-center gap-2 min-w-0 truncate">
                                     <p class="text-xs font-medium text-neutral-500 dark:text-neutral-300">
-                                        {{ $ticket->issueKey }}
+                                        {{ $ticket->issue_key }}
                                     </p>
 
                                     <p class="text-sm font-medium truncate text-neutral-700 dark:text-white">
-                                        {{ $ticket->title }}
+                                        {{ $ticket->name }}
                                     </p>
                                 </div>
 
@@ -101,7 +101,7 @@
                                                 wire:key="board-ticket-{{ $ticket->id }}"
                                             >
                                                 <button
-                                                    aria-label="View {{ $ticket->title }}"
+                                                    aria-label="View {{ $ticket->name }}"
                                                     class="absolute inset-0 z-10 rounded-[inherit]"
                                                     x-on:click="$dispatch('load-ticket', { ticket_id: {{ $ticket->id }} })"
                                                 ></button>
@@ -113,7 +113,7 @@
                                                         </p>
                                                         
                                                         <p class="text-sm font-medium text-neutral-700 dark:text-white">
-                                                            {{ $ticket->title }}
+                                                            {{ $ticket->name }}
                                                         </p>
                                                     </div>
 

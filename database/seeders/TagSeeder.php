@@ -46,7 +46,9 @@ class TagSeeder extends Seeder
                         'color' => $tag['color'],
                     ]));
 
-                $project->tickets->each(function (Ticket $ticket) use ($tags): void {
+                $project->tickets->each(function ($ticket) use ($tags): void {
+                    /** @var Ticket $ticket */
+                    
                     $ticket->tags()->attach(
                         $tags->random(rand(1, 3))->pluck('id')->all()
                     );

@@ -53,12 +53,12 @@ class TicketSeeder extends Seeder
                 'Prepare first release',
             ];
 
-            foreach ($tickets as $index => $title) {
+            foreach ($tickets as $index => $name) {
                 Ticket::factory()->create([
                     'project_id' => $project->id,
                     'user_id' => $user->id,
                     'sequence' => $index + 1,
-                    'title' => $title,
+                    'name' => $name,
                     'priority' => match ($index) {
                         0 => Priority::HIGH,
                         1, 2 => Priority::MEDIUM,

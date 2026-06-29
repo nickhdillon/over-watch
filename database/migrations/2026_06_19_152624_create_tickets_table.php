@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('project_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->unsignedInteger('sequence');
-            $table->string('title');
+            $table->string('name');
             $table->text('description')->nullable();
             $table->string('status')->default(Status::TO_DO);
             $table->string('priority')->default(Priority::MEDIUM);
