@@ -14,7 +14,7 @@
 
                 <flux:spacer />
 
-                <div>
+                {{-- <div>
                     <flux:modal.trigger name="search" shortcut="cmd.k" class="hidden sm:block">
                         <flux:input as="button" placeholder="Search..." icon="magnifying-glass" kbd="⌘K" size="sm" class="w-50!" />
                     </flux:modal.trigger>
@@ -37,7 +37,7 @@
                             </flux:command.items>
                         </flux:command>
                     </flux:modal>
-                </div>
+                </div> --}}
 
                 <x-desktop-user-menu />
             </flux:header>

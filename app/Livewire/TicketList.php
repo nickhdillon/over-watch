@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
-use Flux\Flux;
 use App\Models\Ticket;
 use App\Models\Project;
 use Livewire\Component;

@@ -1,7 +1,7 @@
 <div>
     <div class="border-t sm:border border-neutral-200 dark:border-neutral-700 shadow-xs bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2">    
-        <div class="flex items-center justify-between border-b gap-2 border-neutral-200 dark:border-neutral-700 p-4">
-            <div class="flex items-center gap-3 first:rounded-t-xl last:rounded-b-xl">
+        <div class="flex items-center mx-auto justify-between gap-2 p-4 max-w-5xl">
+            <div class="flex w-full min-w-0 items-center gap-3 first:rounded-t-xl last:rounded-b-xl">
                 @if (! $project->image_path)
                     <div class="flex relative size-10 sm:size-12 items-center justify-center rounded-md bg-neutral-400 dark:bg-neutral-600 border border-neutral-200 dark:border-white/10">
                         <span class="text-lg font-medium text-white">
@@ -30,7 +30,7 @@
                     </div>
                 @endif
 
-                <div class="flex flex-col gap-1">
+                <div class="flex flex-col min-w-0 flex-1 gap-1">
                     <p class="text-sm font-medium text-neutral-700 dark:text-white">
                         {{ $project->name }}
                     </p>
@@ -39,10 +39,10 @@
                         <a
                             href="{{ $project->repository_url }}"
                             target="_blank"
-                            class="text-sm hidden sm:flex items-center gap-1.5 text-neutral-500"
+                            class="text-sm max-w-full min-w-0 flex items-center gap-1.5 text-neutral-500"
                         >
                             <svg
-                                class="size-5 stroke-[1.5px] stroke-neutral-500"
+                                class="size-5 shrink-0 stroke-[1.5px] stroke-neutral-500"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke-linecap="round"
@@ -57,7 +57,7 @@
                                 <path d="M13.446 2.6l7.955 7.954a2.045 2.045 0 0 1 0 2.892l-7.955 7.955a2.045 2.045 0 0 1 -2.892 0l-7.955 -7.955a2.045 2.045 0 0 1 0 -2.892l7.955 -7.955a2.045 2.045 0 0 1 2.892 0z" />
                             </svg>
 
-                            <p>{{ Str::after($project->repository_url, '.com/') }}</p>
+                            <span class="flex-1 truncate min-w-0">{{ Str::after($project->repository_url, '.com/') }}</span>
                         </a>
                     @endif
                 </div>
@@ -76,7 +76,9 @@
             </div>
         </div>
 
-        <div class="p-4">
+        <flux:separator class="bg-neutral-200! dark:bg-neutral-700!" />
+
+        <div class="p-4 max-w-5xl mx-auto">
             <div class="flex items-center justify-between gap-2 mb-4">
                 <h1 class="font-medium">Recent tickets</h1>
 
