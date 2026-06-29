@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\TagList;
 use App\Livewire\Dashboard;
 use App\Livewire\TicketList;
 use App\Livewire\ProjectView;
@@ -16,6 +17,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('tickets', TicketList::class)->name('tickets');
     Route::get('projects/{project:slug}/tickets', TicketList::class)->name('project.tickets');
+
+    Route::get('projects/{project:slug}/tags', TagList::class)->name('project.tags');
 });
 
 require __DIR__.'/settings.php';

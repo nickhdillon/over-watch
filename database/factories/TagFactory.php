@@ -2,7 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Enums\Color;
+use App\Models\Project;
 use App\Models\Tag;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +21,9 @@ class TagFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'project_id' => Project::factory(),
+            'name' => 'Bug',
+            'color' => Arr::random(Color::cases())
         ];
     }
 }

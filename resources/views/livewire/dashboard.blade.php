@@ -1,6 +1,4 @@
 <div>
-    <x-secondary-navbar />
-
     <div class="border-t sm:border border-neutral-200 sm:space-y-6 shadow-xs dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2">
         <div class="p-4 sm:pt-12 mx-auto sm:w-11/12">
             <div class="flex items-center justify-between gap-2 mb-4">

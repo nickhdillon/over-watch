@@ -8,6 +8,7 @@ use Livewire\Component;
 use App\Models\RecentView;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -41,7 +42,7 @@ class ProjectView extends Component
             ->pluck('viewable');
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.project-view');
     }

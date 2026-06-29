@@ -1,8 +1,6 @@
 @use('App\Enums\Status', 'Status')
 
 <div>
-    <x-secondary-navbar />
-
     <div class="border-t sm:border border-neutral-200 space-y-3 shadow-xs dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2">
         <div class="p-4 sm:py-12 mx-auto sm:w-11/12">
             <div class="flex items-center justify-between gap-2 mb-4">
@@ -111,7 +109,7 @@
                                                 <div class="pointer-events-none space-y-3">
                                                     <div>
                                                         <p class="text-xs font-medium text-neutral-500 dark:text-neutral-400">
-                                                            {{ $ticket->issueKey }}
+                                                            {{ $ticket->issue_key }}
                                                         </p>
                                                         
                                                         <p class="text-sm font-medium text-neutral-700 dark:text-white">
@@ -119,25 +117,43 @@
                                                         </p>
                                                     </div>
 
-                                                    <div class="pointer-events-auto relative z-20 flex justify-end items-center gap-1">
-                                                        <livewire:priority-switcher :model="$ticket" />
+                                                    <div class="relative z-20 flex items-center gap-1">
+                                                        @if ($ticket->tags->isNotEmpty())
+                                                            <div class="pointer-events-none flex items-center flex-wrap gap-1.5">
+                                                                @foreach ($ticket->tags->take(1) as $tag)
+                                                                    <flux:badge size="sm" :color="$tag->color->value">
+                                                                        {{ $tag->name }}
+                                                                    </flux:badge>
+                                                                @endforeach
 
-                                                        @if ($ticket->assignee->avatar)
-                                                            <flux:avatar
-                                                                circle
-                                                                :name="$ticket->assignee->name"
-                                                                :initials="$ticket->assignee->initials()"
-                                                                :src="Storage::disk('s3')->url('avatars/' . $ticket->assignee->avatar)"
-                                                                class="size-7"
-                                                            />
-                                                        @else
-                                                            <flux:avatar
-                                                                circle
-                                                                :name="$ticket->assignee->name"
-                                                                :initials="$ticket->assignee->initials()"
-                                                                class="size-7"
-                                                            />
+                                                                @if ($ticket->tags->count() > 1)
+                                                                    <p class="text-xs font-medium text-neutral-500 dark:text-neutral-300">
+                                                                        +{{ $ticket->tags->count() - 1 }}
+                                                                    </p>
+                                                                @endif
+                                                            </div>
                                                         @endif
+                                                    
+                                                        <div class="pointer-events-auto flex ml-auto justify-end items-center gap-1">
+                                                            <livewire:priority-switcher :model="$ticket" />
+
+                                                            @if ($ticket->assignee->avatar)
+                                                                <flux:avatar
+                                                                    circle
+                                                                    :name="$ticket->assignee->name"
+                                                                    :initials="$ticket->assignee->initials()"
+                                                                    :src="Storage::disk('s3')->url('avatars/' . $ticket->assignee->avatar)"
+                                                                    class="size-7"
+                                                                />
+                                                            @else
+                                                                <flux:avatar
+                                                                    circle
+                                                                    :name="$ticket->assignee->name"
+                                                                    :initials="$ticket->assignee->initials()"
+                                                                    class="size-7"
+                                                                />
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -155,6 +171,6 @@
             @endif
         </div>
 
-        <livewire:ticket-form />
+        <livewire:ticket-form :project="$project ?? null" />
     </div>
 </div>

@@ -1,6 +1,4 @@
 <div>
-    <x-secondary-navbar />
-
     <div class="border-t sm:border border-neutral-200 dark:border-neutral-700 shadow-xs bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2">    
         <div class="flex items-center justify-between border-b gap-2 border-neutral-200 dark:border-neutral-700 p-4">
             <div class="flex items-center gap-3 first:rounded-t-xl last:rounded-b-xl">
@@ -41,7 +39,7 @@
                         <a
                             href="{{ $project->repository_url }}"
                             target="_blank"
-                            class="text-sm flex items-center gap-1.5 text-neutral-500"
+                            class="text-sm hidden sm:flex items-center gap-1.5 text-neutral-500"
                         >
                             <svg
                                 class="size-5 stroke-[1.5px] stroke-neutral-500"
@@ -143,7 +141,7 @@
                 @endforeach
             </div>
 
-            <livewire:ticket-form />
+            <livewire:ticket-form :$project />
         </div>
     </div>
 </div>

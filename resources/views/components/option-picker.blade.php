@@ -1,7 +1,7 @@
 <flux:field
     x-data="{
         open: false,
-        value: @js($value),
+        value: $wire.entangle(@js($model)),
         options: @js($options),
 
         selected() {
@@ -14,11 +14,6 @@
             this.open = false;
         },
     }"
-    x-effect="
-        if (value !== @js($value?->value ?? $value)) {
-            value = @js($value?->value ?? $value)
-        }
-    "
 >
     <flux:label>{{ $label }}</flux:label>
 
@@ -56,12 +51,12 @@
             x-transition:leave="transition ease-in duration-100"
             x-transition:leave-start="opacity-100 translate-y-0"
             x-transition:leave-end="opacity-0 -translate-y-1"
-            class="absolute z-10 mt-1.25 max-h-60 w-full overflow-y-auto rounded-lg border border-neutral-300 bg-white p-1 shadow-md dark:border-neutral-700 dark:bg-neutral-800"
+            class="absolute z-99 mt-1.25 max-h-50 w-full overflow-y-auto rounded-lg border border-neutral-300 bg-white p-1 shadow-md dark:border-neutral-700 dark:bg-neutral-800"
         >
             @if ($nullable)
                 <button
                     type="button"
-                    x-on:click.stop="choose(null)"
+                    x-on:click="choose(null)"
                     class="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm hover:bg-neutral-100 dark:hover:bg-neutral-700"
                 >
                     <span class="size-4 rounded-sm bg-neutral-200 dark:bg-neutral-500"></span>
@@ -79,7 +74,7 @@
             <template x-for="option in options" :key="option.value">
                 <button
                     type="button"
-                    x-on:click.stop="choose(option.value)"
+                    x-on:click="choose(option.value)"
                     class="flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm hover:bg-neutral-100 dark:hover:bg-neutral-700"
                 >
                     <template x-if="option.swatch">

@@ -32,7 +32,7 @@ class TicketList extends Component
             : auth()->user()->tickets();
 
         return $query
-            ->with(['assignee', 'project'])
+            ->with(['assignee', 'project', 'tags'])
             ->orderByPriority()
             ->get();
     }

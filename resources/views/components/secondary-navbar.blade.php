@@ -17,6 +17,14 @@
         </flux:navbar.item>
 
         <flux:navbar.item
+            :href="route('project.tags', $project)"
+            :current="request()->routeIs('project.tags')"
+            wire:navigate
+        >
+            Tags
+        </flux:navbar.item>
+
+        <flux:navbar.item
             :href="route('project.edit', $project)"
             :current="request()->routeIs('project.edit')"
             wire:navigate
