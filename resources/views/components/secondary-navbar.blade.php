@@ -55,5 +55,13 @@
         >
             Tickets
         </flux:navbar.item>
+
+        <flux:navbar.item
+            :href="route('profile.edit')"
+            :current="request()->is('settings*')"
+            wire:navigate
+        >
+            Settings
+        </flux:navbar.item>
     @endif
 </flux:navbar>
