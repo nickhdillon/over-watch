@@ -25,11 +25,18 @@
             </div>
             
             @if ($view === 'list')
-                <div class="border border-neutral-300 dark:border-neutral-700 bg-white/50 dark:bg-neutral-800/50 rounded-lg divide-y divide-neutral-200 dark:divide-neutral-700 shadow-xs">
+                <div
+                    wire:sortable="updateTicketOrder"
+                    wire:sortable.options="{ animation: 100 }"
+                    class="border border-neutral-300 dark:border-neutral-700 bg-white/50 dark:bg-neutral-800/50 rounded-lg divide-y divide-neutral-200 dark:divide-neutral-700 shadow-xs"
+                >
                     @foreach ($this->tickets as $ticket)
                         <div
                             class="group relative first:rounded-t-lg last:rounded-b-lg hover:bg-neutral-50 dark:hover:bg-neutral-800"
-                            wire:key='{{ $ticket->id }}'
+                            wire:key="list-ticket-{{ $ticket->id }}"
+                            wire:sortable.item="{{ $ticket->id }}"
+                            wire:sortable.options="{ animation: 100, ghostClass: 'sortable-ghost-ticket' }"
+                            wire:sortable.handle
                         >
                             <button
                                 aria-label="View {{ $ticket->name }}"
@@ -49,9 +56,15 @@
                                 </div>
 
                                 <div class="pointer-events-auto z-20 flex shrink-0 items-center gap-2.5 sm:gap-6">
-                                    <livewire:status-switcher :$ticket />
+                                    <livewire:status-switcher
+                                        :$ticket
+                                        :wire:key="'list-status-switcher-'.$ticket->id"
+                                    />
 
-                                    <livewire:priority-switcher :model="$ticket" />
+                                    <livewire:priority-switcher
+                                        :model="$ticket"
+                                        :wire:key="'list-priority-switcher-'.$ticket->id"
+                                    />
 
                                     @if ($ticket->assignee->avatar)
                                         <flux:avatar
@@ -76,13 +89,18 @@
                 </div>
             @else
                 <div class="overflow-x-auto md:-m-6 md:p-6 pb-4">
-                    <div class="flex gap-4 pr-4 md:pr-0">
+                    <div
+                        wire:sortable="updateTicketOrder"
+                        wire:sortable-group="updateTicketGroupOrder"
+                        wire:sortable.options="{ animation: 100 }"
+                        class="flex gap-4 pr-4 md:pr-0"
+                    >
                         @foreach (Status::cases() as $status)
                             @php
                                 $tickets = $this->tickets_by_status->get($status->value, collect());
                             @endphp
 
-                            <div>
+                            <div wire:key="status-{{ $status->value }}">
                                 <div class="rounded-xl w-80 max-w-80 bg-neutral-400/5 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-xs">
                                     <div class="py-3 px-4 flex justify-between items-start">
                                         <div class="flex items-center gap-1.5">
@@ -94,11 +112,17 @@
                                         </div>
                                     </div>
 
-                                    <div class="flex flex-col gap-2 px-2 pb-2">
+                                    <div
+                                        wire:sortable-group.item-group="{{ $status->value }}"
+                                        wire:sortable-group.options="{ animation: 100, ghostClass: 'sortable-ghost-ticket' }"
+                                        class="flex flex-col gap-2 px-2 pb-2"
+                                    >
                                         @forelse ($tickets as $ticket)
                                             <div
-                                                class="group relative rounded-lg border border-neutral-300/60 dark:border-neutral-700/40 bg-white/50 dark:bg-neutral-800/50 p-3 shadow-xs hover:bg-neutral-100/5 dark:hover:bg-neutral-800"
                                                 wire:key="board-ticket-{{ $ticket->id }}"
+                                                wire:sortable-group.item="{{ $ticket->id }}"
+                                                wire:sortable-group.handle
+                                                class="group relative rounded-lg border border-neutral-300/60 dark:border-neutral-700/40 bg-white/50 dark:bg-neutral-800/50 p-3 shadow-xs hover:bg-neutral-100/5 dark:hover:bg-neutral-800"
                                             >
                                                 <button
                                                     aria-label="View {{ $ticket->name }}"

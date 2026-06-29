@@ -66,3 +66,15 @@ textarea:focus[data-flux-control],
 select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
 }
+
+div[draggable="true"],
+.sortable-ghost-ticket {
+    background: white !important;
+}
+
+.dark {
+    div[draggable="true"],
+    .sortable-ghost-ticket {
+        background: #1E1E1E !important;
+    }
+}

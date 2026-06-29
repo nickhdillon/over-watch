@@ -11,6 +11,7 @@ use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
@@ -31,10 +32,13 @@ class TicketList extends Component
             ? $this->project->tickets()
             : auth()->user()->tickets();
 
-        return $query
+        /** @var EloquentCollection<int, Ticket> $tickets */
+        $tickets = $query
             ->with(['assignee', 'project', 'tags'])
-            ->orderByPriority()
+            ->orderBy('position')
             ->get();
+
+        return $tickets;
     }
 
     /**
@@ -56,6 +60,35 @@ class TicketList extends Component
             ]),
             navigate: true
         );
+    }
+
+    public function updateTicketOrder(array $items): void
+    {
+        DB::transaction(function () use ($items): void {
+            foreach ($items as $item) {
+                Ticket::query()
+                    ->whereKey($item['value'])
+                    ->update(['position' => $item['order']]);
+            }
+        });
+    }
+
+    public function updateTicketGroupOrder(array $groups): void
+    {
+        DB::transaction(function () use ($groups): void {
+            foreach ($groups as $group) {
+                $status = $group['value'];
+
+                foreach ($group['items'] as $item) {
+                    Ticket::query()
+                        ->whereKey($item['value'])
+                        ->update([
+                            'status' => $status,
+                            'position' => $item['order']
+                        ]);
+                }
+            }
+        });
     }
 
     public function delete(int $ticket_id): void
