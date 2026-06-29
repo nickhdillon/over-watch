@@ -91,18 +91,6 @@ class TicketList extends Component
         });
     }
 
-    public function delete(int $ticket_id): void
-    {
-        Ticket::find($ticket_id)->delete();
-
-        Flux::toast(
-            variant: 'success',
-            text: 'Ticket successfully deleted',
-        );
-
-        $this->redirectRoute('tickets', navigate: true);
-    }
-
     public function render(): View
     {
         return view('livewire.ticket-list');
