@@ -9,6 +9,7 @@ use App\Enums\Status;
 use App\Models\Ticket;
 use App\Enums\Priority;
 use App\Models\Project;
+use App\Models\Release;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Illuminate\Support\Carbon;
@@ -21,11 +22,15 @@ class TicketForm extends Component
 {
     public bool $show_ticket_form = false;
 
+    public string $view = 'list';
+
     public Collection $projects;
 
     public ?Project $project = null;
 
     public ?Ticket $ticket = null;
+
+    public ?Release $release = null;
 
     public ?int $project_id = null;
 
@@ -182,6 +187,35 @@ class TicketForm extends Component
             ->max('position')) + 1;
     }
 
+    private function redirectAfterAction(): void
+    {
+        $parameters = array_filter([
+            'project' => $this->project,
+            'release' => $this->release,
+            'view' => $this->view,
+        ]);
+
+        if ($this->release) {
+            if (! $this->project) {
+                $this->project = Project::find($this->project_id);
+            }
+
+            $this->redirectRoute(
+                'project.release.view',
+                $parameters,
+                navigate: true,
+            );
+
+            return;
+        }
+
+        $this->redirectRoute(
+            $this->project ? 'project.tickets' : 'tickets',
+            $parameters,
+            navigate: true,
+        );
+    }
+
     public function save(): void
     {
         $validated = $this->validate();
@@ -201,6 +235,7 @@ class TicketForm extends Component
             [
                 ...$validated,
                 'project_id' => $this->project_id,
+                'release_id' => $this->release?->id,
                 'user_id' => auth()->id(),
                 'status' => $status,
                 'sequence' => $is_creating
@@ -221,20 +256,14 @@ class TicketForm extends Component
 
         $ticket->tags()->sync($tag_ids);
 
-        $this->redirectRoute(
-            $this->project ? 'project.tickets' : 'tickets',
-            $this->project,
-        );
+        $this->redirectAfterAction();
     }
 
     public function delete(): void
     {
         $this->ticket?->delete();
 
-        $this->redirectRoute(
-            $this->project ? 'project.tickets' : 'tickets',
-            $this->project,
-        );
+        $this->redirectAfterAction();
     }
 
     public function render(): View

@@ -114,6 +114,13 @@ class ProjectForm extends Component
         $this->redirectRoute('project.edit', $this->project);
     }
 
+    public function delete(): void
+    {
+        $this->project->delete();
+
+        $this->redirectRoute('projects');
+    }
+
     public function render(): View
     {
         return view('livewire.project-form');

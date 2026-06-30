@@ -7,6 +7,7 @@ namespace App\Livewire;
 use App\Models\Ticket;
 use Livewire\Component;
 use App\Models\Project;
+use App\Models\Release;
 use App\Models\RecentView;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
@@ -23,8 +24,12 @@ class Dashboard extends Component
             ->with([
                 'viewable' => function (MorphTo $morphTo): void {
                     $morphTo->morphWith([
-                        Project::class => ['owner'],
-                        Ticket::class => ['assignee', 'project']
+                        Ticket::class => ['assignee', 'project'],
+                        Release::class => ['project']
+                    ]);
+
+                    $morphTo->morphWithCount([
+                        Release::class => ['tickets']
                     ]);
                 }
             ])
@@ -44,6 +49,12 @@ class Dashboard extends Component
     public function recentTickets(): Collection
     {
         return $this->recentViewsFor(Ticket::class);
+    }
+
+    #[Computed]
+    public function recentReleases(): Collection
+    {
+        return $this->recentViewsFor(Release::class);
     }
 
     public function render(): View

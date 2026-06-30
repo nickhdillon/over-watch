@@ -9,12 +9,6 @@
         </x-slot>
     </flux:sidebar.brand>
 @else
-    <flux:brand {{ $attributes }} class="sm:hidden">
-        <x-slot name="logo" class="flex aspect-square size-8 items-center justify-center rounded-md">
-            <x-app-logo-icon />
-        </x-slot>
-    </flux:brand>
-
     <flux:brand name="Overwatch" {{ $attributes }} class="hidden sm:flex">
         <x-slot name="logo" class="flex aspect-square size-8 items-center justify-center rounded-md">
             <x-app-logo-icon />

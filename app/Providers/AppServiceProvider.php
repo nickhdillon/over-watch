@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Project;
+use App\Models\Release;
 use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap([
             'project' => Project::class,
             'ticket' => Ticket::class,
+            'Release' => Release::class
         ]);
 
         $this->configureDefaults();

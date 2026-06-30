@@ -13,7 +13,7 @@
     }"
     x-effect="if (! keyCustomized) key = suggestKey(name);"
 >
-    <flux:modal name="new-project" class="w-90! sm:w-xl!">
+    <flux:modal name="new-project" class="w-90! sm:w-xl!" x-on:close="$wire.resetForm()">
         <div class="space-y-6">
             <div>
                 <flux:heading size="lg">New project</flux:heading>

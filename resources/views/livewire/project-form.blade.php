@@ -129,27 +129,63 @@
                             <flux:error name="image" />
                         </flux:field>
 
-                        <div class="flex items-center gap-2">
-                            <flux:spacer />
+                        <div class="flex items-center justify-between gap-2">
+                            <div>
+                                <flux:modal.trigger name="delete-project-{{ $project->id }}">
+                                    <flux:button variant="danger" size="sm">
+                                        Delete
+                                    </flux:button>
+                                </flux:modal.trigger>
 
-                            <flux:button
-                                href="/"
-                                wire:navigate
-                                type="button"
-                                size="sm"
-                                variant="ghost"
-                            >
-                                Cancel
-                            </flux:button>
+                                <flux:modal name="delete-project-{{ $project->id }}" class="w-90! sm:w-120!">
+                                    <div class="space-y-6 text-left">
+                                        <div class="space-y-4!">
+                                            <flux:heading size="lg" class="font-semibold -mt-1.5!">
+                                                Delete Project?
+                                            </flux:heading>
 
-                            <flux:button
-                                type="submit"
-                                size="sm"
-                                variant="primary"
-                                class="px-4!"
-                            >
-                                Save
-                            </flux:button>
+                                            <flux:subheading>
+                                                Are you sure you want to delete this project?
+                                            </flux:subheading>
+                                        </div>
+
+                                        <div class="flex gap-2">
+                                            <flux:spacer />
+
+                                            <flux:modal.close>
+                                                <flux:button variant="ghost" size="sm">
+                                                    Cancel
+                                                </flux:button>
+                                            </flux:modal.close>
+
+                                            <flux:button type="button" wire:click="delete" variant="danger" size="sm">
+                                                Confirm
+                                            </flux:button>
+                                        </div>
+                                    </div>
+                                </flux:modal>
+                            </div>
+
+                            <div class="ml-auto space-x-1">
+                                <flux:button
+                                    :href="route('project.view', $project)"
+                                    wire:navigate
+                                    type="button"
+                                    size="sm"
+                                    variant="ghost"
+                                >
+                                    Cancel
+                                </flux:button>
+
+                                <flux:button
+                                    type="submit"
+                                    size="sm"
+                                    variant="primary"
+                                    class="px-4!"
+                                >
+                                    Save
+                                </flux:button>
+                            </div>
                         </div>
                     </form>
                 </x-slot:content>

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 /**
  * @property Project $project
@@ -38,6 +39,19 @@ class Ticket extends Model
         ];
     }
 
+    public static function booted(): void
+    {
+        static::creating(function (self $ticket): void {
+            $ticket->slug = Str::slug($ticket->name);
+        });
+
+        static::updating(function (self $ticket): void {
+            if ($ticket->isDirty('name')) {
+                $ticket->slug = Str::slug($ticket->name);
+            }
+        });
+    }
+
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
@@ -56,6 +70,11 @@ class Ticket extends Model
     public function recentViews(): MorphMany
     {
         return $this->morphMany(RecentView::class, 'viewable');
+    }
+
+    public function release(): BelongsTo
+    {
+        return $this->belongsTo(Release::class);
     }
 
     protected function issueKey(): Attribute

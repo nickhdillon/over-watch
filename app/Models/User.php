@@ -72,6 +72,11 @@ class User extends Authenticatable implements PasskeyUser
         return $this->belongsToMany(Project::class)->withPivot('role');
     }
 
+    public function releases(): HasMany
+    {
+        return $this->hasMany(Release::class);
+    }
+
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);

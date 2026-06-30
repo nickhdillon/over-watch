@@ -1,7 +1,7 @@
 @use('App\Enums\Status', 'Status')
 
-<div class="border-t sm:border border-neutral-200 space-y-3 shadow-xs dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2">
-    <div class="p-4 sm:py-12 mx-auto sm:w-11/12 max-w-360">
+<div>
+    <div class="p-4 mx-auto sm:w-11/12 max-w-360">
         <div class="flex items-center justify-between gap-2 mb-4">
             <div class="flex items-center gap-4">
                 <h1 class="font-medium">Tickets</h1>
@@ -24,12 +24,16 @@
         </div>
         
         @if ($view === 'list')
+            @php
+                $tickets = $this->tickets;
+            @endphp
+
             <div
                 wire:sortable="updateTicketOrder"
                 wire:sortable.options="{ animation: 100 }"
                 class="border border-neutral-300 dark:border-neutral-700 bg-white/50 dark:bg-neutral-800/50 rounded-lg divide-y divide-neutral-200 dark:divide-neutral-700 shadow-xs"
             >
-                @foreach ($this->tickets as $ticket)
+                @forelse ($tickets as $ticket)
                     <div
                         class="group relative first:rounded-t-lg last:rounded-b-lg hover:bg-neutral-50 dark:hover:bg-neutral-800"
                         wire:key="list-ticket-{{ $ticket->id }}"
@@ -84,9 +88,15 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="p-4 text-center text-sm text-neutral-500 dark:text-neutral-400">
+                        No tickets
+                    </div>
+                @endforelse
 
-                <flux:pagination :paginator="$this->tickets" class="px-3! pb-3! border-none!" />
+                @if (count($tickets) > 0) 
+                    <flux:pagination :paginator="$this->tickets" class="px-3! pb-3! border-none!" />
+                @endif
             </div>
         @else
             <div class="overflow-x-auto md:-m-6 md:p-6 pb-4">
@@ -196,5 +206,5 @@
         @endif
     </div>
 
-    <livewire:ticket-form :$view :project="$project ?? null" />
+    <livewire:ticket-form :$view :project="$release->project" :$release />
 </div>

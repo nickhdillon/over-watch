@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class TicketSeeder extends Seeder
 {
@@ -54,23 +55,27 @@ class TicketSeeder extends Seeder
             ];
 
             foreach ($tickets as $index => $name) {
+                $status = match ($index) {
+                    0 => Status::TO_DO,
+                    1 => Status::IN_PROGRESS,
+                    2 => Status::IN_REVIEW,
+                    3 => Status::DONE,
+                    default => Status::TO_DO
+                };
+
                 Ticket::factory()->create([
                     'project_id' => $project->id,
                     'user_id' => $user->id,
                     'sequence' => $index + 1,
                     'name' => $name,
+                    'slug' => Str::slug($name),
                     'priority' => match ($index) {
                         0 => Priority::HIGH,
                         1, 2 => Priority::MEDIUM,
                         default => Priority::LOW
                     },
-                    'status' => match ($index) {
-                        0 => Status::TO_DO,
-                        1 => Status::IN_PROGRESS,
-                        2 => Status::IN_REVIEW,
-                        3 => Status::DONE,
-                        default => Status::TO_DO
-                    },
+                    'status' => $status,
+                    'completed_at' => $status === Status::DONE ? now() : null
                 ]);
             }
         });

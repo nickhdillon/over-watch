@@ -29,6 +29,7 @@ class TicketFactory extends Factory
             'user_id' => User::factory(),
             'sequence' => 1,
             'name' => 'Test ticket',
+            'slug' => 'test-ticket',
             'description' => 'This is a test ticket',
             'status' => Arr::random(Status::cases()),
             'priority' => Arr::random(Priority::cases()),

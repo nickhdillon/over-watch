@@ -1,11 +1,39 @@
 @php
     use App\Models\Project;
+    use App\Models\Release;
 
-    $current_project = request()->route('project');
+    $route_project = request()->route('project');
+    $route_release = request()->route('release');
 
-    if (is_string($current_project)) {
-        $current_project = Project::firstWhere('slug', $current_project);
+    $current_project = $route_project instanceof Project
+        ? $route_project
+        : null;
+
+    $current_release = $route_release instanceof Release
+        ? $route_release
+        : null;
+
+    if (! $current_project && $current_release?->project) {
+        $current_project = $current_release->project;
     }
+
+    $route_name = request()->route()?->getName();
+
+    $project_route_map = [
+        'project.view' => 'project.view',
+        'project.edit' => 'project.edit',
+        'project.releases' => 'project.releases',
+        'project.release.view' => 'project.releases',
+        'project.release.edit' => 'project.releases',
+
+        'releases' => 'project.releases',
+
+        'tickets' => 'project.tickets',
+        'project.tickets' => 'project.tickets',
+        'project.tags' => 'project.tags',
+    ];
+
+    $target_route = $project_route_map[$route_name] ?? 'project.view';
 @endphp
 
 <div
@@ -15,14 +43,14 @@
     x-on:keydown.escape="menuOpen = false"
     class="flex items-center"
 >
-    <div class="text-neutral-300 dark:text-neutral-500 pr-2">/</div>
+    <div class="text-neutral-300 dark:text-neutral-500 pr-2 hidden sm:flex">/</div>
 
     @if ($current_project)
         <div>
             <a
                 href="{{ route('project.view', $current_project) }}"
                 wire:navigate
-                class="group flex items-center hover:bg-neutral-100 dark:hover:bg-neutral-700 gap-2 h-7 p-1 pr-1.5 rounded-md w-full text-left text-sm"
+                class="group flex items-center hover:bg-neutral-100 dark:hover:bg-neutral-700 gap-2 h-7 pl-0 sm:p-1! pr-1.5 rounded-md w-full text-left text-sm"
             >
                 @if (! $current_project->image_path)
                     <div class="flex relative size-5 items-center justify-center rounded-sm bg-neutral-400 dark:bg-neutral-600 border border-neutral-50 dark:border-white/10">
@@ -98,7 +126,7 @@
                 <div class="p-1">
                     @foreach (auth()->user()->projects()->orderBy('name')->get() as $project)
                         <a
-                            href="{{ route('project.view', $project->slug) }}"
+                            href="{{ route($target_route, $project) }}"
                             wire:navigate
                             class="group min-w-0 flex items-center gap-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 p-2! rounded w-full text-left text-sm"
                         >

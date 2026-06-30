@@ -52,6 +52,17 @@ class ProjectFormModal extends Component
             ->toString();
     }
 
+    public function resetForm(): void
+    {
+        $this->reset([
+            'name',
+            'key',
+            'url',
+            'repository_url',
+            'description'
+        ]);
+    }
+
     public function save(): void
     {
         $this->normalizeKey();

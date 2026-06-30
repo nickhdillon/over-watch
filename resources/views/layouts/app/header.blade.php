@@ -5,11 +5,15 @@
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-900">
         <div class="flex min-h-screen flex-col">
-            <flux:header class="px-6! space-x-2!">
+            <flux:header class="px-6!">
                 <x-app-logo href="{{ route('dashboard') }}" wire:navigate />
 
                 @if (request()->routeIs('project.*') && ! request()->routeIs('project.create'))
                     <x-project-switcher />
+                @endif
+
+                @if (request()->routeIs('project.release.*'))
+                    <x-release-switcher />
                 @endif
 
                 <flux:spacer />

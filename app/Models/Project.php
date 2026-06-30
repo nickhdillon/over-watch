@@ -72,4 +72,9 @@ class Project extends Model
     {
         return $this->morphMany(RecentView::class, 'viewable');
     }
+
+    public function releases(): HasMany
+    {
+        return $this->hasMany(Release::class);
+    }
 }
