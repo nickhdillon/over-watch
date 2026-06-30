@@ -41,6 +41,10 @@ class ReleaseFormModal extends Component
 
     public function mount(): void
     {
+        if ($this->project) {
+            $this->project_id = $this->project->id;
+        }
+
         $this->getProjects();
     }
 
@@ -68,14 +72,15 @@ class ReleaseFormModal extends Component
     }
 
     public function save(): void
-    {        
+    {
         $release = Release::create([
             ...$this->validate(),
             'user_id' => auth()->id(),
+            'project_id' => $this->project_id,
             'status' => Status::TO_DO
         ]);
 
-        $this->redirectRoute('project.release.view', [$this->project, $release]);
+        $this->redirectRoute('project.release.view', [$this->project ?? $release->project, $release]);
     }
 
     public function render(): View

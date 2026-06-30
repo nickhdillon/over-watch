@@ -1,18 +1,3 @@
-@php
-    use App\Models\Project;
-    use App\Models\Release;
-
-    $project = request()->route('project');
-    $release = request()->route('release');
-
-    $current_project = $project instanceof Project ? $project : null;
-    $current_release = $release instanceof Release ? $release : null;
-
-    $release_route = request()->routeIs('project.release.edit')
-        ? 'project.release.edit'
-        : 'project.release.view';
-@endphp
-
 @if ($current_project && $current_release)
     <div
         x-data="{ menuOpen: false }"

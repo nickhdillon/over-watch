@@ -1,41 +1,3 @@
-@php
-    use App\Models\Project;
-    use App\Models\Release;
-
-    $route_project = request()->route('project');
-    $route_release = request()->route('release');
-
-    $current_project = $route_project instanceof Project
-        ? $route_project
-        : null;
-
-    $current_release = $route_release instanceof Release
-        ? $route_release
-        : null;
-
-    if (! $current_project && $current_release?->project) {
-        $current_project = $current_release->project;
-    }
-
-    $route_name = request()->route()?->getName();
-
-    $project_route_map = [
-        'project.view' => 'project.view',
-        'project.edit' => 'project.edit',
-        'project.releases' => 'project.releases',
-        'project.release.view' => 'project.releases',
-        'project.release.edit' => 'project.releases',
-
-        'releases' => 'project.releases',
-
-        'tickets' => 'project.tickets',
-        'project.tickets' => 'project.tickets',
-        'project.tags' => 'project.tags',
-    ];
-
-    $target_route = $project_route_map[$route_name] ?? 'project.view';
-@endphp
-
 <div
     x-data="{ menuOpen: false }"
     x-on:click.outside="menuOpen = false"
@@ -158,7 +120,7 @@
                                 </div>
                             @endif
 
-                            <span class="min-w-0 truncate">{{ $project->name }}</span>
+                            <span class="min-w-0 truncate font-medium">{{ $project->name }}</span>
                         </a>
                     @endforeach
                 </div>
