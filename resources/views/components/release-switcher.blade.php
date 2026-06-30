@@ -8,7 +8,7 @@
         <div class="px-1.5 text-neutral-300 dark:text-neutral-500">/</div>
 
         <a
-            href="{{ route($release_route, [$current_project, $current_release]) }}"
+            href="{{ route('project.release.view', [$current_project, $current_release]) }}"
             wire:navigate
             class="group flex h-7 items-center rounded-md py-1 px-1.5 text-left text-sm hover:bg-neutral-100 dark:hover:bg-neutral-700"
         >
