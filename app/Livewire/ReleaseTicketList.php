@@ -6,6 +6,7 @@ namespace App\Livewire;
 
 use App\Models\Ticket;
 use Livewire\Component;
+use App\Models\Project;
 use App\Models\Release;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
@@ -53,8 +54,10 @@ class ReleaseTicketList extends Component
     #[Computed]
     public function releases(): Collection
     {
-        return $this->release
-            ->project
+        /** @var Project $project */
+        $project = $this->release->project;
+
+        return $project
             ->releases()
             ->orderBy('name')
             ->get();

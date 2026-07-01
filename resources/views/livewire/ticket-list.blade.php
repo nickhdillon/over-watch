@@ -120,17 +120,17 @@
                                 @if ($ticket->assignee->avatar)
                                     <flux:avatar
                                         circle
-                                        :name="$ticket->assignee->name"
+                                        :tooltip="$ticket->assignee->name"
                                         :initials="$ticket->assignee->initials()"
                                         :src="Storage::disk('s3')->url('avatars/' . $ticket->assignee->avatar)"
-                                        class="size-7"
+                                        class="size-7 pointer-events-auto z-20"
                                     />
                                 @else
                                     <flux:avatar
                                         circle
-                                        :name="$ticket->assignee->name"
+                                        :tooltip="$ticket->assignee->name"
                                         :initials="$ticket->assignee->initials()"
-                                        class="size-7"
+                                        class="size-7 pointer-events-auto z-20"
                                     />
                                 @endif
                             </div>
@@ -217,17 +217,17 @@
                                                         @if ($ticket->assignee->avatar)
                                                             <flux:avatar
                                                                 circle
-                                                                :name="$ticket->assignee->name"
+                                                                :tooltip="$ticket->assignee->name"
                                                                 :initials="$ticket->assignee->initials()"
                                                                 :src="Storage::disk('s3')->url('avatars/' . $ticket->assignee->avatar)"
-                                                                class="size-7"
+                                                                class="size-7 pointer-events-auto z-20"
                                                             />
                                                         @else
                                                             <flux:avatar
                                                                 circle
-                                                                :name="$ticket->assignee->name"
+                                                                :tooltip="$ticket->assignee->name"
                                                                 :initials="$ticket->assignee->initials()"
-                                                                class="size-7"
+                                                                class="size-7 pointer-events-auto z-20"
                                                             />
                                                         @endif
                                                     </div>

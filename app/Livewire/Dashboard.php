@@ -24,7 +24,7 @@ class Dashboard extends Component
             ->with([
                 'viewable' => function (MorphTo $morphTo): void {
                     $morphTo->morphWith([
-                        Ticket::class => ['assignee', 'project'],
+                        Ticket::class => ['assignee', 'project', 'release'],
                         Release::class => ['project']
                     ]);
 

@@ -248,7 +248,7 @@ class TicketForm extends Component
                 ...$validated,
                 'project_id' => $this->project_id,
                 'release_id' => $this->release?->id,
-                'user_id' => auth()->id(),
+                'user_id' => $is_creating ? auth()->id() : $this->ticket->user_id,
                 'status' => $status,
                 'sequence' => $is_creating
                     ? $this->nextSequence()

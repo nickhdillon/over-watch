@@ -35,7 +35,7 @@ class ProjectView extends Component
             )
             ->with([
                 'viewable' => function (MorphTo $morphTo): void {
-                    $morphTo->morphWith([Ticket::class => ['assignee', 'project']]);
+                    $morphTo->morphWith([Ticket::class => ['assignee', 'project', 'release']]);
                 }
             ])
             ->latest('last_viewed_at')
