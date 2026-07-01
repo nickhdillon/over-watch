@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
-use Flux\Flux;
 use App\Models\Ticket;
 use Livewire\Component;
 use App\Models\Project;
-use Illuminate\Support\Str;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
@@ -17,11 +15,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Livewire\Concerns\HandlesTicketReleases;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class TicketList extends Component
 {
     use WithPagination;
+    use HandlesTicketReleases;
 
     #[Url(keep: true)]
     public string $view = 'list';
@@ -68,30 +68,6 @@ class TicketList extends Component
             )
             ->orderBy('name')
             ->get();
-    }
-
-    public function addTicketsToRelease(array $ticket_ids, int|string $release_id, string $release_name): void
-    {
-        Ticket::query()
-            ->whereIn('id', $ticket_ids)
-            ->update(['release_id' => (int) $release_id]);
-
-        $count = count($ticket_ids);
-        $tickets = Str::plural('ticket', $count);
-
-        Flux::toast("Added {$count} {$tickets} to the {$release_name} release.", variant: 'success');
-    }
-
-    public function removeTicketsFromRelease(array $ticket_ids): void
-    {
-        Ticket::query()
-            ->whereIn('id', $ticket_ids)
-            ->update(['release_id' => null]);
-
-        $count = count($ticket_ids);
-        $tickets = Str::plural('ticket', $count);
-
-        Flux::toast("Removed {$count} {$tickets} from their release.", variant: 'success');
     }
 
     public function updatedView(string $view): void

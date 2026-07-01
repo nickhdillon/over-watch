@@ -1,26 +1,7 @@
 @use('App\Enums\Status', 'Status')
 
 <div
-    x-data="{
-        selectedTickets: [],
-
-        toggleTicket(id) {
-            id = String(id);
-
-            this.selectedTickets = this.selectedTickets.includes(id)
-                ? this.selectedTickets.filter(ticketId => ticketId !== id)
-                : [...this.selectedTickets, id];
-        },
-
-        isSelected(id) {
-            return this.selectedTickets.includes(String(id));
-        },
-
-        clearSelection() {
-            this.selectedTickets = [];
-            $wire.selected_release = null;
-        }
-    }"
+    x-data="selectableList()"
     class="border-t sm:border border-neutral-200 space-y-3 shadow-xs dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2"
 >
     <div class="p-4 sm:py-12 mx-auto sm:w-11/12 max-w-360">
@@ -30,7 +11,7 @@
                     <div
                         x-cloak
                         x-show="$wire.view === 'list'"
-                        class="grid w-0 overflow-hidden transition-all group-hover:w-6.5"
+                        class="flex w-0 overflow-x-hidden py-px transition-all group-hover:w-6.5"
                         x-bind:class="{ 'w-6.5': selectedTickets.length }"
                     >
                         <flux:checkbox
@@ -94,7 +75,7 @@
                             <div class="flex flex-1 items-center min-w-0 truncate">
                                 <div
                                     x-cloak
-                                    class="pointer-events-auto z-20 grid w-0 shrink-0 overflow-hidden transition-all group-hover:w-7"
+                                    class="pointer-events-auto z-20 flex py-px w-0 shrink-0 overflow-hidden transition-all group-hover:w-7"
                                     x-bind:class="{ 'w-7': selectedTickets.length || isSelected({{ $ticket->id }}) }"
                                 >
                                     <flux:checkbox
@@ -267,93 +248,7 @@
         @endif
     </div>
 
-    <div
-        x-cloak
-        x-show="selectedTickets.length"
-        x-transition
-        class="fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2 rounded-xl border border-neutral-200 bg-white pl-4 pr-2 py-1.5 shadow-lg dark:border-neutral-700 dark:bg-neutral-900"
-    >
-        <p class="flex items-center gap-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-200">
-            <span
-                x-text="selectedTickets.length"
-                class="inline-flex size-5 items-center justify-center rounded-full bg-neutral-200/75 text-xs dark:bg-neutral-700"
-            ></span>
-
-            selected
-        </p>
-
-        <flux:button
-            type="button"
-            variant="ghost"
-            size="sm"
-            x-on:click="selectedTickets = @js($this->tickets->pluck('id')->map(fn ($id) => (string) $id)->values())"
-        >
-            Select all
-        </flux:button>
-
-        <flux:separator vertical class="my-1.5" />
-
-        <div class="flex items-center">
-            <flux:dropdown>
-                <flux:button
-                    size="sm"
-                    variant="ghost"
-                    icon="flag"
-                >
-                    Add to release
-                </flux:button>
-
-                <flux:menu>
-                    @foreach ($this->releases as $release)
-                        <flux:menu.item
-                            x-on:click="
-                                $wire.addTicketsToRelease(
-                                    selectedTickets,
-                                    {{ $release->id }},
-                                    '{{ $release->name }}'
-                                );
-
-                                clearSelection();
-                            "
-                            class="flex items-center gap-2"
-                        >
-                            <flux:badge :color="$release->project->color->value" size="sm">
-                                {{ $release->project->key }}
-                            </flux:badge>
-
-                            <span>
-                                {{ $release->name }}
-                            </span>
-                        </flux:menu.item>
-                    @endforeach
-                </flux:menu>
-            </flux:dropdown>
-
-            <flux:button
-                variant="ghost"
-                size="sm"
-                class="pl-2!"
-                icon="x-mark"
-                x-on:click="
-                    $wire.removeTicketsFromRelease(selectedTickets);
-                    clearSelection();
-                "
-            >
-                Remove from release
-            </flux:button>
-        </div>
-
-        <flux:separator vertical class="my-1.5" />
-
-        <flux:button
-            type="button"
-            variant="ghost"
-            size="sm"
-            x-on:click="clearSelection()"
-        >
-            Clear
-        </flux:button>
-    </div>
+    <x-ticket-bulk-actions-toolbar :releases="$this->releases"/>
 
     <livewire:ticket-form :$view :project="$project ?? null" />
 </div>

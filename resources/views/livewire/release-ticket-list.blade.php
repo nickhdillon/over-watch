@@ -1,10 +1,35 @@
 @use('App\Enums\Status', 'Status')
 
-<div>
+<div x-data="selectableList()">
     <div class="p-4 mx-auto sm:w-11/12 max-w-360">
         <div class="flex items-center justify-between gap-2 mb-4">
             <div class="flex items-center gap-4">
-                <h1 class="font-medium">Tickets</h1>
+                <div class="group flex items-center">
+                    <div
+                        x-cloak
+                        x-show="$wire.view === 'list'"
+                        class="flex w-0 overflow-x-hidden py-px transition-all group-hover:w-6.5"
+                        x-bind:class="{ 'w-6.5': selectedTickets.length }"
+                    >
+                        <flux:checkbox
+                            type="checkbox"
+                            class="size-4 rounded border-neutral-300"
+                            x-ref="selectAllCheckbox"
+                            x-bind:checked="selectedTickets.length === {{ $this->tickets->count() }}"
+                            x-effect="
+                                $refs.selectAllCheckbox.indeterminate =
+                                    selectedTickets.length > 0 && selectedTickets.length < {{ $this->tickets->count() }}
+                            "
+                            x-on:click="
+                                selectedTickets.length === {{ $this->tickets->count() }}
+                                    ? selectedTickets = []
+                                    : selectedTickets = @js($this->tickets->pluck('id')->map(fn ($id) => (string) $id)->values())
+                            "
+                        />
+                    </div>
+
+                    <h1 class="font-medium">Tickets</h1>
+                </div>
 
                 <flux:radio.group variant="segmented" wire:model.live="view" size="sm">
                     <flux:radio value="list">List</flux:radio>
@@ -48,8 +73,19 @@
                         ></button>
 
                         <div class="pointer-events-none flex min-w-0 items-center justify-between gap-3 py-2.5 px-3.5">
-                            <div class="flex flex-1 items-center gap-2 min-w-0 truncate">
-                                <p class="text-xs font-medium text-neutral-500 dark:text-neutral-300">
+                            <div class="flex flex-1 items-center min-w-0 truncate">
+                                <div
+                                    x-cloak
+                                    class="pointer-events-auto z-20 flex py-px w-0 shrink-0 overflow-hidden transition-all group-hover:w-7"
+                                    x-bind:class="{ 'w-7': selectedTickets.length || isSelected({{ $ticket->id }}) }"
+                                >
+                                    <flux:checkbox
+                                        x-bind:checked="isSelected({{ $ticket->id }})"
+                                        x-on:click.stop="toggleTicket({{ $ticket->id }})"
+                                    />
+                                </div>
+
+                                <p class="text-xs font-medium pr-2 text-neutral-500 dark:text-neutral-300">
                                     {{ $ticket->issue_key }}
                                 </p>
 
@@ -205,6 +241,8 @@
             </div>
         @endif
     </div>
+
+    <x-ticket-bulk-actions-toolbar :releases="$this->releases"/>
 
     <livewire:ticket-form :$view :project="$release->project" :$release />
 </div>

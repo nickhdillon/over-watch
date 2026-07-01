@@ -14,10 +14,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Livewire\Concerns\HandlesTicketReleases;
 
 class ReleaseTicketList extends Component
 {
     use WithPagination;
+    use HandlesTicketReleases;
 
     public Release $release;
 
@@ -46,6 +48,16 @@ class ReleaseTicketList extends Component
     public function ticketsByStatus(): Collection
     {
         return $this->tickets()->groupBy(fn (Ticket $ticket): string => $ticket->status->value);
+    }
+
+    #[Computed]
+    public function releases(): Collection
+    {
+        return $this->release
+            ->project
+            ->releases()
+            ->orderBy('name')
+            ->get();
     }
 
     public function updatedView(string $view): void
