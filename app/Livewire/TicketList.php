@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
+use Flux\Flux;
 use App\Models\Ticket;
-use App\Models\Project;
 use Livewire\Component;
+use App\Models\Project;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
@@ -38,7 +40,8 @@ class TicketList extends Component
             : auth()->user()->tickets();
 
         $tickets = $query
-            ->with(['assignee', 'project', 'tags'])
+            ->with(['assignee', 'project', 'release'])
+            ->when($this->view === 'board', fn (Builder $query): Builder => $query->with('tags'))
             ->orderBy('position');
 
         return $this->view === 'list'
@@ -50,6 +53,45 @@ class TicketList extends Component
     public function ticketsByStatus(): Collection
     {
         return $this->tickets()->groupBy(fn (Ticket $ticket): string => $ticket->status->value);
+    }
+
+    #[Computed]
+    public function releases(): Collection
+    {
+        return auth()
+            ->user()
+            ->releases()
+            ->with('project')
+            ->when(
+                $this->project,
+                fn (Builder $query): Builder => $query->whereBelongsTo($this->project)
+            )
+            ->orderBy('name')
+            ->get();
+    }
+
+    public function addTicketsToRelease(array $ticket_ids, int|string $release_id, string $release_name): void
+    {
+        Ticket::query()
+            ->whereIn('id', $ticket_ids)
+            ->update(['release_id' => (int) $release_id]);
+
+        $count = count($ticket_ids);
+        $tickets = Str::plural('ticket', $count);
+
+        Flux::toast("Added {$count} {$tickets} to the {$release_name} release.", variant: 'success');
+    }
+
+    public function removeTicketsFromRelease(array $ticket_ids): void
+    {
+        Ticket::query()
+            ->whereIn('id', $ticket_ids)
+            ->update(['release_id' => null]);
+
+        $count = count($ticket_ids);
+        $tickets = Str::plural('ticket', $count);
+
+        Flux::toast("Removed {$count} {$tickets} from their release.", variant: 'success');
     }
 
     public function updatedView(string $view): void

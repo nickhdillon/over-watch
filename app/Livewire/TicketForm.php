@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
+use Flux\Flux;
 use App\Models\Tag;
 use App\Enums\Status;
 use App\Models\Ticket;
@@ -166,6 +167,17 @@ class TicketForm extends Component
             : null;
 
         $this->getProjectTags();
+    }
+
+    public function removeFromRelease(): void
+    {
+        if (! $this->ticket) return;
+
+        $this->ticket->update(['release_id' => null]);
+
+        Flux::toast('Removed ticket from release.', variant: 'success');
+
+        $this->redirectAfterAction();
     }
 
     private function nextSequence(): int

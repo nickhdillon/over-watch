@@ -1,15 +1,39 @@
 <div>
     <flux:modal wire:model.self="show_ticket_form" name="ticket-form" class="w-90! sm:w-xl!" x-on:close="$wire.resetForm()">
         <div class="space-y-6">
-            <flux:heading size="lg" class="flex items-center gap-2">
-                {{ $ticket ? 'Edit Ticket' : 'New Ticket' }}
+            <div class="space-y-2">
+                <flux:heading size="lg" class="flex items-center gap-2">
+                    {{ $ticket ? 'Edit Ticket' : 'New Ticket' }}
 
-                @if ($ticket)
-                    <flux:badge :color="$ticket->project?->color->value" size="sm">
-                        {{ $ticket->issue_key }}
-                    </flux:badge>
+                    @if ($ticket)
+                        <flux:badge :color="$ticket->project?->color->value" size="sm">
+                            {{ $ticket->issue_key }}
+                        </flux:badge>
+                    @endif
+                </flux:heading>
+
+                @if ($ticket?->release)
+                    <flux:subheading class="flex items-center gap-2 text-neutral-800 dark:text-white">
+                        <flux:icon.flag variant="solid" class="size-4 stroke-2" />
+
+                        <span>Release</span>
+
+                        <span class="relative rounded-full size-[2.5px] top-px bg-neutral-800 dark:bg-white"></span>
+
+                        <span class="font-medium text-current">
+                            {{ $ticket->release->name }}
+                        </span>
+
+                        <flux:button
+                            type="button"
+                            variant="ghost"
+                            size="xs"
+                            icon="x-mark"
+                            wire:click="removeFromRelease"
+                        />
+                    </flux:subheading>
                 @endif
-            </flux:heading>
+            </div>
 
             <form wire:submit='save' class="space-y-6">
                 @if (!$project && !$ticket)

@@ -78,3 +78,7 @@ div[draggable="true"],
         background: #1E1E1E !important;
     }
 }
+
+[data-flux-checkbox] {
+    @apply -mt-[0.75px];
+}
