@@ -6,7 +6,6 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Project;
-use App\Enums\ProjectRole;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\View\View;
@@ -69,10 +68,8 @@ class ProjectFormModal extends Component
         
         $project = Project::create([
             ...$this->validate(),
-            'owner_id' => auth()->id(),
+            'owner_id' => auth()->id()
         ]);
-
-        $project->users()->attach(auth()->id(), ['role' => ProjectRole::OWNER->value]);
 
         $this->redirectRoute('project.view', $project);
     }
