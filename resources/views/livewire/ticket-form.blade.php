@@ -14,11 +14,10 @@
 
                 @if ($ticket?->release)
                     <flux:subheading class="flex items-center gap-2 text-neutral-800 dark:text-white">
-                        <flux:icon.flag variant="solid" class="size-4 stroke-2" />
-
-                        <span>Release</span>
-
-                        <span class="relative rounded-full size-[2.5px] top-px bg-neutral-800 dark:bg-white"></span>
+                        <flux:icon.flag
+                            variant="solid"
+                            class="size-3.5 shrink-0 text-neutral-400 dark:text-neutral-500"
+                        />
 
                         <span class="font-medium text-current">
                             {{ $ticket->release->name }}
@@ -30,6 +29,8 @@
                             size="xs"
                             icon="x-mark"
                             wire:click="removeFromRelease"
+                            tooltip="Remove from release"
+                            class="text-neutral-400! top-px hover:text-red-500!"
                         />
                     </flux:subheading>
                 @endif
