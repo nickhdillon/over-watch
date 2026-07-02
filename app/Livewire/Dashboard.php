@@ -8,7 +8,6 @@ use App\Models\Ticket;
 use Livewire\Component;
 use App\Models\Project;
 use App\Models\Release;
-use App\Models\RecentView;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\View\View;
@@ -18,18 +17,20 @@ class Dashboard extends Component
 {
     private function recentViewsFor(string $type): Collection
     {
-        return RecentView::query()
-            ->where('user_id', auth()->id())
+        return auth()
+            ->user()
+            ->recentViews()
             ->whereHasMorph('viewable', [$type])
             ->with([
-                'viewable' => function (MorphTo $morphTo): void {
-                    $morphTo->morphWith([
+                'viewable' => function ($morph_to): void {
+                    /** @var MorphTo $morph_to */
+                    $morph_to->morphWith([
                         Ticket::class => ['assignee', 'project', 'release'],
-                        Release::class => ['project']
+                        Release::class => ['project'],
                     ]);
 
-                    $morphTo->morphWithCount([
-                        Release::class => ['tickets']
+                    $morph_to->morphWithCount([
+                        Release::class => ['tickets'],
                     ]);
                 }
             ])
