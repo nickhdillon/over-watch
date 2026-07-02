@@ -12,9 +12,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class ProjectForm extends Component
 {
@@ -32,7 +32,7 @@ class ProjectForm extends Component
 
     public ?string $description = null;
 
-    public ?TemporaryUploadedFile $image = null;
+    public ?UploadedFile $image = null;
 
     public ?string $image_path = null;
 
@@ -92,7 +92,7 @@ class ProjectForm extends Component
         
         $this->project->update(Arr::except($this->validate(), ['image']));
 
-        if ($this->image instanceof TemporaryUploadedFile) {
+        if ($this->image instanceof UploadedFile) {
             $this->project->update([
                 'image_path' => $this->image->storePubliclyAs(
                     "projects/{$this->project->id}",
