@@ -80,7 +80,7 @@ class Ticket extends Model
     protected function issueKey(): Attribute
     {
         return Attribute::make(
-            get: fn () => "{$this->project?->key}-{$this->sequence}",
+            get: fn () => "{$this->project->key}-{$this->sequence}",
         );
     }
 }
