@@ -19,7 +19,7 @@
         </div>
         
         <div class="border border-neutral-300 dark:border-neutral-700 bg-white/50 dark:bg-neutral-800/50 rounded-lg divide-y divide-neutral-200 dark:divide-neutral-700 shadow-xs">
-            @foreach ($this->recent_projects as $project)
+            @forelse ($this->recent_projects as $project)
                 <div
                     wire:key="{{ $project->id }}"
                     class="group relative first:rounded-t-lg last:rounded-b-lg hover:bg-neutral-50 dark:hover:bg-neutral-800"
@@ -34,7 +34,7 @@
                     <div class="pointer-events-none flex items-center justify-between gap-3 p-3.5">
                         <div class="flex items-center gap-3">
                             @if (! $project->image_path)
-                                <div class="relative flex size-8 items-center justify-center rounded-sm border border-neutral-200 bg-neutral-400 dark:border-white/10 dark:bg-neutral-600">
+                                <div class="relative flex size-8.5 items-center justify-center rounded-sm border border-neutral-200 bg-neutral-400 dark:border-white/10 dark:bg-neutral-600">
                                     <span class="text-md font-medium text-white">
                                         {{ Str::of($project->name)->substr(0, 1)->upper() }}
                                     </span>
@@ -46,7 +46,7 @@
                                     @endif
                                 </div>
                             @else
-                                <div class="relative flex size-8 items-center justify-center rounded-sm border border-neutral-200 dark:border-white/10">
+                                <div class="relative flex size-8.5 items-center justify-center rounded-sm border border-neutral-200 dark:border-white/10">
                                     <img
                                         src="{{ Storage::disk('s3')->url($project->image_path) }}"
                                         alt="{{ $project->name }}"
@@ -93,7 +93,11 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="p-4 text-center text-sm text-neutral-500 dark:text-neutral-400">
+                    No recent projects
+                </div>
+            @endforelse
         </div>
     </div>
 
@@ -113,7 +117,7 @@
         </div>
         
         <div class="border border-neutral-300 dark:border-neutral-700 bg-white/50 dark:bg-neutral-800/50 rounded-lg divide-y divide-neutral-200 dark:divide-neutral-700 shadow-xs">
-            @foreach ($this->recent_tickets as $ticket)
+            @forelse ($this->recent_tickets as $ticket)
                 <div
                     class="group relative first:rounded-t-lg last:rounded-b-lg hover:bg-neutral-50 dark:hover:bg-neutral-800"
                     wire:key='{{ $ticket->id }}'
@@ -172,7 +176,11 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="p-4 text-center text-sm text-neutral-500 dark:text-neutral-400">
+                    No recent tickets
+                </div>
+            @endforelse
         </div>
 
         <livewire:ticket-form />
@@ -198,7 +206,7 @@
         </div>
         
         <div class="border border-neutral-300 dark:border-neutral-700 bg-white/50 dark:bg-neutral-800/50 rounded-lg divide-y divide-neutral-200 dark:divide-neutral-700 shadow-xs">
-            @foreach ($this->recent_releases as $release)
+            @forelse ($this->recent_releases as $release)
                 <div
                     wire:key='{{ $release->id }}'
                     class="group relative first:rounded-t-lg last:rounded-b-lg hover:bg-neutral-50 dark:hover:bg-neutral-800"
@@ -218,7 +226,7 @@
 
                             <div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400">
                                 <span class="truncate">
-                                    {{ $release->project->name }}
+                                    {{ $release->project->key }}
                                 </span>
 
                                 <span aria-hidden="true">&middot;</span>
@@ -234,7 +242,11 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="p-4 text-center text-sm text-neutral-500 dark:text-neutral-400">
+                    No recent releases
+                </div>
+            @endforelse
         </div>
     </div>
 </div>

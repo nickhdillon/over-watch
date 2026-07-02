@@ -52,12 +52,16 @@
         </div>
         
         @if ($view === 'list')
+            @php
+                $tickets = $this->tickets;
+            @endphp
+
             <div
                 wire:sortable="updateTicketOrder"
                 wire:sortable.options="{ animation: 100 }"
                 class="border border-neutral-300 dark:border-neutral-700 bg-white/50 dark:bg-neutral-800/50 rounded-lg divide-y divide-neutral-200 dark:divide-neutral-700 shadow-xs"
             >
-                @foreach ($this->tickets as $ticket)
+                @forelse ($tickets as $ticket)
                     <div
                         class="group relative first:rounded-t-lg last:rounded-b-lg hover:bg-neutral-50 dark:hover:bg-neutral-800"
                         wire:key="list-ticket-{{ $ticket->id }}"
@@ -136,9 +140,15 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="p-4 text-center text-sm text-neutral-500 dark:text-neutral-400">
+                        No tickets
+                    </div>
+                @endforelse
 
-                <flux:pagination :paginator="$this->tickets" class="px-3! pb-3! border-none!" />
+                @if (count($tickets) > 0) 
+                    <flux:pagination :paginator="$this->tickets" class="px-3! pb-3! border-none!" />
+                @endif
             </div>
         @else
             <div class="overflow-x-auto md:-m-6 md:p-6 pb-4">

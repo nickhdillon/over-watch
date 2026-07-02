@@ -19,7 +19,7 @@
         </div>
         
         <div class="border border-neutral-300 dark:border-neutral-700 bg-white/50 dark:bg-neutral-800/50 rounded-lg divide-y divide-neutral-200 dark:divide-neutral-700 shadow-xs">
-            @foreach ($this->releases as $release)
+            @forelse ($this->releases as $release)
                 <div
                     wire:key='{{ $release->id }}'
                     class="group relative first:rounded-t-lg last:rounded-b-lg hover:bg-neutral-50 dark:hover:bg-neutral-800"
@@ -39,7 +39,7 @@
 
                             <div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400">
                                 <span class="truncate">
-                                    {{ $release->project->name }}
+                                    {{ $release->project->key }}
                                 </span>
 
                                 <span aria-hidden="true">&middot;</span>
@@ -55,7 +55,11 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="p-4 text-center text-sm text-neutral-500 dark:text-neutral-400">
+                    No releases
+                </div>
+            @endforelse
         </div>
     </div>
 </div>

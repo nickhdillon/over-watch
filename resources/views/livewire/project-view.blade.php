@@ -38,10 +38,10 @@
                     <a
                         href="{{ $project->repository_url }}"
                         target="_blank"
-                        class="text-sm max-w-full min-w-0 flex items-center gap-1.5 text-neutral-500 dark:text-neutral-400"
+                        class="text-sm w-fit min-w-0 flex items-center gap-1.5 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 group"
                     >
                         <svg
-                            class="size-5 shrink-0 stroke-[1.5px] stroke-neutral-500 dark:stroke-neutral-400"
+                            class="size-5 shrink-0 stroke-[1.5px] stroke-neutral-500 group-hover:stroke-neutral-700 dark:stroke-neutral-400 dark:group-hover:stroke-neutral-200"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke-linecap="round"
@@ -93,7 +93,7 @@
         </div>
         
         <div class="border border-neutral-300 dark:border-neutral-700 bg-white/50 dark:bg-neutral-800/50 rounded-lg divide-y divide-neutral-200 dark:divide-neutral-700 shadow-xs">
-            @foreach ($this->recent_tickets as $ticket)
+            @forelse ($this->recent_tickets as $ticket)
                 <div
                     class="group relative first:rounded-t-lg last:rounded-b-lg hover:bg-neutral-50 dark:hover:bg-neutral-800"
                     wire:key='{{ $ticket->id }}'
@@ -152,7 +152,11 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="p-4 text-center text-sm text-neutral-500 dark:text-neutral-400">
+                    No recent tickets
+                </div>
+            @endforelse
         </div>
 
         <livewire:ticket-form :$project />
