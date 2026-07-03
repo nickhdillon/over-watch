@@ -50,7 +50,7 @@
                         "
                         class="flex items-center gap-2"
                     >
-                        <flux:badge :color="$release->project->color->value" size="sm">
+                        <flux:badge :color="$release->project->color?->value" size="sm">
                             {{ $release->project->key }}
                         </flux:badge>
 
