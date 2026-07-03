@@ -9,7 +9,6 @@ use App\Enums\Priority;
 use App\Models\Project;
 use Livewire\Component;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\UploadedFile;
@@ -77,19 +76,8 @@ class ProjectForm extends Component
         ];
     }
 
-    protected function normalizeKey(): void
-    {
-        $this->key = Str::of($this->key)
-            ->upper()
-            ->replaceMatches('/[^A-Z0-9]/', '')
-            ->substr(0, 4)
-            ->toString();
-    }
-
     public function save(): void
-    {
-        $this->normalizeKey();
-        
+    {        
         $this->project->update(Arr::except($this->validate(), ['image']));
 
         if ($this->image instanceof UploadedFile) {
