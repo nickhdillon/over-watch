@@ -24,7 +24,7 @@ class ReleaseList extends Component
         return $query
             ->with('project')
             ->withCount('tickets')
-            ->orderBy('position')
+            ->orderBy('name')
             ->get();
     }
 
