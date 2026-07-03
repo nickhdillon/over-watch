@@ -101,7 +101,7 @@
         </div>
     </div>
 
-    <div class="p-4 sm:pb-12 mx-auto sm:w-11/12 max-w-5xl">
+    <div class="p-4 mx-auto sm:w-11/12 max-w-5xl">
         <div class="flex items-center justify-between gap-2 mb-4">
             <h1 class="font-medium">Recent releases</h1>
 
@@ -165,7 +165,7 @@
         </div>
     </div>
 
-    <div class="p-4 mx-auto sm:w-11/12 max-w-5xl">
+    <div class="p-4 sm:pb-12 mx-auto sm:w-11/12 max-w-5xl">
         <div class="flex items-center justify-between gap-2 mb-4">
             <h1 class="font-medium">Recent tickets</h1>
 
