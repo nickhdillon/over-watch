@@ -77,7 +77,7 @@ class ReleaseFormModal extends Component
             ...$this->validate(),
             'user_id' => auth()->id(),
             'project_id' => $this->project_id,
-            'status' => Status::TO_DO
+            'status' => Status::OPEN
         ]);
 
         $this->redirectRoute('project.release.view', [$this->project ?? $release->project, $release]);

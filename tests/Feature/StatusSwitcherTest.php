@@ -16,7 +16,7 @@ beforeEach(function () {
 it('can update model priority', function () {
     $release = Release::factory()
         ->for(Project::factory()->create())
-        ->create(['status' => Status::TO_DO]);
+        ->create(['status' => Status::OPEN]);
 
     livewire(StatusSwitcher::class, ['model' => $release])
         ->set('status', Status::IN_PROGRESS)

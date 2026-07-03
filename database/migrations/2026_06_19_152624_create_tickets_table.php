@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->text('description')->nullable();
-            $table->string('status')->default(Status::TO_DO);
+            $table->string('status')->default(Status::OPEN);
             $table->string('priority')->default(Priority::MEDIUM);
             $table->unsignedInteger('position')->default(0);
             $table->date('due_date')->nullable();

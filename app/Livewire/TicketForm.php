@@ -235,7 +235,7 @@ class TicketForm extends Component
         $is_creating = ! $this->ticket;
 
         $status = $is_creating
-            ? Status::TO_DO
+            ? Status::OPEN
             : $this->ticket->status;
 
         $ticket = Ticket::updateOrCreate(

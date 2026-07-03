@@ -35,14 +35,14 @@ beforeEach(function () {
                         'name' => 'Test ticket',
                         'slug' => 'test-ticket',
                         'sequence' => 1,
-                        'status' => Status::TO_DO,
+                        'status' => Status::OPEN,
                         'position' => 1
                     ],
                     [
                         'name' => 'Test ticket 2',
                         'slug' => 'test-ticket-2',
                         'sequence' => 2,
-                        'status' => Status::TO_DO,
+                        'status' => Status::OPEN,
                         'position' => 2
                     ]
                 )
@@ -86,7 +86,7 @@ it('can update ticket group order', function () {
         ->call('updateTicketGroupOrder', [
             [
                 'order' => 1,
-                'value' => Status::TO_DO,
+                'value' => Status::OPEN,
                 'items' => [
                     [
                         'order' => 1,

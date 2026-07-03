@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->date('start_date')->nullable();
             $table->date('due_date')->nullable();
-            $table->string('status')->default(Status::TO_DO);
+            $table->string('status')->default(Status::OPEN);
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
 

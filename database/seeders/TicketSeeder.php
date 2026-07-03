@@ -56,11 +56,11 @@ class TicketSeeder extends Seeder
 
             foreach ($tickets as $index => $name) {
                 $status = match ($index) {
-                    0 => Status::TO_DO,
+                    0 => Status::OPEN,
                     1 => Status::IN_PROGRESS,
                     2 => Status::IN_REVIEW,
                     3 => Status::DONE,
-                    default => Status::TO_DO
+                    default => Status::OPEN
                 };
 
                 Ticket::factory()->create([
