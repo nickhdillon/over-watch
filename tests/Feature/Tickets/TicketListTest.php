@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Enums\Status;
 use App\Models\Ticket;
 use App\Models\Project;
+use App\Models\Release;
 use App\Enums\ProjectRole;
 use App\Livewire\TicketList;
 use function Pest\Livewire\livewire;
@@ -40,7 +41,8 @@ beforeEach(function () {
                 'status' => Status::OPEN,
                 'position' => 2
             ]
-        );
+        )
+        ->create();
 });
 
 it('can update view with project', function () {
@@ -94,6 +96,42 @@ it('can update ticket group order', function () {
             ]
         ])
         ->assertHasNoErrors();
+});
+
+it('can add ticket to release', function () {
+    $project = Project::first();
+
+    $ticket = Ticket::first();
+
+    $release = Release::factory()
+        ->for($project)
+        ->for(User::first())
+        ->create();
+
+    livewire(TicketList::class, ['project' => $project, 'view' => 'grid'])
+        ->call('addTicketsToRelease', [$ticket->id], $release->id, $release->name)
+        ->assertHasNoErrors();
+
+    expect($ticket->fresh()->release_id)->toBe($release->id);
+});
+
+it('can remove ticket from release', function () {
+    $project = Project::first();
+
+    $ticket = Ticket::first();
+
+    $release = Release::factory()
+        ->for($project)
+        ->for(User::first())
+        ->create();
+
+    $ticket->update(['release_id' => $release->id]);
+
+    livewire(TicketList::class, ['project' => $project, 'view' => 'grid'])
+        ->call('removeTicketsFromRelease', [$ticket->id])
+        ->assertHasNoErrors();
+
+    expect($ticket->fresh()->release_id)->toBe(null);
 });
 
 test('component can render with project', function () {

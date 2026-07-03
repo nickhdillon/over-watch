@@ -22,6 +22,7 @@
         <exclude>
             <directory>app/Models</directory>
             <directory>app/Providers</directory>
+            <directory>app/Livewire/Settings</directory>
         </exclude>
     </source>
 
