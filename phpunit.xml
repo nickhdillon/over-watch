@@ -21,9 +21,10 @@
 
         <exclude>
             <directory>app/Enums</directory>
+            <directory>app/Livewire/Settings</directory>
             <directory>app/Models</directory>
             <directory>app/Providers</directory>
-            <directory>app/Livewire/Settings</directory>
+            <directory>app/View</directory>
         </exclude>
     </source>
 
