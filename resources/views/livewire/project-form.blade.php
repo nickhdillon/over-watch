@@ -1,18 +1,4 @@
-<div
-    x-data="{
-        name: @entangle('name'),
-        key: @entangle('key'),
-        keyCustomized: false,
-
-        suggestKey(value) {
-            return value
-                .toUpperCase()
-                .replace(/[^A-Z0-9]/g, '')
-                .slice(0, 4);
-        },
-    }"
-    x-effect="if (! keyCustomized) key = suggestKey(name);"
->
+<div>
     <div class="border-t sm:border border-neutral-200 dark:border-neutral-700 shadow-xs bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2">
         <div class="p-4 sm:py-12 mx-auto sm:w-3/4 max-w-5xl">
             <x-card heading="Settings" supporting_text="Configure your project's basic settings.">
@@ -21,7 +7,7 @@
                         <flux:field>
                             <flux:label>Name</flux:label>
 
-                            <flux:input type="text" x-model='name' required />
+                            <flux:input type="text" wire:model="name" required />
 
                             <flux:error name="name" />
                         </flux:field>
@@ -31,8 +17,7 @@
 
                             <flux:input
                                 type="text"
-                                x-model='key'
-                                x-on:input="keyCustomized = true; key = suggestKey(key)"
+                                wire:model="key"
                                 maxlength="4"
                                 required
                             />
