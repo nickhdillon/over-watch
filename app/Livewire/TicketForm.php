@@ -208,10 +208,6 @@ class TicketForm extends Component
         ]);
 
         if ($this->release) {
-            if (! $this->project) {
-                $this->project = Project::find($this->project_id);
-            }
-
             $this->redirectRoute(
                 'project.release.view',
                 $parameters,
