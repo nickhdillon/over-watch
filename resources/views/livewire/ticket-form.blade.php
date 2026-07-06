@@ -6,34 +6,11 @@
                     {{ $ticket ? 'Edit Ticket' : 'New Ticket' }}
 
                     @if ($ticket)
-                        <flux:badge :color="$ticket->project?->color->value" size="sm">
+                        <flux:badge :color="$ticket->project?->color?->value" size="sm">
                             {{ $ticket->issue_key }}
                         </flux:badge>
                     @endif
                 </flux:heading>
-
-                @if ($ticket?->release)
-                    <flux:subheading class="flex items-center gap-2 text-neutral-800 dark:text-white">
-                        <flux:icon.flag
-                            variant="solid"
-                            class="size-3.5 shrink-0 text-neutral-400 dark:text-neutral-500"
-                        />
-
-                        <span class="font-medium text-current">
-                            {{ $ticket->release->name }}
-                        </span>
-
-                        <flux:button
-                            type="button"
-                            variant="ghost"
-                            size="xs"
-                            icon="x-mark"
-                            wire:click="removeFromRelease"
-                            tooltip="Remove from release"
-                            class="text-neutral-400! top-px hover:text-red-500!"
-                        />
-                    </flux:subheading>
-                @endif
             </div>
 
             <form wire:submit='save' class="space-y-6">
@@ -55,6 +32,27 @@
                         </flux:select>
 
                         <flux:error name="project_id" />
+                    </flux:field>
+                @endif
+                
+                @if ($project_id && $releases)
+                    <flux:field>
+                        <flux:label>Release</flux:label>
+
+                        <flux:select
+                            variant="listbox"
+                            placeholder="Select a release"
+                            wire:model='release_id'
+                            clearable
+                        >
+                            @foreach ($releases as $release)
+                                <flux:select.option value="{{ $release->id }}">
+                                    {{ $release->name }}
+                                </flux:select.option>
+                            @endforeach
+                        </flux:select>
+
+                        <flux:error name="release_id" />
                     </flux:field>
                 @endif
 

@@ -73,6 +73,20 @@ it('can update a ticket', function () {
         ->assertRedirect("/projects/{$project->slug}/tickets?view=list");
 });
 
+it('can update a ticket attached to a release', function () {
+    $project = Project::first();
+
+    $release = Release::first();
+    
+    livewire(TicketForm::class, ['project' => $project, 'release' => $release])
+        ->call('loadTicket', Ticket::first()->id)
+        ->set('name', 'Test ticket updated')
+        ->set('tags', [Tag::first()->id])
+        ->call('save')
+        ->assertHasNoErrors()
+        ->assertRedirect("/projects/{$project->slug}/releases/{$release->slug}?view=list");
+});
+
 it('can remove a tag', function () {
     $project = Project::first();
 
@@ -98,17 +112,6 @@ it('can reset the form with project', function () {
         ->call('resetForm')
         ->assertSet('name', '')
         ->assertHasNoErrors();
-});
-
-it('can remove ticket from release', function () {
-    $project = Project::first();
-
-    $release = Release::first();
-
-    livewire(TicketForm::class, ['project' => $project, 'release' => $release, 'ticket' => Ticket::first()])
-        ->call('removeFromRelease')
-        ->assertHasNoErrors()
-        ->assertRedirect("/projects/{$project->slug}/releases/{$release->slug}?view=list");
 });
 
 it('can delete a ticket', function () {

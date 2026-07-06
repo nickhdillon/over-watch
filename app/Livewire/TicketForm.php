@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
-use Flux\Flux;
 use App\Models\Tag;
 use App\Enums\Status;
 use App\Models\Ticket;
@@ -31,7 +30,11 @@ class TicketForm extends Component
 
     public ?Ticket $ticket = null;
 
+    public Collection $releases;
+
     public ?Release $release = null;
+
+    public ?int $release_id = null;
 
     public ?int $project_id = null;
 
@@ -51,6 +54,7 @@ class TicketForm extends Component
     {
         return [
             'project_id' => ['required', 'int'],
+            'release_id' => ['nullable', 'int', Rule::exists('releases', 'id')->where('project_id', $this->project_id)],
             'name' => ['string', 'required'],
             'description' => ['string', 'nullable'],
             'priority' => ['required', Rule::enum(Priority::class)],
@@ -63,8 +67,9 @@ class TicketForm extends Component
     {
         if ($this->project) $this->project_id = $this->project->id;
 
-        $this->getProjects();
-        $this->getProjectTags();
+        $this->getProjects()
+            ->getProjectTags()
+            ->getReleases($this->project_id);
     }
 
     public function getProjects(): self
@@ -73,6 +78,7 @@ class TicketForm extends Component
             ->user()
             ->projects()
             ->select(['id', 'name'])
+            ->with(['releases'])
             ->orderBy('name')
             ->get();
 
@@ -100,11 +106,27 @@ class TicketForm extends Component
         return $this;
     }
 
+    public function getReleases(?int $project_id = null): self
+    {
+        $this->releases = Release::query()
+            ->select(['id', 'name', 'project_id'])
+            ->when(
+                $project_id,
+                fn (Builder $query): Builder => $query->where('project_id', $project_id),
+                fn (Builder $query): Builder => $query->where('user_id', auth()->id()),
+            )
+            ->orderBy('name')
+            ->get();
+
+        return $this;
+    }
+
     public function updatedProjectId(): void
     {
-        $this->reset(['project_tags', 'tags']);
+        $this->reset(['release_id', 'project_tags', 'tags']);
 
         $this->getProjectTags();
+        $this->getReleases($this->project_id);
     }
 
     public function updatedTags(): void
@@ -122,6 +144,7 @@ class TicketForm extends Component
     {
         $this->ticket = Ticket::with('tags')->find($ticket_id);
         $this->project_id = $this->ticket->project_id;
+        $this->release_id = $this->ticket->release_id;
         $this->name = $this->ticket->name;
         $this->description = $this->ticket->description;
         $this->priority = $this->ticket->priority;
@@ -134,6 +157,7 @@ class TicketForm extends Component
         $this->due_date = $this->ticket->due_date;
 
         $this->getProjectTags();
+        $this->getReleases($this->project_id);
 
         $this->ticket->trackRecentView();
 
@@ -167,17 +191,7 @@ class TicketForm extends Component
             : null;
 
         $this->getProjectTags();
-    }
-
-    public function removeFromRelease(): void
-    {
-        if (! $this->ticket) return;
-
-        $this->ticket->update(['release_id' => null]);
-
-        Flux::toast('Removed ticket from release.', variant: 'success');
-
-        $this->redirectAfterAction();
+        $this->getReleases($this->project_id);
     }
 
     private function nextSequence(): int
@@ -243,7 +257,7 @@ class TicketForm extends Component
             [
                 ...$validated,
                 'project_id' => $this->project_id,
-                'release_id' => $this->release?->id,
+                'release_id' => $this->release_id,
                 'user_id' => $is_creating ? auth()->id() : $this->ticket->user_id,
                 'status' => $status,
                 'sequence' => $is_creating
