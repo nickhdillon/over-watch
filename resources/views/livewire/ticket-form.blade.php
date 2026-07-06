@@ -45,11 +45,13 @@
                             wire:model='release_id'
                             clearable
                         >
-                            @foreach ($releases as $release)
+                            @forelse ($releases as $release)
                                 <flux:select.option value="{{ $release->id }}">
                                     {{ $release->name }}
                                 </flux:select.option>
-                            @endforeach
+                            @empty
+                                <p class="font-medium text-sm px-2 py-1">No releases</p>
+                            @endforelse
                         </flux:select>
 
                         <flux:error name="release_id" />
