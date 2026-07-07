@@ -137,7 +137,6 @@
         @else
             <div class="overflow-x-auto md:-m-6 md:p-6 pb-4">
                 <div
-                    wire:sortable="updateTicketOrder"
                     wire:sortable-group="updateTicketGroupOrder"
                     wire:sortable.options="{ animation: 100 }"
                     class="flex gap-4 pr-4 md:pr-0"
