@@ -11,7 +11,7 @@
         <div>
             <a
                 href="{{ route('project.view', $current_project) }}"
-                wire:navigate
+                wire:navigate.hover
                 class="group flex items-center hover:bg-neutral-100 dark:hover:bg-neutral-700 gap-2 h-7 pl-0 sm:p-1! pr-1.5 rounded-md w-full text-left text-sm"
             >
                 @if (! $current_project->image_path)
@@ -89,7 +89,7 @@
                     @foreach (auth()->user()->projects()->orderBy('name')->get() as $project)
                         <a
                             href="{{ route($target_route, $project) }}"
-                            wire:navigate
+                            wire:navigate.hover
                             class="group min-w-0 flex items-center gap-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 p-2! rounded w-full text-left text-sm"
                         >
                             @if (! $project->image_path)

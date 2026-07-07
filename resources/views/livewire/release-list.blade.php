@@ -26,7 +26,7 @@
                 >
                     <a
                         href="{{ route('project.release.view', [$project ?? $release->project, $release]) }}"
-                        wire:navigate
+                        wire:navigate.hover
                         aria-label="View {{ $release->name }}"
                         class="absolute inset-0 z-10 rounded-[inherit]"
                     ></a>

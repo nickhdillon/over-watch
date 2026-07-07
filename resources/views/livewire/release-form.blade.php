@@ -99,7 +99,7 @@
                             <div class="ml-auto space-x-1">
                                 <flux:button
                                     href="/"
-                                    wire:navigate
+                                    wire:navigate.hover
                                     type="button"
                                     size="sm"
                                     variant="ghost"

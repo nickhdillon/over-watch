@@ -26,7 +26,7 @@
                 >
                     <a
                         href="{{ route('project.view', $project) }}"
-                        wire:navigate
+                        wire:navigate.hover
                         aria-label="View {{ $project->name }}"
                         class="absolute inset-0 z-10 rounded-[inherit]"
                     ></a>

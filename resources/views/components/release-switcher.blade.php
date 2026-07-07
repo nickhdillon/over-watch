@@ -9,7 +9,7 @@
 
         <a
             href="{{ route('project.release.view', [$current_project, $current_release]) }}"
-            wire:navigate
+            wire:navigate.hover
             class="group flex h-7 items-center rounded-md py-1 px-1.5 text-left text-sm hover:bg-neutral-100 dark:hover:bg-neutral-700"
         >
             <span class="block sm:hidden w-full text-sm font-medium text-neutral-700 dark:text-white">
@@ -59,7 +59,7 @@
                     @foreach ($current_project->releases()->orderBy('name')->get() as $release)
                         <a
                             href="{{ route($release_route, [$current_project, $release]) }}"
-                            wire:navigate
+                            wire:navigate.hover
                             class="group flex w-full min-w-0 items-center rounded px-2 py-1.5 text-left text-sm hover:bg-neutral-100 dark:hover:bg-neutral-700"
                         >
                             <span class="min-w-0 truncate font-medium">

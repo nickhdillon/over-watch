@@ -154,7 +154,7 @@
                             <div class="ml-auto space-x-1">
                                 <flux:button
                                     :href="route('project.view', $project)"
-                                    wire:navigate
+                                    wire:navigate.hover
                                     type="button"
                                     size="sm"
                                     variant="ghost"
