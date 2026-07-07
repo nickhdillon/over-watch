@@ -151,7 +151,7 @@
                 @endif
             </div>
         @else
-            <div class="overflow-x-auto md:-m-6 md:p-6 pb-4">
+            <div class="overflow-x-auto overflow-y-visible md:-mx-6 md:px-6 md:pb-6 pb-4">
                 <div
                     wire:sortable-group="updateTicketGroupOrder"
                     wire:sortable.options="{ animation: 100 }"
@@ -177,8 +177,7 @@
                                 <div
                                     wire:sortable-group.item-group="{{ $status->value }}"
                                     wire:sortable-group.options="{ animation: 100, ghostClass: 'sortable-ghost-ticket' }"
-                                    class="flex flex-1 flex-col gap-2 px-2 pb-2"
-                                    style="min-height: 100%;"
+                                    class="flex flex-1 flex-col gap-2 px-2 pb-2 min-h-24"
                                 >
                                     @foreach ($tickets as $ticket)
                                         <div
