@@ -53,7 +53,7 @@ beforeEach(function () {
 it('can update view', function () {
     $release = Release::first();
 
-    livewire(ReleaseTicketList::class, ['release' => $release, 'view' => 'grid'])
+    livewire(ReleaseTicketList::class, ['release' => $release, 'view' => 'board'])
         ->set('view', 'list')
         ->assertRedirectToRoute('project.release.view', [
             'project' => $release->project,
@@ -65,7 +65,7 @@ it('can update view', function () {
 it('can update ticket order', function () {
     $release = Release::first();
 
-    livewire(ReleaseTicketList::class, ['release' => $release, 'view' => 'grid'])
+    livewire(ReleaseTicketList::class, ['release' => $release, 'view' => 'board'])
         ->call('updateTicketOrder', [
             [
                 'order' => 1,
@@ -82,7 +82,7 @@ it('can update ticket order', function () {
 it('can update ticket group order', function () {
     $release = Release::first();
 
-    livewire(ReleaseTicketList::class, ['release' => $release, 'view' => 'grid'])
+    livewire(ReleaseTicketList::class, ['release' => $release, 'view' => 'board'])
         ->call('updateTicketGroupOrder', [
             [
                 'order' => 1,
@@ -105,7 +105,7 @@ it('can update ticket group order', function () {
 test('component can render', function () {
     $release = Release::first();
 
-    livewire(ReleaseTicketList::class, ['release' => $release, 'view' => 'grid'])
+    livewire(ReleaseTicketList::class, ['release' => $release, 'view' => 'board'])
         ->assertSee($release->name)
         ->assertHasNoErrors();
 });

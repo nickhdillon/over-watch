@@ -13,6 +13,7 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Livewire\Concerns\HandlesTicketReleases;
@@ -37,7 +38,8 @@ class ReleaseTicketList extends Component
         $tickets = $this->release
             ->tickets()
             ->where('user_id', auth()->id())
-            ->with(['assignee', 'project', 'tags'])
+            ->with(['assignee', 'project'])
+            ->when($this->view === 'board', fn (Builder $query): Builder => $query->with('tags'))
             ->orderBy('position');
 
         return $this->view === 'list'

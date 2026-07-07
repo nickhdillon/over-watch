@@ -48,7 +48,7 @@ beforeEach(function () {
 it('can update view with project', function () {
     $project = Project::first();
 
-    livewire(TicketList::class, ['project' => $project, 'view' => 'grid'])
+    livewire(TicketList::class, ['project' => $project, 'view' => 'board'])
         ->set('view', 'list')
         ->assertRedirectToRoute('project.tickets', [
             'project' => $project,
@@ -57,13 +57,13 @@ it('can update view with project', function () {
 });
 
 it('can update view with no project', function () {
-    livewire(TicketList::class, ['view' => 'grid'])
+    livewire(TicketList::class, ['view' => 'board'])
         ->set('view', 'list')
         ->assertRedirectToRoute('tickets', ['view' => 'list']);
 });
 
 it('can update ticket order', function () {
-    livewire(TicketList::class, ['view' => 'grid'])
+    livewire(TicketList::class, ['view' => 'board'])
         ->call('updateTicketOrder', [
             [
                 'order' => 1,
@@ -78,7 +78,7 @@ it('can update ticket order', function () {
 });
 
 it('can update ticket group order', function () {
-    livewire(TicketList::class, ['view' => 'grid'])
+    livewire(TicketList::class, ['view' => 'board'])
         ->call('updateTicketGroupOrder', [
             [
                 'order' => 1,
@@ -108,7 +108,7 @@ it('can add ticket to release', function () {
         ->for(User::first())
         ->create();
 
-    livewire(TicketList::class, ['project' => $project, 'view' => 'grid'])
+    livewire(TicketList::class, ['project' => $project, 'view' => 'board'])
         ->call('addTicketsToRelease', [$ticket->id], $release->id, $release->name)
         ->assertHasNoErrors();
 
@@ -127,7 +127,7 @@ it('can remove ticket from release', function () {
 
     $ticket->update(['release_id' => $release->id]);
 
-    livewire(TicketList::class, ['project' => $project, 'view' => 'grid'])
+    livewire(TicketList::class, ['project' => $project, 'view' => 'board'])
         ->call('removeTicketsFromRelease', [$ticket->id])
         ->assertHasNoErrors();
 
@@ -140,6 +140,6 @@ test('component can render with project', function () {
 });
 
 test('component can render with no project', function () {
-    livewire(TicketList::class, ['view' => 'grid'])
+    livewire(TicketList::class, ['view' => 'board'])
         ->assertHasNoErrors();
 });
