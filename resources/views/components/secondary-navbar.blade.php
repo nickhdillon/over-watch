@@ -3,7 +3,7 @@
         <flux:navbar.item
             :href="route('project.release.view', [$project, $release])"
             :current="request()->routeIs('project.release.view')"
-            wire:navigate
+            wire:navigate.hover
         >
             Overview
         </flux:navbar.item>
@@ -13,7 +13,7 @@
                 ? route('project.release.edit', [$project, $release])
                 : route('release.edit', $release)"
             :current="request()->routeIs('project.release.edit', 'release.edit')"
-            wire:navigate
+            wire:navigate.hover
         >
             Settings
         </flux:navbar.item>
@@ -21,7 +21,7 @@
         <flux:navbar.item
             :href="route('project.view', $project)"
             :current="request()->routeIs('project.view')"
-            wire:navigate
+            wire:navigate.hover
         >
             Overview
         </flux:navbar.item>
@@ -29,7 +29,7 @@
         <flux:navbar.item
             :href="route('project.releases', $project)"
             :current="request()->routeIs('project.release*')"
-            wire:navigate
+            wire:navigate.hover
         >
             Releases
         </flux:navbar.item>
@@ -37,7 +37,7 @@
         <flux:navbar.item
             :href="route('project.tickets', $project)"
             :current="request()->routeIs('project.tickets')"
-            wire:navigate
+            wire:navigate.hover
         >
             Tickets
         </flux:navbar.item>
@@ -45,7 +45,7 @@
         <flux:navbar.item
             :href="route('project.tags', $project)"
             :current="request()->routeIs('project.tags')"
-            wire:navigate
+            wire:navigate.hover
         >
             Tags
         </flux:navbar.item>
@@ -53,7 +53,7 @@
         <flux:navbar.item
             :href="route('project.edit', $project)"
             :current="request()->routeIs('project.edit')"
-            wire:navigate
+            wire:navigate.hover
         >
             Settings
         </flux:navbar.item>
@@ -61,7 +61,7 @@
         <flux:navbar.item
             href="/"
             :current="request()->is('/')"
-            wire:navigate
+            wire:navigate.hover
         >
             Overview
         </flux:navbar.item>
@@ -69,7 +69,7 @@
         <flux:navbar.item
             :href="route('projects')"
             :current="request()->routeIs('projects')"
-            wire:navigate
+            wire:navigate.hover
         >
             Projects
         </flux:navbar.item>
@@ -77,7 +77,7 @@
         <flux:navbar.item
             :href="route('releases')"
             :current="request()->routeIs('release*')"
-            wire:navigate
+            wire:navigate.hover
         >
             Releases
         </flux:navbar.item>
@@ -85,7 +85,7 @@
         <flux:navbar.item
             :href="route('tickets')"
             :current="request()->routeIs('tickets')"
-            wire:navigate
+            wire:navigate.hover
         >
             Tickets
         </flux:navbar.item>
@@ -93,7 +93,7 @@
         <flux:navbar.item
             :href="route('profile.edit')"
             :current="request()->is('settings*')"
-            wire:navigate
+            wire:navigate.hover
         >
             Settings
         </flux:navbar.item>

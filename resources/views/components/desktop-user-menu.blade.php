@@ -52,7 +52,7 @@
         <flux:menu.separator />
 
         <flux:menu.radio.group>
-            <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate class="p-1!">
+            <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate.hover class="p-1!">
                 {{ __('Settings') }}
             </flux:menu.item>
 
