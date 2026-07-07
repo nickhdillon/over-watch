@@ -155,15 +155,15 @@
                 <div
                     wire:sortable-group="updateTicketGroupOrder"
                     wire:sortable.options="{ animation: 100 }"
-                    class="flex gap-4 pr-4 md:pr-0"
+                    class="flex items-stretch gap-4 pr-4 md:pr-0"
                 >
                     @foreach (Status::cases() as $status)
                         @php
                             $tickets = $this->tickets_by_status->get($status->value, collect());
                         @endphp
 
-                        <div wire:key="status-{{ $status->value }}">
-                            <div class="rounded-xl w-80 max-w-80 bg-neutral-400/5 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-xs">
+                        <div wire:key="status-{{ $status->value }}" class="flex">
+                            <div class="flex flex-col rounded-xl w-80 max-w-80 bg-neutral-400/5 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-xs">
                                 <div class="py-3 px-4 flex justify-between items-start">
                                     <div class="flex items-center gap-1.5">
                                         <flux:heading class="mb-0!">{{ $status->label() }}</flux:heading>
@@ -177,9 +177,10 @@
                                 <div
                                     wire:sortable-group.item-group="{{ $status->value }}"
                                     wire:sortable-group.options="{ animation: 100, ghostClass: 'sortable-ghost-ticket' }"
-                                    class="flex flex-col gap-2 px-2 pb-2"
+                                    class="flex flex-1 flex-col gap-2 px-2 pb-2"
+                                    style="min-height: 100%;"
                                 >
-                                    @forelse ($tickets as $ticket)
+                                    @foreach ($tickets as $ticket)
                                         <div
                                             wire:key="board-ticket-{{ $ticket->id }}"
                                             wire:sortable-group.item="{{ $ticket->id }}"
@@ -243,11 +244,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @empty
-                                        <div class="rounded-lg border border-dashed border-neutral-300 p-4 text-center text-sm text-neutral-500 dark:border-neutral-700 dark:text-neutral-400">
-                                            No tickets
-                                        </div>
-                                    @endforelse
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
