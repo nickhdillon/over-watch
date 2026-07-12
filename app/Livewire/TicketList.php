@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
+use App\Models\User;
 use App\Models\Ticket;
 use Livewire\Component;
 use App\Models\Project;
@@ -16,6 +17,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Livewire\Concerns\HandlesTicketReleases;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class TicketList extends Component
@@ -29,30 +31,45 @@ class TicketList extends Component
     public ?Project $project = null;
 
     /**
-     * @return LengthAwarePaginator<int, Ticket>|EloquentCollection<int, Ticket>
+     * @return HasMany<Ticket, Project|User>
      */
-    #[Computed]
-    public function tickets(): LengthAwarePaginator|EloquentCollection
+    private function ticketQuery(): HasMany
     {
-        /** @var Builder<Ticket> $query */
-        $query = $this->project
+        return $this->project
             ? $this->project->tickets()
             : auth()->user()->tickets();
+    }
 
-        $tickets = $query
+    /**
+     * @return LengthAwarePaginator<int, Ticket>
+     */
+    #[Computed]
+    public function tickets(): LengthAwarePaginator
+    {
+        return $this->ticketQuery()
             ->with(['assignee', 'project', 'release'])
-            ->when($this->view === 'board', fn (Builder $query): Builder => $query->with('tags'))
-            ->orderBy('position');
+            ->orderBy('position')
+            ->paginate(25);
+    }
 
-        return $this->view === 'list'
-            ? $tickets->paginate(25)
-            : $tickets->get();
+    /**
+     * @return EloquentCollection<int, Ticket>
+     */
+    #[Computed]
+    public function boardTickets(): EloquentCollection
+    {
+        return $this->ticketQuery()
+            ->with(['assignee', 'project', 'release', 'tags'])
+            ->orderBy('status')
+            ->orderBy('position')
+            ->get();
     }
 
     #[Computed]
     public function ticketsByStatus(): Collection
     {
-        return $this->tickets()->groupBy(fn (Ticket $ticket): string => $ticket->status->value);
+        return $this->boardTickets()
+            ->groupBy(fn (Ticket $ticket): string => $ticket->status->value);
     }
 
     #[Computed]
@@ -109,6 +126,10 @@ class TicketList extends Component
                 }
             }
         });
+
+        unset($this->boardTickets, $this->ticketsByStatus);
+
+        $this->js('$wire.$island("board-tickets").$refresh()');
     }
 
     public function render(): View

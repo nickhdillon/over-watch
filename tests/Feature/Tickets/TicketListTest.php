@@ -45,6 +45,23 @@ beforeEach(function () {
         ->create();
 });
 
+it('loads board tickets', function () {
+    $component = livewire(TicketList::class, ['view' => 'board']);
+
+    expect($component->instance()->boardTickets())->toHaveCount(2);
+});
+
+it('groups board tickets by status', function () {
+    $component = livewire(TicketList::class, ['view' => 'board']);
+
+    $tickets_by_status = $component->instance()->ticketsByStatus();
+
+    expect($tickets_by_status)
+        ->toHaveKey(Status::OPEN->value)
+        ->and($tickets_by_status->get(Status::OPEN->value))
+        ->toHaveCount(2);
+});
+
 it('can update view with project', function () {
     $project = Project::first();
 
