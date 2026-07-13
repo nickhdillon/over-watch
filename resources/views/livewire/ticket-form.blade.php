@@ -35,7 +35,7 @@
                     </flux:field>
                 @endif
                 
-                @if ($project_id && $releases)
+                @if ($project_id && $releases && !$release)
                     <flux:field>
                         <flux:label>Release</flux:label>
 
