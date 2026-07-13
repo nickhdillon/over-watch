@@ -193,9 +193,22 @@
 
                                                 <div class="pointer-events-none space-y-3">
                                                     <div>
-                                                        <p class="text-xs font-medium text-neutral-500 dark:text-neutral-400">
-                                                            {{ $ticket->issue_key }}
-                                                        </p>
+                                                        <div class="flex items-center gap-1.5">
+                                                            <p class="text-xs font-medium text-neutral-500 dark:text-neutral-400">
+                                                                {{ $ticket->issue_key }}
+                                                            </p>
+
+                                                            @if ($ticket->release)
+                                                                <span class="pointer-events-auto relative z-20">
+                                                                    <flux:tooltip :content="$ticket->release->name">
+                                                                        <flux:icon.flag
+                                                                            variant="solid"
+                                                                            class="size-3.5 shrink-0 text-neutral-400 dark:text-neutral-500"
+                                                                        />
+                                                                    </flux:tooltip>
+                                                                </span>
+                                                            @endif
+                                                        </div>
                                                         
                                                         <p class="text-sm font-medium text-neutral-700 dark:text-white">
                                                             {{ $ticket->name }}
