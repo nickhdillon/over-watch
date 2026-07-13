@@ -4,13 +4,15 @@ A lightweight project command center built for developers and small teams. Organ
 
 ## Features
 
-**Project Management**: Create and organize projects in a centralized workspace.
+**Projects**: Organize your work across projects with a clean, centralized workspace.
 
-**Ticket Tracking**: Manage tasks and move work through customizable statuses.
+**Tickets**: Track work through a simple, built-in workflow with drag-and-drop board and list views.
 
-**Tags & Organization**: Categorize work with tags to keep projects structured and easy to navigate.
+**Releases**: Group tickets into releases to plan milestones and track progress toward each delivery.
 
-**Simple & Focused**: Built to help you stay productive without unnecessary complexity.
+**Tags**: Categorize and filter work with project-specific tags.
+
+**Simple & Focused**: Designed to help developers and small teams ship faster without unnecessary complexity.
 
 ## Installation
 
