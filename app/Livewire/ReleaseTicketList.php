@@ -13,10 +13,10 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Livewire\Concerns\HandlesTicketReleases;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ReleaseTicketList extends Component
 {
@@ -29,28 +29,42 @@ class ReleaseTicketList extends Component
     public string $view = 'list';
 
     /**
-     * @return LengthAwarePaginator<int, Ticket>|Collection<int, Ticket>
+     * @return HasMany<Ticket, Release>
      */
-    #[Computed]
-    public function tickets(): LengthAwarePaginator|Collection
+    private function ticketQuery(): HasMany
     {
-        /** @var \Illuminate\Database\Eloquent\Builder<Ticket> $tickets */
-        $tickets = $this->release
+        return $this->release
             ->tickets()
             ->where('user_id', auth()->id())
             ->with(['assignee', 'project'])
-            ->when($this->view === 'board', fn (Builder $query): Builder => $query->with('tags'))
             ->orderBy('position');
+    }
 
-        return $this->view === 'list'
-            ? $tickets->paginate(25)
-            : $tickets->get();
+    /**
+     * @return LengthAwarePaginator<int, Ticket>
+     */
+    #[Computed]
+    public function tickets(): LengthAwarePaginator
+    {
+        return $this->ticketQuery()->paginate(25);
+    }
+
+    /**
+     * @return Collection<int, Ticket>
+     */
+    #[Computed]
+    public function boardTickets(): Collection
+    {
+        return $this->ticketQuery()
+            ->with('tags')
+            ->get();
     }
 
     #[Computed]
     public function ticketsByStatus(): Collection
     {
-        return $this->tickets()->groupBy(fn (Ticket $ticket): string => $ticket->status->value);
+        return $this->boardTickets()
+            ->groupBy(fn (Ticket $ticket): string => $ticket->status->value);
     }
 
     #[Computed]
@@ -105,6 +119,10 @@ class ReleaseTicketList extends Component
                 }
             }
         });
+
+        unset($this->boardTickets, $this->ticketsByStatus);
+
+        $this->js('$wire.$island("board-tickets").$refresh()');
     }
 
     public function render(): View
