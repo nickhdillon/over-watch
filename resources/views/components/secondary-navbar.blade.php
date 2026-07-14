@@ -59,8 +59,8 @@
         </flux:navbar.item>
     @else
         <flux:navbar.item
-            href="/"
-            :current="request()->is('/')"
+            :href="route('dashboard')"
+            :current="request()->routeIs('dashboard')"
             wire:navigate.hover
         >
             Overview

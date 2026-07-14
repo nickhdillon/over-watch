@@ -26,6 +26,9 @@
     --color-accent: var(--color-neutral-800);
     --color-accent-content: var(--color-neutral-800);
     --color-accent-foreground: var(--color-white);
+
+    --shadow-soft: 0 20px 70px -30px rgb(24 24 27 / 0.25);
+    --shadow-violet: 0 24px 80px -34px rgb(124 58 237 / 0.42);
 }
 
 @layer theme {

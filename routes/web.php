@@ -11,8 +11,12 @@ use App\Livewire\ReleaseList;
 use App\Livewire\ReleaseView;
 use Illuminate\Support\Facades\Route;
 
+Route::middleware(['guest'])->group(function () {
+    Route::view('/', 'pages.landing-page')->name('landing-page');
+});
+
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', Dashboard::class)->name('dashboard');
+    Route::get('dashboard', Dashboard::class)->name('dashboard');
 
     Route::get('projects/{project:slug}/settings', ProjectForm::class)->name('project.edit');
     Route::get('projects/{project:slug}', ProjectView::class)->name('project.view');
