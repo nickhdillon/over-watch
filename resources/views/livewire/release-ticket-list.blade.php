@@ -71,6 +71,28 @@
         
         @if ($view === 'list')
             @island(defer: true)
+                @placeholder
+                    <flux:skeleton.group
+                        animate="shimmer"
+                        class="overflow-hidden rounded-lg border border-neutral-300 bg-white/50 shadow-xs divide-y divide-neutral-200 dark:border-neutral-700 dark:bg-neutral-800/50 dark:divide-neutral-700"
+                    >
+                        @foreach (range(1, 8) as $row)
+                            <div class="flex min-w-0 items-center justify-between gap-3 px-3.5 py-3">
+                                <div class="flex min-w-0 flex-1 items-center gap-2">
+                                    <flux:skeleton.line class="w-14 shrink-0" />
+                                    <flux:skeleton.line @class(['max-w-md', 'w-2/3' => $row % 3 === 0, 'w-1/2' => $row % 3 === 1, 'w-3/4' => $row % 3 === 2]) />
+                                </div>
+
+                                <div class="flex shrink-0 items-center gap-2.5 sm:gap-6">
+                                    <flux:skeleton class="hidden h-5 w-16 rounded-sm sm:block" />
+                                    <flux:skeleton class="size-5 rounded-sm" />
+                                    <flux:skeleton class="size-7 rounded-full" />
+                                </div>
+                            </div>
+                        @endforeach
+                    </flux:skeleton.group>
+                @endplaceholder
+
                 <div
                     wire:sortable="updateTicketOrder"
                     wire:sortable.options="{ animation: 100 }"
@@ -156,6 +178,41 @@
         @else
             @island(name: 'board-tickets', defer: true)
                 @use('App\Enums\Status', 'Status')
+
+                @placeholder
+                    <div class="overflow-x-auto overflow-y-visible pb-4 md:-mx-6 md:px-6 md:pb-6">
+                        <flux:skeleton.group animate="shimmer" class="flex items-stretch gap-4 pr-4 md:pr-0">
+                            @foreach (range(1, 4) as $column)
+                                <div class="flex w-80 max-w-80 shrink-0 flex-col rounded-xl border border-neutral-200 bg-neutral-400/5 shadow-xs dark:border-neutral-800 dark:bg-neutral-900">
+                                    <div class="flex items-center gap-2 px-4 py-3">
+                                        <flux:skeleton.line class="w-24" />
+                                        <flux:skeleton class="size-5 rounded-sm" />
+                                    </div>
+
+                                    <div class="flex flex-1 flex-col gap-2 px-2 pb-2">
+                                        @foreach (range(1, $column % 2 === 0 ? 2 : 3) as $card)
+                                            <div class="space-y-3 rounded-lg border border-neutral-300/60 bg-white/50 p-3 shadow-xs dark:border-neutral-700/40 dark:bg-neutral-800/50">
+                                                <div class="space-y-1">
+                                                    <flux:skeleton.line class="w-16" />
+                                                    <flux:skeleton.line @class(['w-4/5' => $card % 2, 'w-2/3' => ! ($card % 2)]) />
+                                                </div>
+
+                                                <div class="flex items-center justify-between gap-3">
+                                                    <flux:skeleton class="h-5 w-16 rounded-sm" />
+
+                                                    <div class="flex items-center gap-1">
+                                                        <flux:skeleton class="size-5 rounded-sm" />
+                                                        <flux:skeleton class="size-7 rounded-full" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                        </flux:skeleton.group>
+                    </div>
+                @endplaceholder
 
                 <div class="overflow-x-auto overflow-y-visible md:-mx-6 md:px-6 md:pb-6 pb-4">
                     <div

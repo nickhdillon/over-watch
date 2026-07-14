@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use App\Models\User;
+use App\Enums\ProjectRole;
 use App\Enums\Status;
-use App\Models\Ticket;
+use App\Livewire\ReleaseTicketList;
 use App\Models\Project;
 use App\Models\Release;
-use App\Enums\ProjectRole;
-use App\Livewire\ReleaseTicketList;
+use App\Models\Ticket;
+use App\Models\User;
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {
@@ -36,17 +36,17 @@ beforeEach(function () {
                         'slug' => 'test-ticket',
                         'sequence' => 1,
                         'status' => Status::OPEN,
-                        'position' => 1
+                        'position' => 1,
                     ],
                     [
                         'name' => 'Test ticket 2',
                         'slug' => 'test-ticket-2',
                         'sequence' => 2,
                         'status' => Status::OPEN,
-                        'position' => 2
+                        'position' => 2,
                     ]
                 )
-            )
+        )
         ->create();
 });
 
@@ -74,12 +74,12 @@ it('can update ticket order', function () {
         ->call('updateTicketOrder', [
             [
                 'order' => 1,
-                'value' => '2'
+                'value' => '2',
             ],
             [
                 'order' => 2,
-                'value' => '1'
-            ]
+                'value' => '1',
+            ],
         ])
         ->assertHasNoErrors();
 });
@@ -95,14 +95,14 @@ it('can update ticket group order', function () {
                 'items' => [
                     [
                         'order' => 1,
-                        'value' => '2'
+                        'value' => '2',
                     ],
                     [
                         'order' => 2,
-                        'value' => '1'
-                    ]
-                ]
-            ]
+                        'value' => '1',
+                    ],
+                ],
+            ],
         ])
         ->assertHasNoErrors();
 });
@@ -113,4 +113,16 @@ test('component can render', function () {
     livewire(ReleaseTicketList::class, ['release' => $release, 'view' => 'board'])
         ->assertSee($release->name)
         ->assertHasNoErrors();
+});
+
+it('renders a skeleton while list tickets load', function () {
+    livewire(ReleaseTicketList::class, ['release' => Release::first(), 'view' => 'list'])
+        ->assertSeeHtml('data-flux-skeleton-group')
+        ->assertSeeHtml('data-flux-skeleton-line');
+});
+
+it('renders a skeleton while board tickets load', function () {
+    livewire(ReleaseTicketList::class, ['release' => Release::first(), 'view' => 'board'])
+        ->assertSeeHtml('data-flux-skeleton-group')
+        ->assertSeeHtml('data-flux-skeleton-line');
 });
