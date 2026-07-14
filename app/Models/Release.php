@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\Status;
 use App\Models\Concerns\HasRecentViews;
+use Database\Factories\ReleaseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,8 +21,9 @@ use Illuminate\Support\Str;
  */
 class Release extends Model
 {
-    /** @use HasFactory<\Database\Factories\ReleaseFactory> */
+    /** @use HasFactory<ReleaseFactory> */
     use HasFactory;
+
     use HasRecentViews;
 
     protected function casts(): array
@@ -29,7 +31,7 @@ class Release extends Model
         return [
             'status' => Status::class,
             'start_date' => 'date',
-            'due_date' => 'date'
+            'due_date' => 'date',
         ];
     }
 
@@ -51,6 +53,9 @@ class Release extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return BelongsTo<Project, $this>
+     */
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);

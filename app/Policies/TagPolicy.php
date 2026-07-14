@@ -7,6 +7,7 @@ namespace App\Policies;
 use App\Models\Project;
 use App\Models\Tag;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class TagPolicy
 {
@@ -15,33 +16,38 @@ class TagPolicy
         return true;
     }
 
-    public function view(User $user, Tag $tag): bool
+    public function view(User $user, Tag $tag): Response
     {
-        return $tag->project->isAccessibleBy($user);
+        return $this->accessResponse($tag->project->isAccessibleBy($user));
     }
 
-    public function create(User $user, Project $project): bool
+    public function create(User $user, Project $project): Response
     {
-        return $project->isAccessibleBy($user);
+        return $this->accessResponse($project->isAccessibleBy($user));
     }
 
-    public function update(User $user, Tag $tag): bool
+    public function update(User $user, Tag $tag): Response
     {
         return $this->view($user, $tag);
     }
 
-    public function delete(User $user, Tag $tag): bool
+    public function delete(User $user, Tag $tag): Response
     {
         return $this->view($user, $tag);
     }
 
-    public function restore(User $user, Tag $tag): bool
+    public function restore(User $user, Tag $tag): Response
     {
         return $this->view($user, $tag);
     }
 
-    public function forceDelete(User $user, Tag $tag): bool
+    public function forceDelete(User $user, Tag $tag): Response
     {
         return $this->view($user, $tag);
+    }
+
+    private function accessResponse(bool $allowed): Response
+    {
+        return $allowed ? Response::allow() : Response::denyAsNotFound();
     }
 }

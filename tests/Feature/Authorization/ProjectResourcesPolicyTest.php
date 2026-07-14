@@ -49,14 +49,14 @@ test('owners retain access without a project membership row', function () {
         ->and($owner->can('delete', $project))->toBeTrue();
 });
 
-test('project routes reject users without access', function () {
+test('project routes hide resources from users without access', function () {
     $user = User::factory()->create();
     $owner = User::factory()->create();
     $project = Project::factory()->for($owner, 'owner')->create();
 
     $this->actingAs($user)
         ->get(route('project.view', $project))
-        ->assertForbidden();
+        ->assertNotFound();
 });
 
 test('only a project owner can delete the project', function () {

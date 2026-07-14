@@ -8,6 +8,7 @@ use App\Enums\Priority;
 use App\Enums\Status;
 use App\Models\Concerns\HasPriority;
 use App\Models\Concerns\HasRecentViews;
+use Database\Factories\TicketFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,17 +26,18 @@ use Illuminate\Support\Str;
  */
 class Ticket extends Model
 {
-    /** @use HasFactory<\Database\Factories\TicketFactory> */
+    /** @use HasFactory<TicketFactory> */
     use HasFactory;
-    use HasRecentViews;
+
     use HasPriority;
+    use HasRecentViews;
 
     public function casts(): array
     {
         return [
             'status' => Status::class,
             'priority' => Priority::class,
-            'due_date' => 'date'
+            'due_date' => 'date',
         ];
     }
 
@@ -52,6 +54,9 @@ class Ticket extends Model
         });
     }
 
+    /**
+     * @return BelongsTo<Project, $this>
+     */
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);

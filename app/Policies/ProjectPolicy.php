@@ -6,6 +6,7 @@ namespace App\Policies;
 
 use App\Models\Project;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class ProjectPolicy
 {
@@ -14,9 +15,9 @@ class ProjectPolicy
         return true;
     }
 
-    public function view(User $user, Project $project): bool
+    public function view(User $user, Project $project): Response
     {
-        return $project->isAccessibleBy($user);
+        return $this->accessResponse($project->isAccessibleBy($user));
     }
 
     public function create(User $user): bool
@@ -24,23 +25,28 @@ class ProjectPolicy
         return true;
     }
 
-    public function update(User $user, Project $project): bool
+    public function update(User $user, Project $project): Response
     {
         return $this->view($user, $project);
     }
 
-    public function delete(User $user, Project $project): bool
+    public function delete(User $user, Project $project): Response
     {
-        return $project->owner_id === $user->id;
+        return $this->accessResponse($project->owner_id === $user->id);
     }
 
-    public function restore(User $user, Project $project): bool
+    public function restore(User $user, Project $project): Response
     {
-        return $project->owner_id === $user->id;
+        return $this->accessResponse($project->owner_id === $user->id);
     }
 
-    public function forceDelete(User $user, Project $project): bool
+    public function forceDelete(User $user, Project $project): Response
     {
-        return $project->owner_id === $user->id;
+        return $this->accessResponse($project->owner_id === $user->id);
+    }
+
+    private function accessResponse(bool $allowed): Response
+    {
+        return $allowed ? Response::allow() : Response::denyAsNotFound();
     }
 }
