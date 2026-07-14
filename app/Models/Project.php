@@ -8,13 +8,14 @@ use App\Enums\Color;
 use App\Enums\Priority;
 use App\Models\Concerns\HasPriority;
 use App\Models\Concerns\HasRecentViews;
+use Database\Factories\ProjectFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Str;
 
 /**
  * @property Color|null $color
@@ -22,16 +23,17 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  */
 class Project extends Model
 {
-    /** @use HasFactory<\Database\Factories\ProjectFactory> */
+    /** @use HasFactory<ProjectFactory> */
     use HasFactory;
-    use HasRecentViews;
+
     use HasPriority;
+    use HasRecentViews;
 
     protected function casts(): array
     {
         return [
             'color' => Color::class,
-            'priority' => Priority::class
+            'priority' => Priority::class,
         ];
     }
 
@@ -56,6 +58,12 @@ class Project extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class)->withPivot('role');
+    }
+
+    public function isAccessibleBy(User $user): bool
+    {
+        return $this->owner_id === $user->id
+            || $this->users()->whereKey($user->id)->exists();
     }
 
     public function tickets(): HasMany

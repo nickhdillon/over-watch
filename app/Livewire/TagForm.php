@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
-use App\Models\Tag;
 use App\Enums\Color;
 use App\Models\Project;
-use Livewire\Component;
-use Livewire\Attributes\On;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Collection;
+use App\Models\Tag;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Collection;
+use Illuminate\Validation\Rule;
+use Livewire\Attributes\On;
+use Livewire\Component;
 
 class TagForm extends Component
 {
+    use AuthorizesRequests;
+
     public bool $show_tag_form = false;
 
     public Project $project;
@@ -34,14 +37,14 @@ class TagForm extends Component
         return [
             'project_id' => ['required', 'int'],
             'name' => ['string', 'required'],
-            'color' => ['required', Rule::enum(Color::class)]
+            'color' => ['required', Rule::enum(Color::class)],
         ];
     }
 
     public function mount(): void
     {
         $this->project_id = $this->project->id;
-        
+
         $this->getProjects();
     }
 
@@ -60,7 +63,8 @@ class TagForm extends Component
     #[On('load-tag')]
     public function loadTag(int $tag_id): void
     {
-        $this->tag = Tag::find($tag_id);
+        $this->tag = Tag::findOrFail($tag_id);
+        $this->authorize('view', $this->tag);
         $this->project_id = $this->tag->project_id;
         $this->name = $this->tag->name;
         $this->color = $this->tag->color;
@@ -74,13 +78,16 @@ class TagForm extends Component
             'project_id',
             'tag',
             'name',
-            'color'
+            'color',
         ]);
     }
 
     public function save(): void
     {
         $validated = $this->validate();
+
+        $project = Project::query()->findOrFail($this->project_id);
+        $this->authorize($this->tag ? 'update' : 'create', $this->tag ?? [Tag::class, $project]);
 
         Tag::updateOrCreate(
             ['id' => $this->tag?->id],

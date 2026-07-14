@@ -25,6 +25,7 @@
             <directory>app/Models</directory>
             <directory>app/Providers</directory>
             <directory>app/View</directory>
+            <directory>app/Policies</directory>
         </exclude>
     </source>
 

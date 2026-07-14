@@ -7,16 +7,18 @@ namespace App\Livewire;
 use App\Enums\Color;
 use App\Enums\Priority;
 use App\Models\Project;
-use Livewire\Component;
-use Illuminate\Support\Arr;
-use Livewire\WithFileUploads;
-use Illuminate\Validation\Rule;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class ProjectForm extends Component
 {
+    use AuthorizesRequests;
     use WithFileUploads;
 
     public Project $project;
@@ -64,7 +66,7 @@ class ProjectForm extends Component
                 'uppercase',
                 Rule::unique('projects', 'key')
                     ->where('owner_id', auth()->id())
-                    ->ignore($this->project)
+                    ->ignore($this->project),
             ],
             'url' => ['string', 'url', 'nullable'],
             'repository_url' => ['string', 'url', 'nullable'],
@@ -77,7 +79,9 @@ class ProjectForm extends Component
     }
 
     public function save(): void
-    {        
+    {
+        $this->authorize('update', $this->project);
+
         $this->project->update(Arr::except($this->validate(), ['image']));
 
         if ($this->image instanceof UploadedFile) {
@@ -95,6 +99,8 @@ class ProjectForm extends Component
 
     public function deleteImage(): void
     {
+        $this->authorize('update', $this->project);
+
         Storage::disk('s3')->delete($this->image_path);
 
         $this->project->update(['image_path' => null]);
@@ -104,6 +110,8 @@ class ProjectForm extends Component
 
     public function delete(): void
     {
+        $this->authorize('delete', $this->project);
+
         $this->project->delete();
 
         $this->redirectRoute('projects');

@@ -7,13 +7,16 @@ namespace App\Livewire;
 use App\Enums\Status;
 use App\Models\Project;
 use App\Models\Release;
-use Livewire\Component;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Contracts\View\View;
+use Livewire\Component;
 
 class ReleaseFormModal extends Component
 {
+    use AuthorizesRequests;
+
     public Collection $projects;
 
     public ?Project $project = null;
@@ -35,7 +38,7 @@ class ReleaseFormModal extends Component
             'name' => ['string', 'required'],
             'description' => ['string', 'nullable'],
             'start_date' => ['nullable', 'date'],
-            'due_date' => ['nullable', 'date']
+            'due_date' => ['nullable', 'date'],
         ];
     }
 
@@ -67,17 +70,20 @@ class ReleaseFormModal extends Component
             'name',
             'description',
             'start_date',
-            'due_date'
+            'due_date',
         ]);
     }
 
     public function save(): void
     {
+        $project = Project::query()->findOrFail($this->project_id);
+        $this->authorize('create', [Release::class, $project]);
+
         $release = Release::create([
             ...$this->validate(),
             'user_id' => auth()->id(),
             'project_id' => $this->project_id,
-            'status' => Status::OPEN
+            'status' => Status::OPEN,
         ]);
 
         $this->redirectRoute('project.release.view', [$this->project ?? $release->project, $release]);

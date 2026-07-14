@@ -6,17 +6,20 @@ namespace App\Livewire;
 
 use App\Models\Project;
 use App\Models\Release;
-use Livewire\Component;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Contracts\View\View;
+use Livewire\Component;
 
 class ReleaseForm extends Component
 {
+    use AuthorizesRequests;
+
     public Release $release;
 
     public Collection $projects;
-    
+
     public Project $project;
 
     public ?int $project_id = null;
@@ -36,7 +39,7 @@ class ReleaseForm extends Component
             'name' => ['string', 'required'],
             'description' => ['string', 'nullable'],
             'start_date' => ['nullable', 'date'],
-            'due_date' => ['nullable', 'date']
+            'due_date' => ['nullable', 'date'],
         ];
     }
 
@@ -65,6 +68,8 @@ class ReleaseForm extends Component
 
     public function save(): void
     {
+        $this->authorize('update', $this->release);
+
         $this->release->update($this->validate());
 
         $this->redirectRoute('project.release.view', [$this->project, $this->release]);
@@ -72,11 +77,13 @@ class ReleaseForm extends Component
 
     public function delete(): void
     {
+        $this->authorize('delete', $this->release);
+
         $this->release->delete();
 
         $this->redirectRoute('project.releases', $this->project);
     }
-    
+
     public function render(): View
     {
         return view('livewire.release-form');

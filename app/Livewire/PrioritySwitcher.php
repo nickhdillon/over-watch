@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
-use App\Models\Ticket;
 use App\Enums\Priority;
 use App\Models\Project;
-use Livewire\Component;
+use App\Models\Ticket;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Livewire\Component;
 
 class PrioritySwitcher extends Component
 {
+    use AuthorizesRequests;
+
     public Project|Ticket $model;
 
     public Priority $priority;
@@ -23,6 +26,8 @@ class PrioritySwitcher extends Component
 
     public function updatedPriority(): void
     {
+        $this->authorize('update', $this->model);
+
         $this->model->update(['priority' => $this->priority]);
     }
 

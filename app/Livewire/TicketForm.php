@@ -4,22 +4,25 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
-use App\Models\Tag;
-use App\Enums\Status;
-use App\Models\Ticket;
 use App\Enums\Priority;
+use App\Enums\Status;
 use App\Models\Project;
 use App\Models\Release;
-use Livewire\Component;
-use Livewire\Attributes\On;
-use Illuminate\Support\Carbon;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Collection;
+use App\Models\Tag;
+use App\Models\Ticket;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
+use Illuminate\Validation\Rule;
+use Livewire\Attributes\On;
+use Livewire\Component;
 
 class TicketForm extends Component
 {
+    use AuthorizesRequests;
+
     public bool $show_ticket_form = false;
 
     public string $view = 'list';
@@ -41,7 +44,7 @@ class TicketForm extends Component
     public string $name = '';
 
     public ?string $description = null;
-    
+
     public Priority $priority = Priority::MEDIUM;
 
     public ?array $project_tags = [];
@@ -59,13 +62,15 @@ class TicketForm extends Component
             'description' => ['string', 'nullable'],
             'priority' => ['required', Rule::enum(Priority::class)],
             'tags' => ['nullable', 'array'],
-            'due_date' => ['nullable', 'date']
+            'due_date' => ['nullable', 'date'],
         ];
     }
 
     public function mount(): void
     {
-        if ($this->project) $this->project_id = $this->project->id;
+        if ($this->project) {
+            $this->project_id = $this->project->id;
+        }
 
         $this->getProjects()
             ->getProjectTags()
@@ -142,7 +147,8 @@ class TicketForm extends Component
     #[On('load-ticket')]
     public function loadTicket(int $ticket_id): void
     {
-        $this->ticket = Ticket::with('tags')->find($ticket_id);
+        $this->ticket = Ticket::with('tags')->findOrFail($ticket_id);
+        $this->authorize('view', $this->ticket);
         $this->project_id = $this->ticket->project_id;
         $this->release_id = $this->ticket->release_id;
         $this->name = $this->ticket->name;
@@ -242,6 +248,9 @@ class TicketForm extends Component
     {
         $validated = $this->validate();
 
+        $project = Project::query()->findOrFail($this->project_id);
+        $this->authorize($this->ticket ? 'update' : 'create', $this->ticket ?? [Ticket::class, $project]);
+
         $tags = $validated['tags'] ?? [];
 
         unset($validated['tags']);
@@ -283,6 +292,10 @@ class TicketForm extends Component
 
     public function delete(): void
     {
+        if ($this->ticket) {
+            $this->authorize('delete', $this->ticket);
+        }
+
         $this->ticket?->delete();
 
         $this->redirectAfterAction();
