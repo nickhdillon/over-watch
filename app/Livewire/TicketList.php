@@ -87,18 +87,6 @@ class TicketList extends Component
             ->get();
     }
 
-    public function updatedView(string $view): void
-    {
-        $this->redirectRoute(
-            $this->project ? 'project.tickets' : 'tickets',
-            array_filter([
-                'project' => $this->project,
-                'view' => $view,
-            ]),
-            navigate: true
-        );
-    }
-
     public function updateTicketOrder(array $items): void
     {
         DB::transaction(function () use ($items): void {

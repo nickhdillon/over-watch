@@ -62,23 +62,6 @@ it('groups board tickets by status', function () {
         ->toHaveCount(2);
 });
 
-it('can update view with project', function () {
-    $project = Project::first();
-
-    livewire(TicketList::class, ['project' => $project, 'view' => 'board'])
-        ->set('view', 'list')
-        ->assertRedirectToRoute('project.tickets', [
-            'project' => $project,
-            'view' => 'list'
-        ]);
-});
-
-it('can update view with no project', function () {
-    livewire(TicketList::class, ['view' => 'board'])
-        ->set('view', 'list')
-        ->assertRedirectToRoute('tickets', ['view' => 'list']);
-});
-
 it('can update ticket order', function () {
     livewire(TicketList::class, ['view' => 'board'])
         ->call('updateTicketOrder', [

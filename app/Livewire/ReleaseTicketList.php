@@ -79,19 +79,6 @@ class ReleaseTicketList extends Component
             ->get();
     }
 
-    public function updatedView(string $view): void
-    {
-        $this->redirectRoute(
-            'project.release.view',
-            array_filter([
-                'project' => $this->release->project,
-                'release' => $this->release,
-                'view' => $view,
-            ]),
-            navigate: true
-        );
-    }
-
     public function updateTicketOrder(array $items): void
     {
         DB::transaction(function () use ($items): void {

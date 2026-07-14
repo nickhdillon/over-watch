@@ -32,10 +32,33 @@
                     <h1 class="font-medium">Tickets</h1>
                 </div>
 
-                <flux:radio.group variant="segmented" wire:model.live="view" size="sm">
-                    <flux:radio value="list">List</flux:radio>
-                    <flux:radio value="board">Board</flux:radio>
-                </flux:radio.group>
+                <nav class="-my-px flex h-8.5 rounded-lg bg-neutral-800/5 p-0.75 dark:bg-white/10" aria-label="Ticket view">
+                    <a
+                        href="{{ route($project ? 'project.tickets' : 'tickets', ['project' => $project, 'view' => 'list']) }}"
+                        wire:navigate
+                        @class([
+                            'flex flex-1 items-center justify-center whitespace-nowrap rounded-md px-3 text-sm font-medium',
+                            'text-neutral-600 hover:text-neutral-800 dark:text-white/70 dark:hover:text-white',
+                            'bg-white text-neutral-800 shadow-xs dark:bg-white/20 dark:text-white!' => $view === 'list',
+                        ])
+                        @if ($view === 'list') aria-current="page" @endif
+                    >
+                        List
+                    </a>
+
+                    <a
+                        href="{{ route($project ? 'project.tickets' : 'tickets', ['project' => $project, 'view' => 'board']) }}"
+                        wire:navigate
+                        @class([
+                            'flex flex-1 items-center justify-center whitespace-nowrap rounded-md px-3 text-sm font-medium',
+                            'text-neutral-600 hover:text-neutral-800 dark:text-white/70 dark:hover:text-white',
+                            'bg-white text-neutral-800 shadow-xs dark:bg-white/20 dark:text-white!' => $view === 'board',
+                        ])
+                        @if ($view === 'board') aria-current="page" @endif
+                    >
+                        Board
+                    </a>
+                </nav>
             </div>
 
             <flux:modal.trigger x-on:click="$flux.modal('ticket-form').show()">

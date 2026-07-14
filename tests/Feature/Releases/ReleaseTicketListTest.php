@@ -67,18 +67,6 @@ it('groups board tickets by status', function () {
         ->toHaveCount(2);
 });
 
-it('can update view', function () {
-    $release = Release::first();
-
-    livewire(ReleaseTicketList::class, ['release' => $release, 'view' => 'board'])
-        ->set('view', 'list')
-        ->assertRedirectToRoute('project.release.view', [
-            'project' => $release->project,
-            'release' => $release,
-            'view' => 'list'
-        ]);
-});
-
 it('can update ticket order', function () {
     $release = Release::first();
 
