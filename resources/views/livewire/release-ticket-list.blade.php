@@ -32,7 +32,7 @@
                 <nav class="-my-px flex h-8.5 rounded-lg bg-neutral-800/5 p-0.75 dark:bg-white/10" aria-label="Ticket view">
                     <a
                         href="{{ route('project.release.view', ['project' => $release->project, 'release' => $release, 'view' => 'list']) }}"
-                        wire:navigate
+                        wire:navigate.hover
                         @class([
                             'flex flex-1 items-center justify-center whitespace-nowrap rounded-md px-3 text-sm font-medium',
                             'text-neutral-600 hover:text-neutral-800 dark:text-white/70 dark:hover:text-white',
@@ -45,7 +45,7 @@
 
                     <a
                         href="{{ route('project.release.view', ['project' => $release->project, 'release' => $release, 'view' => 'board']) }}"
-                        wire:navigate
+                        wire:navigate.hover
                         @class([
                             'flex flex-1 items-center justify-center whitespace-nowrap rounded-md px-3 text-sm font-medium',
                             'text-neutral-600 hover:text-neutral-800 dark:text-white/70 dark:hover:text-white',
