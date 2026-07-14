@@ -134,7 +134,7 @@
                     </div>
                 </div>
 
-                <div class="absolute -bottom-6 left-6 hidden rounded-2xl border border-neutral-200 bg-white p-4 shadow-soft lg:block">
+                <div class="absolute -bottom-6 left-6 rounded-2xl border border-neutral-200 bg-white p-4 shadow-soft">
                     <div class="flex items-center gap-3">
                         <span class="grid size-10 place-items-center rounded-xl bg-violet-100 text-violet-700">
                             <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
