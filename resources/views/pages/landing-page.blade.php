@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Overwatch is lightweight project management for teams that want to ship faster.">
 
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="Overwatch — Plan less. Ship faster.">
+    <meta property="og:description" content="Lightweight project management for teams that want to ship faster.">
+    <meta property="og:image" content="{{ asset('images/overwatch-og.png') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Overwatch project board with the message: Plan less. Ship faster.">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Overwatch — Plan less. Ship faster.">
+    <meta name="twitter:description" content="Lightweight project management for teams that want to ship faster.">
+    <meta name="twitter:image" content="{{ asset('images/overwatch-og.png') }}">
+    <meta name="twitter:image:alt" content="Overwatch project board with the message: Plan less. Ship faster.">
+
     <title>Overwatch — Plan less. Ship faster.</title>
 
     <link rel="icon" href="/favicon.ico" sizes="any">
@@ -96,13 +111,27 @@
                             <span class="size-2.5 rounded-full bg-neutral-300"></span>
                             <span class="size-2.5 rounded-full bg-neutral-300"></span>
                         </div>
+
                         <div class="h-5 w-44 rounded-md bg-neutral-100"></div>
+
                         <div class="w-10"></div>
                     </div>
 
-                    <img src="{{ asset('product-image-mobile.png') }}" alt="Product Image" class="sm:hidden" />
+                    <div class="max-h-150 overflow-hidden sm:hidden">
+                        <img
+                            src="{{ asset('product-mobile.png') }}"
+                            alt="Overwatch product board"
+                            class="h-full w-full object-cover object-top"
+                        />
+                    </div>
 
-                    <img src="{{ asset('product-image.png') }}" alt="Product Image" class="hidden sm:flex" />
+                    <div class="max-h-200 overflow-hidden hidden sm:block">
+                        <img
+                            src="{{ asset('product-desktop.png') }}"
+                            alt="Overwatch product board"
+                            class="h-full w-full object-cover object-top"
+                        />
+                    </div>
                 </div>
 
                 <div class="absolute -bottom-6 left-6 hidden rounded-2xl border border-neutral-200 bg-white p-4 shadow-soft lg:block">
@@ -112,21 +141,11 @@
                                 <path d="M5 12.5 9.2 17 19 7"/>
                             </svg>
                         </span>
+
                         <div>
                             <p class="text-sm font-semibold">Work stays visible</p>
                             <p class="mt-0.5 text-xs text-neutral-500">From backlog to done.</p>
                         </div>
-                    </div>
-                </div>
-
-                <div class="absolute -right-3 top-20 hidden rounded-2xl border border-violet-200 bg-violet-600 p-4 text-white shadow-violet xl:block">
-                    <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-200">Release progress</p>
-                    <div class="mt-3 flex items-end gap-2">
-                        <span class="text-3xl font-semibold tracking-tight">72%</span>
-                        <span class="pb-1 text-xs text-violet-200">shipped</span>
-                    </div>
-                    <div class="mt-3 h-1.5 w-40 rounded-full bg-white/20">
-                        <div class="h-1.5 w-[72%] rounded-full bg-white"></div>
                     </div>
                 </div>
             </div>
