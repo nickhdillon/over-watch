@@ -31,8 +31,9 @@
     @vite(['resources/css/app.css'])
 </head>
 
-<body class="min-h-screen overflow-x-hidden bg-stone-50 font-sans text-neutral-950 antialiased selection:bg-violet-200 selection:text-violet-950">
+<body class="landing-noise min-h-screen overflow-x-hidden bg-stone-50 font-sans text-neutral-950 antialiased selection:bg-violet-200 selection:text-violet-950">
     <div class="absolute inset-x-0 top-0 -z-10 h-176 overflow-hidden">
+        <div class="landing-grid absolute inset-0"></div>
         <div class="absolute left-1/2 -top-72 h-136 w-280 -translate-x-1/2 rounded-full bg-violet-200/45 blur-3xl"></div>
         <div class="absolute -right-40 top-24 h-80 w-80 rounded-full bg-fuchsia-100/60 blur-3xl"></div>
     </div>
@@ -68,12 +69,12 @@
         <section class="mx-auto max-w-7xl px-5 pb-16 pt-20 sm:px-8 sm:pb-24">
             <div class="mx-auto max-w-4xl text-center">
                 <div class="mb-7 inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/80 px-3 py-1.5 text-xs font-semibold text-violet-700 shadow-xs backdrop-blur">
-                    <span class="relative flex size-2">
+                    <span class="relative flex size-1.75">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full size-2 bg-violet-500"></span>
+                        <span class="relative inline-flex rounded-full size-1.75 bg-violet-500"></span>
                     </span>
 
-                    Built with Laravel
+                    For developers and small teams
                 </div>
 
                 <h1 class="text-balance text-5xl font-semibold tracking-[-0.055em] text-neutral-950 sm:text-6xl lg:text-8xl">
@@ -144,7 +145,7 @@
 
                         <div>
                             <p class="text-sm font-semibold">Work stays visible</p>
-                            <p class="mt-0.5 text-xs text-neutral-500">From backlog to done.</p>
+                            <p class="mt-0.5 text-xs text-neutral-500">From open to shipped.</p>
                         </div>
                     </div>
                 </div>
@@ -159,7 +160,7 @@
                 </div>
                 <div class="py-8 md:px-10">
                     <p class="text-sm font-semibold text-neutral-950">Built around shipping</p>
-                    <p class="mt-2 text-sm leading-6 text-neutral-600">Projects, tickets, releases, priorities, and status all live in one clean workflow.</p>
+                    <p class="mt-2 text-sm leading-6 text-neutral-600">Group tickets into releases, track their status, and see the work behind the next milestone.</p>
                 </div>
                 <div class="py-8 md:pl-10">
                     <p class="text-sm font-semibold text-neutral-950">Easy to understand</p>
@@ -226,7 +227,8 @@
             </div>
         </section>
 
-        <section id="features" class="border-y border-neutral-200 bg-neutral-950 text-white">
+        <section id="features" class="landing-noise relative overflow-hidden border-y border-neutral-200 bg-neutral-950 text-white">
+            <div class="absolute -right-40 top-12 -z-10 size-120 rounded-full bg-violet-600/15 blur-3xl"></div>
             <div class="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
                 <div class="max-w-2xl">
                     <p class="text-sm font-semibold text-violet-400">The essentials, done well</p>
@@ -242,7 +244,7 @@
                     <div class="bg-neutral-950 p-7">
                         <span class="grid size-10 place-items-center rounded-xl bg-violet-500/15 text-violet-300">01</span>
                         <h3 class="mt-8 text-lg font-semibold">Projects</h3>
-                        <p class="mt-2 text-sm leading-6 text-neutral-400">Keep every initiative, member, ticket, tag, and release in a dedicated workspace.</p>
+                        <p class="mt-2 text-sm leading-6 text-neutral-400">Keep every project, member, ticket, tag, and release in a dedicated workspace.</p>
                     </div>
                     <div class="bg-neutral-950 p-7">
                         <span class="grid size-10 place-items-center rounded-xl bg-violet-500/15 text-violet-300">02</span>
@@ -256,31 +258,37 @@
                     </div>
                     <div class="bg-neutral-950 p-7">
                         <span class="grid size-10 place-items-center rounded-xl bg-violet-500/15 text-violet-300">04</span>
-                        <h3 class="mt-8 text-lg font-semibold">Priorities and tags</h3>
-                        <p class="mt-2 text-sm leading-6 text-neutral-400">Surface urgent work and add just enough structure to keep tickets easy to scan.</p>
+                        <h3 class="mt-8 text-lg font-semibold">Ticket details</h3>
+                        <p class="mt-2 text-sm leading-6 text-neutral-400">Add ownership, priority, tags, due dates, descriptions, and a clear four-stage status.</p>
                     </div>
                     <div class="bg-neutral-950 p-7">
                         <span class="grid size-10 place-items-center rounded-xl bg-violet-500/15 text-violet-300">05</span>
-                        <h3 class="mt-8 text-lg font-semibold">Team collaboration</h3>
-                        <p class="mt-2 text-sm leading-6 text-neutral-400">Invite collaborators, assign ownership, and keep everyone looking at the same plan.</p>
+                        <div class="mt-8 flex items-center gap-2.5">
+                            <h3 class="text-lg font-semibold">Team collaboration</h3>
+                            <span class="rounded-full border border-violet-400/25 bg-violet-400/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-violet-300">
+                                Coming soon
+                            </span>
+                        </div>
+                        <p class="mt-2 text-sm leading-6 text-neutral-400">Soon you’ll be able to invite collaborators, assign ownership, and keep everyone looking at the same plan.</p>
                     </div>
                     <div class="bg-neutral-950 p-7">
                         <span class="grid size-10 place-items-center rounded-xl bg-violet-500/15 text-violet-300">06</span>
-                        <h3 class="mt-8 text-lg font-semibold">GitHub-ready</h3>
-                        <p class="mt-2 text-sm leading-6 text-neutral-400">Connect engineering work to the tickets and branches where implementation happens.</p>
+                        <h3 class="mt-8 text-lg font-semibold">Recent work and links</h3>
+                        <p class="mt-2 text-sm leading-6 text-neutral-400">Jump back into recent projects, releases, and tickets, with product and repository links close by.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="pricing" class="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
-            <div class="overflow-hidden rounded-3xl border border-violet-200 bg-violet-600 px-6 py-14 text-center text-white shadow-violet sm:px-12 sm:py-20">
+            <div class="landing-noise relative overflow-hidden rounded-3xl border border-violet-300/60 bg-violet-600 px-6 py-14 text-center text-white shadow-violet sm:px-12 sm:py-20">
+                <div class="landing-grid absolute inset-0 -z-10 opacity-70"></div>
                 <p class="text-sm font-semibold text-violet-200">Simple from the start</p>
                 <h2 class="mx-auto mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
                     Your next release deserves a clearer plan.
                 </h2>
                 <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-violet-100">
-                    Create your workspace, add your projects, and start shipping. Overwatch is free to use.
+                    Create a project, capture the tickets, and shape the next release. Overwatch is free to use.
                 </p>
                 <div class="mt-9">
                     <a href="{{ route('register') }}" class="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-violet-700 shadow-xs transition hover:bg-violet-50">
