@@ -4,26 +4,28 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
-use App\Models\User;
-use App\Models\Ticket;
-use Livewire\Component;
+use App\Livewire\Concerns\HandlesTicketQuery;
+use App\Livewire\Concerns\HandlesTicketReleases;
 use App\Models\Project;
-use Livewire\Attributes\Url;
-use Livewire\WithPagination;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Pagination\LengthAwarePaginator;
-use App\Livewire\Concerns\HandlesTicketReleases;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class TicketList extends Component
 {
-    use WithPagination;
+    use HandlesTicketQuery;
     use HandlesTicketReleases;
+    use WithPagination;
 
     #[Url(keep: true)]
     public string $view = 'board';
@@ -48,9 +50,11 @@ class TicketList extends Component
     #[Computed]
     public function tickets(): LengthAwarePaginator
     {
-        return $this->ticketQuery()
+        $query = $this->ticketQuery()
             ->with(['assignee', 'project', 'release'])
-            ->search($this->search)
+            ->search($this->search);
+
+        return $this->applyTicketFilters($query)
             ->orderBy('position')
             ->paginate(25);
     }
@@ -61,9 +65,11 @@ class TicketList extends Component
     #[Computed]
     public function boardTickets(): EloquentCollection
     {
-        return $this->ticketQuery()
+        $query = $this->ticketQuery()
             ->with(['assignee', 'project', 'release', 'tags'])
-            ->search($this->search, include_tags: true)
+            ->search($this->search, include_tags: true);
+
+        return $this->applyTicketFilters($query)
             ->orderBy('status')
             ->orderBy('position')
             ->get();
@@ -118,7 +124,7 @@ class TicketList extends Component
                         ->whereKey($item['value'])
                         ->update([
                             'status' => $status,
-                            'position' => $item['order']
+                            'position' => $item['order'],
                         ]);
                 }
             }

@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
+use App\Enums\Priority;
 use App\Enums\ProjectRole;
 use App\Enums\Status;
 use App\Livewire\TicketList;
 use App\Models\Project;
 use App\Models\Release;
+use App\Models\Tag;
 use App\Models\Ticket;
 use App\Models\User;
+
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {
@@ -152,6 +155,120 @@ it('resets pagination when the search is updated', function () {
         ->assertSet('paginators.page', 2)
         ->set('search', 'Test ticket')
         ->assertSet('paginators.page', 1);
+});
+
+it('only applies draft filters after apply is called', function () {
+    $component = livewire(TicketList::class, ['view' => 'list'])
+        ->set('draft_filters', [Status::DONE->value])
+        ->assertSet('filters', []);
+
+    expect($component->instance()->tickets())->toHaveCount(2);
+
+    $component
+        ->call('applyFilters')
+        ->assertSet('filters', [Status::DONE->value]);
+
+    expect($component->instance()->tickets())->toHaveCount(0);
+});
+
+it('syncs draft filters with the applied filters', function () {
+    livewire(TicketList::class, ['view' => 'list'])
+        ->set('draft_filters', [Status::OPEN->value, Priority::HIGH->value])
+        ->call('applyFilters')
+        ->set('draft_filters', [Status::DONE->value])
+        ->assertSet('filters', [Status::OPEN->value, Priority::HIGH->value])
+        ->assertSet('draft_filters', [Status::DONE->value])
+        ->call('syncDraftFilters')
+        ->assertSet('filters', [Status::OPEN->value, Priority::HIGH->value])
+        ->assertSet('draft_filters', [Status::OPEN->value, Priority::HIGH->value]);
+});
+
+it('filters tickets by status and priority', function () {
+    $tickets = Ticket::query()->orderBy('position')->get();
+
+    $tickets[0]->update(['priority' => Priority::HIGH]);
+    $tickets[1]->update([
+        'status' => Status::DONE,
+        'priority' => Priority::LOW,
+    ]);
+
+    $component = livewire(TicketList::class, ['view' => 'board'])
+        ->set('draft_filters', [Status::OPEN->value, Priority::HIGH->value])
+        ->call('applyFilters');
+
+    expect($component->instance()->boardTickets())
+        ->toHaveCount(1)
+        ->first()->id->toBe($tickets[0]->id);
+});
+
+it('filters tickets by tag, project, and release', function () {
+    $user = User::first();
+    $project = Project::first();
+    $matching_ticket = Ticket::first();
+    $tag = Tag::factory()->for($project)->create(['name' => 'Backend']);
+    $release = Release::factory()->for($user)->for($project)->create(['name' => 'MVP']);
+
+    $matching_ticket->tags()->attach($tag);
+    $matching_ticket->update(['release_id' => $release->id]);
+
+    $component = livewire(TicketList::class, ['view' => 'board'])
+        ->set('draft_filters', ["tag:{$tag->name}", "project:{$project->id}", "release:{$release->id}"])
+        ->call('applyFilters');
+
+    expect($component->instance()->boardTickets())
+        ->toHaveCount(1)
+        ->first()->id->toBe($matching_ticket->id);
+});
+
+it('lists each tag name once and filters matching tags across projects', function () {
+    $user = User::first();
+    $first_project = Project::first();
+    $second_project = Project::factory()->create([
+        'owner_id' => $user->id,
+        'name' => 'Other Project',
+        'key' => 'OTHER',
+    ]);
+    $second_project->users()->attach($user->id, ['role' => ProjectRole::OWNER->value]);
+
+    $first_tag = Tag::factory()->for($first_project)->create(['name' => 'Backend']);
+    $second_tag = Tag::factory()->for($second_project)->create(['name' => 'Backend']);
+    Ticket::first()->tags()->attach($first_tag);
+    $second_ticket = Ticket::factory()->for($second_project)->for($user, 'assignee')->create();
+    $second_ticket->tags()->attach($second_tag);
+
+    $component = livewire(TicketList::class, ['view' => 'board']);
+
+    expect($component->instance()->ticketFilterTags()->pluck('name')->all())
+        ->toBe(['Backend']);
+
+    $component
+        ->set('draft_filters', ['tag:Backend'])
+        ->call('applyFilters');
+
+    expect($component->instance()->boardTickets())->toHaveCount(2);
+});
+
+it('only offers project and release filters when they are not already scoped', function () {
+    $project = Project::first();
+
+    $unscoped = livewire(TicketList::class, ['view' => 'list'])->instance();
+    $project_scoped = livewire(TicketList::class, ['project' => $project, 'view' => 'list'])->instance();
+
+    expect($unscoped->showProjectTicketFilter())->toBeTrue()
+        ->and($unscoped->showReleaseTicketFilter())->toBeTrue()
+        ->and($project_scoped->showProjectTicketFilter())->toBeFalse()
+        ->and($project_scoped->showReleaseTicketFilter())->toBeTrue();
+});
+
+it('can remove and clear applied filters', function () {
+    livewire(TicketList::class, ['view' => 'list'])
+        ->set('draft_filters', [Status::OPEN->value, Priority::HIGH->value])
+        ->call('applyFilters')
+        ->call('removeFilter', Status::OPEN->value)
+        ->assertSet('filters', [Priority::HIGH->value])
+        ->call('clearFilters')
+        ->assertSet('filters', [])
+        ->assertSet('draft_filters', []);
 });
 
 test('component can render with project', function () {

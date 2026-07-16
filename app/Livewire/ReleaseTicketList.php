@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
-use App\Models\Ticket;
-use Livewire\Component;
+use App\Livewire\Concerns\HandlesTicketQuery;
+use App\Livewire\Concerns\HandlesTicketReleases;
 use App\Models\Project;
 use App\Models\Release;
-use Livewire\Attributes\Url;
-use Livewire\WithPagination;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\DB;
+use App\Models\Ticket;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
-use App\Livewire\Concerns\HandlesTicketReleases;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class ReleaseTicketList extends Component
 {
-    use WithPagination;
+    use HandlesTicketQuery;
     use HandlesTicketReleases;
+    use WithPagination;
 
     public Release $release;
 
@@ -48,7 +50,9 @@ class ReleaseTicketList extends Component
     #[Computed]
     public function tickets(): LengthAwarePaginator
     {
-        return $this->ticketQuery()->search($this->search)->paginate(25);
+        $query = $this->ticketQuery()->search($this->search);
+
+        return $this->applyTicketFilters($query)->paginate(25);
     }
 
     /**
@@ -57,9 +61,11 @@ class ReleaseTicketList extends Component
     #[Computed]
     public function boardTickets(): Collection
     {
-        return $this->ticketQuery()
+        $query = $this->ticketQuery()
             ->with('tags')
-            ->search($this->search, include_tags: true)
+            ->search($this->search, include_tags: true);
+
+        return $this->applyTicketFilters($query)
             ->get();
     }
 
@@ -109,7 +115,7 @@ class ReleaseTicketList extends Component
                         ->whereKey($item['value'])
                         ->update([
                             'status' => $status,
-                            'position' => $item['order']
+                            'position' => $item['order'],
                         ]);
                 }
             }

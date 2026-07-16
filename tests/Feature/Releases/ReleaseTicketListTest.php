@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\Release;
 use App\Models\Ticket;
 use App\Models\User;
+
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {
@@ -127,10 +128,38 @@ it('resets pagination when the search is updated', function () {
         ->assertSet('paginators.page', 1);
 });
 
+it('applies filters to release tickets', function () {
+    $tickets = Ticket::query()->orderBy('position')->get();
+    $tickets[1]->update(['status' => Status::DONE]);
+
+    $component = livewire(ReleaseTicketList::class, [
+        'release' => Release::first(),
+        'view' => 'board',
+    ])
+        ->set('draft_filters', [Status::DONE->value])
+        ->assertSet('filters', [])
+        ->call('applyFilters')
+        ->assertSet('filters', [Status::DONE->value]);
+
+    expect($component->instance()->boardTickets())
+        ->toHaveCount(1)
+        ->first()->id->toBe($tickets[1]->id);
+});
+
 test('component can render', function () {
     $release = Release::first();
 
     livewire(ReleaseTicketList::class, ['release' => $release, 'view' => 'board'])
         ->assertSee($release->name)
         ->assertHasNoErrors();
+});
+
+it('does not offer project or release filters inside a release', function () {
+    $component = livewire(ReleaseTicketList::class, [
+        'release' => Release::first(),
+        'view' => 'list',
+    ])->instance();
+
+    expect($component->showProjectTicketFilter())->toBeFalse()
+        ->and($component->showReleaseTicketFilter())->toBeFalse();
 });
