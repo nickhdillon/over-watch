@@ -86,16 +86,14 @@ trait HandlesTicketQuery
     {
         $enum = Status::tryFrom($filter) ?? Priority::tryFrom($filter);
 
-        if ($enum) {
-            return $enum->label();
-        }
+        if ($enum) return $enum->label();
 
         [$type, $value] = array_pad(explode(':', $filter, 2), 2, null);
 
         return match ($type) {
             'tag' => $value ?? 'Tag',
-            'project' => Project::query()->find($value)?->name ?? 'Project',
-            'release' => Release::query()->find($value)?->name ?? 'Release',
+            'project' => Project::query()->find($value)->name ?? 'Project',
+            'release' => Release::query()->find($value)->name ?? 'Release',
             default => $filter,
         };
     }
@@ -112,18 +110,14 @@ trait HandlesTicketQuery
 
     public function ticketFilterProjects(): Collection
     {
-        if (! $this->showProjectTicketFilter()) {
-            return collect();
-        }
+        if (! $this->showProjectTicketFilter()) return collect();
 
         return auth()->user()->projects()->orderBy('name')->get();
     }
 
     public function ticketFilterReleases(): Collection
     {
-        if (! $this->showReleaseTicketFilter()) {
-            return collect();
-        }
+        if (! $this->showReleaseTicketFilter()) return collect();
 
         return isset($this->project)
             ? $this->project->releases()->orderBy('name')->get()
