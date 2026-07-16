@@ -83,7 +83,7 @@
                     </flux:button>
 
                     @if (count($filters))
-                        <span class="pointer-events-none absolute -right-1.25 -top-1.25 flex size-3.5 items-center justify-center rounded-full bg-accent text-[9px] font-semibold text-accent-foreground ring-2 ring-white dark:ring-neutral-900">
+                        <span class="pointer-events-none absolute -right-1.25 -top-1.25 flex size-3.5 items-center justify-center rounded-full bg-violet-50 dark:bg-violet-950 text-[9px] font-semibold text-violet-600 dark:text-violet-400 ring-1 ring-violet-300 dark:ring-violet-700">
                             {{ count($filters) }}
                         </span>
                     @endif
