@@ -112,7 +112,7 @@
                     <div
                         wire:sortable-group="updateTicketGroupOrder"
                         wire:sortable.options="{ animation: 100 }"
-                        class="flex items-stretch gap-4 pr-4 md:pr-0"
+                        class="flex items-stretch gap-3 pr-4 md:pr-0"
                     >
                         @foreach (Status::cases() as $status)
                             @php
