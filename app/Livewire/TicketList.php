@@ -26,7 +26,7 @@ class TicketList extends Component
     use HandlesTicketReleases;
 
     #[Url(keep: true)]
-    public string $view = 'list';
+    public string $view = 'board';
 
     public ?Project $project = null;
 

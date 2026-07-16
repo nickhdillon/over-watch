@@ -26,7 +26,7 @@ class ReleaseTicketList extends Component
     public Release $release;
 
     #[Url(keep: true)]
-    public string $view = 'list';
+    public string $view = 'board';
 
     public string $search = '';
 
