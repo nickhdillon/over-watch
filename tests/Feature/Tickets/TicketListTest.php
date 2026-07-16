@@ -134,16 +134,6 @@ it('can remove ticket from release', function () {
     expect($ticket->fresh()->release_id)->toBe(null);
 });
 
-test('component can render with project', function () {
-    livewire(TicketList::class, ['project' => Project::first(), 'view' => 'list'])
-        ->assertHasNoErrors();
-});
-
-test('component can render with no project', function () {
-    livewire(TicketList::class, ['view' => 'board'])
-        ->assertHasNoErrors();
-});
-
 it('renders a skeleton while list tickets load', function () {
     livewire(TicketList::class, ['view' => 'list'])
         ->assertSeeHtml('data-flux-skeleton-group')
@@ -154,4 +144,22 @@ it('renders a skeleton while board tickets load', function () {
     livewire(TicketList::class, ['view' => 'board'])
         ->assertSeeHtml('data-flux-skeleton-group')
         ->assertSeeHtml('data-flux-skeleton-line');
+});
+
+it('resets pagination when the search is updated', function () {
+    livewire(TicketList::class, ['view' => 'list'])
+        ->call('setPage', 2)
+        ->assertSet('paginators.page', 2)
+        ->set('search', 'Test ticket')
+        ->assertSet('paginators.page', 1);
+});
+
+test('component can render with project', function () {
+    livewire(TicketList::class, ['project' => Project::first(), 'view' => 'list'])
+        ->assertHasNoErrors();
+});
+
+test('component can render with no project', function () {
+    livewire(TicketList::class, ['view' => 'board'])
+        ->assertHasNoErrors();
 });

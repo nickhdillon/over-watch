@@ -9,6 +9,8 @@ use App\Enums\Status;
 use App\Models\Concerns\HasPriority;
 use App\Models\Concerns\HasRecentViews;
 use Database\Factories\TicketFactory;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -87,5 +89,49 @@ class Ticket extends Model
         return Attribute::make(
             get: fn () => "{$this->project->key}-{$this->sequence}",
         );
+    }
+
+    #[Scope]
+    protected function search(Builder $query, string $search, bool $include_tags = false) : Builder
+    {
+        $search = trim($search);
+
+        if ($search === '') return $query;
+
+        $normalized_key = strtoupper($search);
+
+        return $query->where(function (Builder $query) use ($search, $normalized_key, $include_tags): void {
+            $query
+                ->where('name', 'like', "%{$search}%")
+                ->orWhereHas(
+                    'assignee',
+                    fn (Builder $query): Builder => $query->where('name', 'like', "%{$search}%"),
+                )
+                ->orWhereHas(
+                    'project',
+                    fn (Builder $query): Builder => $query->where('key', $normalized_key),
+                );
+
+            if ($include_tags) {
+                $query->orWhereHas(
+                    'tags',
+                    fn (Builder $query): Builder => $query->where('name', 'like', "%{$search}%"),
+                );
+            }
+
+            if (preg_match('/^([a-z0-9]+)-(\d+)$/i', $search, $matches)) {
+                $project_key = strtoupper($matches[1]);
+                $sequence = (int) $matches[2];
+
+                $query->orWhere(function (Builder $query) use ($project_key, $sequence): void {
+                    $query
+                        ->where('sequence', $sequence)
+                        ->whereHas(
+                            'project',
+                            fn (Builder $query): Builder => $query->where('key', $project_key),
+                        );
+                });
+            }
+        });
     }
 }

@@ -30,6 +30,8 @@ class TicketList extends Component
 
     public ?Project $project = null;
 
+    public string $search = '';
+
     /**
      * @return HasMany<Ticket, Project|User>
      */
@@ -48,6 +50,7 @@ class TicketList extends Component
     {
         return $this->ticketQuery()
             ->with(['assignee', 'project', 'release'])
+            ->search($this->search)
             ->orderBy('position')
             ->paginate(25);
     }
@@ -60,9 +63,15 @@ class TicketList extends Component
     {
         return $this->ticketQuery()
             ->with(['assignee', 'project', 'release', 'tags'])
+            ->search($this->search, include_tags: true)
             ->orderBy('status')
             ->orderBy('position')
             ->get();
+    }
+
+    public function updatedSearch(): void
+    {
+        $this->resetPage();
     }
 
     #[Computed]

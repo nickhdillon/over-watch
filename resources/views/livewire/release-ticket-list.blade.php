@@ -1,7 +1,7 @@
 <div x-data="selectableList()">
     <div class="p-4 sm:py-12 mx-auto sm:w-11/12 max-w-360">
-        <div class="flex items-center justify-between gap-2 mb-4">
-            <div class="flex items-center gap-4">
+        <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex items-center justify-between gap-4 sm:justify-start">
                 <div class="group flex items-center">
                     <div
                         x-cloak
@@ -58,19 +58,30 @@
                 </nav>
             </div>
 
-            <flux:modal.trigger x-on:click="$flux.modal('ticket-form').show()">
-                <flux:button
-                    variant="primary"
-                    icon="plus"
-                    size="sm"
-                >
-                    New ticket
-                </flux:button>
-            </flux:modal.trigger>
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <flux:input
+                    icon="magnifying-glass"
+                    placeholder="Search tickets"
+                    class="w-full sm:w-64! [&>input]:h-8.5!"
+                    wire:model.live.debounce.250ms='search'
+                    clearable
+                />
+
+                <flux:modal.trigger x-on:click="$flux.modal('ticket-form').show()">
+                    <flux:button
+                        variant="primary"
+                        icon="plus"
+                        size="sm"
+                        class="w-full sm:w-auto"
+                    >
+                        New ticket
+                    </flux:button>
+                </flux:modal.trigger>
+            </div>
         </div>
         
         @if ($view === 'list')
-            @island(defer: true)
+            @island(defer: true, always: true)
                 @placeholder
                     <flux:skeleton.group
                         animate="shimmer"
@@ -176,7 +187,7 @@
                 </div>
             @endisland
         @else
-            @island(name: 'board-tickets', defer: true)
+            @island(name: 'board-tickets', defer: true, always: true)
                 @use('App\Enums\Status', 'Status')
 
                 @placeholder

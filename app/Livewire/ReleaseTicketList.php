@@ -28,6 +28,8 @@ class ReleaseTicketList extends Component
     #[Url(keep: true)]
     public string $view = 'list';
 
+    public string $search = '';
+
     /**
      * @return HasMany<Ticket, Release>
      */
@@ -46,7 +48,7 @@ class ReleaseTicketList extends Component
     #[Computed]
     public function tickets(): LengthAwarePaginator
     {
-        return $this->ticketQuery()->paginate(25);
+        return $this->ticketQuery()->search($this->search)->paginate(25);
     }
 
     /**
@@ -57,7 +59,13 @@ class ReleaseTicketList extends Component
     {
         return $this->ticketQuery()
             ->with('tags')
+            ->search($this->search, include_tags: true)
             ->get();
+    }
+
+    public function updatedSearch(): void
+    {
+        $this->resetPage();
     }
 
     #[Computed]
