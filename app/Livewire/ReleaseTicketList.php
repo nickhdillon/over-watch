@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
+use App\Enums\Status;
 use App\Livewire\Concerns\HandlesTicketQuery;
 use App\Livewire\Concerns\HandlesTicketReleases;
 use App\Models\Project;
@@ -120,12 +121,17 @@ class ReleaseTicketList extends Component
                         ->update([
                             'status' => $status,
                             'position' => $item['order'],
+                            'completed_at' => $status === Status::DONE || $status === Status::DONE->value
+                                ? now()
+                                : null,
                         ]);
                 }
             }
         });
 
         unset($this->boardTickets, $this->ticketsByStatus);
+
+        $this->js('$dispatch("release-ticket-group-updated")');
 
         $this->js('$wire.$island("board-tickets").$refresh()');
     }

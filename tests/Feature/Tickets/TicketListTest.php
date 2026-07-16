@@ -100,6 +100,36 @@ it('can update ticket group order', function () {
         ->assertHasNoErrors();
 });
 
+it('updates completion when moving tickets between status groups', function () {
+    $ticket = Ticket::first();
+
+    livewire(TicketList::class, ['view' => 'board'])
+        ->call('updateTicketGroupOrder', [[
+            'order' => 1,
+            'value' => Status::DONE->value,
+            'items' => [[
+                'order' => 1,
+                'value' => (string) $ticket->id,
+            ]],
+        ]])
+        ->assertHasNoErrors();
+
+    expect($ticket->refresh()->completed_at)->not->toBeNull();
+
+    livewire(TicketList::class, ['view' => 'board'])
+        ->call('updateTicketGroupOrder', [[
+            'order' => 1,
+            'value' => Status::OPEN->value,
+            'items' => [[
+                'order' => 1,
+                'value' => (string) $ticket->id,
+            ]],
+        ]])
+        ->assertHasNoErrors();
+
+    expect($ticket->refresh()->completed_at)->toBeNull();
+});
+
 it('can add ticket to release', function () {
     $project = Project::first();
 

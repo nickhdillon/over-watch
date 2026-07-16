@@ -6,9 +6,9 @@ namespace App\Livewire;
 
 use App\Models\Project;
 use App\Models\Release;
-use Livewire\Component;
-use Livewire\Attributes\Computed;
 use Illuminate\Contracts\View\View;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
 
 class ReleaseView extends Component
 {

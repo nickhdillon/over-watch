@@ -108,6 +108,37 @@ it('can update ticket group order', function () {
         ->assertHasNoErrors();
 });
 
+it('updates completion when moving tickets between status groups', function () {
+    $release = Release::first();
+    $ticket = Ticket::first();
+
+    livewire(ReleaseTicketList::class, ['release' => $release, 'view' => 'board'])
+        ->call('updateTicketGroupOrder', [[
+            'order' => 1,
+            'value' => Status::DONE->value,
+            'items' => [[
+                'order' => 1,
+                'value' => (string) $ticket->id,
+            ]],
+        ]])
+        ->assertHasNoErrors();
+
+    expect($ticket->refresh()->completed_at)->not->toBeNull();
+
+    livewire(ReleaseTicketList::class, ['release' => $release, 'view' => 'board'])
+        ->call('updateTicketGroupOrder', [[
+            'order' => 1,
+            'value' => Status::OPEN->value,
+            'items' => [[
+                'order' => 1,
+                'value' => (string) $ticket->id,
+            ]],
+        ]])
+        ->assertHasNoErrors();
+
+    expect($ticket->refresh()->completed_at)->toBeNull();
+});
+
 it('renders a skeleton while list tickets load', function () {
     livewire(ReleaseTicketList::class, ['release' => Release::first(), 'view' => 'list'])
         ->assertSeeHtml('data-flux-skeleton-group')
