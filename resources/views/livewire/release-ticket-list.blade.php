@@ -75,7 +75,7 @@
 
                 @placeholder
                     <div class="overflow-x-auto overflow-y-visible pb-4 md:-mx-6 md:px-6 md:pb-6">
-                        <flux:skeleton.group animate="shimmer" class="flex items-stretch gap-4 pr-4 md:pr-0">
+                        <flux:skeleton.group animate="shimmer" class="flex items-stretch gap-3 pr-4 md:pr-0">
                             @foreach (range(1, 4) as $column)
                                 <div class="flex w-80 max-w-80 shrink-0 flex-col rounded-xl border border-neutral-200 bg-neutral-400/5 shadow-xs dark:border-neutral-800 dark:bg-neutral-900">
                                     <div class="flex items-center gap-2 px-4 py-3">
