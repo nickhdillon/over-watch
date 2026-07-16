@@ -78,7 +78,7 @@
                                     <input id="image" type="file" wire:model="image" class="hidden">
 
                                     <label for="image" class="cursor-pointer">
-                                        <div class="relative flex items-center justify-center size-20 rounded-lg transition-colors cursor-pointer border border-neutral-200 dark:border-white/10 hover:border-neutral-300 dark:hover:border-white/10 bg-neutral-100 hover:bg-neutral-200 dark:bg-white/10 hover:dark:bg-white/15 in-data-dragging:dark:bg-white/15">
+                                        <div class="group relative flex items-center justify-center size-20 rounded-lg transition-colors cursor-pointer bg-neutral-100 hover:bg-violet-50 in-data-dragging:bg-violet-50 border border-neutral-200 hover:border-violet-200 in-data-dragging:border-violet-200 dark:border-white/10 dark:bg-white/10 dark:hover:border-violet-500/30 dark:hover:bg-violet-500/10 in-data-dragging:dark:border-violet-500/30 in-data-dragging:dark:bg-violet-500/10">
                                             @if ($image)
                                                 <img
                                                     src="{{ $image?->temporaryUrl() }}"
@@ -92,7 +92,7 @@
                                                     class="size-full rounded-lg object-cover"
                                                 />
                                             @else
-                                                <flux:icon name="camera" />
+                                                <flux:icon name="camera" class="transition-colors group-hover:text-violet-600 dark:group-hover:text-violet-400" />
                                             @endif
                                         </div>
                                     </label>

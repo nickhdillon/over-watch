@@ -73,14 +73,14 @@
 
                 <div class="p-1">
                     <flux:modal.trigger name="new-release" x-on:click.stop>
-                        <button type="button" class="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-sm hover:bg-[#18b69b]/10">
+                        <button type="button" class="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-sm hover:bg-violet-50 dark:hover:bg-violet-500/10">
                             <div class="flex size-5 items-center justify-center">
                                 <div class="rounded-sm border border-neutral-300 bg-white dark:border-neutral-700 dark:bg-neutral-800">
-                                    <flux:icon name="plus" class="size-4 p-px text-[#18b69b]" />
+                                    <flux:icon name="plus" class="size-4 p-px text-violet-600 dark:text-violet-400" />
                                 </div>
                             </div>
 
-                            <span class="font-medium text-[#18b69b]">New release</span>
+                            <span class="font-medium text-violet-600 dark:text-violet-400">New release</span>
                         </button>
                     </flux:modal.trigger>
                 </div>

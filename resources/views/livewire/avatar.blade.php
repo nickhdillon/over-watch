@@ -16,10 +16,10 @@
                 <img src="{{ $this->avatarUrl() }}" alt="Avatar" class="rounded-xl size-24 mt-2" id="avatar" />
             @else
                 <div
-                    class="flex items-center justify-center bg-zinc-100 hover:bg-zinc-200 duration-100 ease-in-out rounded-xl border dark:border-white/10 dark:bg-white/10 dark:hover:bg-zinc-800 size-24 mt-2">
+                    class="group flex items-center justify-center bg-neutral-100 hover:bg-violet-50 in-data-dragging:bg-violet-50 duration-100 ease-in-out rounded-xl border border-neutral-200 hover:border-violet-200 in-data-dragging:border-violet-200 dark:border-white/10 dark:bg-white/10 dark:hover:border-violet-500/30 dark:hover:bg-violet-500/10 in-data-dragging:dark:border-violet-500/30 in-data-dragging:dark:bg-violet-500/10 size-24 mt-2">
                     <svg wire:loading.remove wire:target="avatar" xmlns="http://www.w3.org/2000/svg"
                         fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                        class="size-6">
+                        class="size-6 transition-colors group-hover:text-violet-600 dark:group-hover:text-violet-400">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
                         <path stroke-linecap="round" stroke-linejoin="round"

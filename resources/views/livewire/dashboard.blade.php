@@ -208,7 +208,7 @@
                                         <flux:tooltip :content="$ticket->release->name">
                                             <flux:icon.flag
                                                 variant="solid"
-                                                class="size-3.5 shrink-0 text-neutral-400 dark:text-neutral-500"
+                                                class="size-3.5 shrink-0 text-violet-400 dark:text-violet-500"
                                             />
                                         </flux:tooltip>
                                     </span>
