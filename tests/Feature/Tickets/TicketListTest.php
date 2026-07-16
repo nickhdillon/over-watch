@@ -11,7 +11,6 @@ use App\Models\Release;
 use App\Models\Tag;
 use App\Models\Ticket;
 use App\Models\User;
-
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {
@@ -155,6 +154,97 @@ it('resets pagination when the search is updated', function () {
         ->assertSet('paginators.page', 2)
         ->set('search', 'Test ticket')
         ->assertSet('paginators.page', 1);
+});
+
+it('sorts tickets by name, priority, and status in both directions', function (string $sort, string $direction, array $expected_names) {
+    $tickets = Ticket::query()->orderBy('position')->get();
+    $tickets[0]->update([
+        'name' => 'Zulu',
+        'priority' => Priority::MEDIUM,
+        'status' => Status::OPEN,
+    ]);
+    $tickets[1]->update([
+        'name' => 'Alpha',
+        'priority' => Priority::HIGH,
+        'status' => Status::DONE,
+    ]);
+
+    $component = livewire(TicketList::class, ['view' => 'list'])
+        ->set('sort', $sort)
+        ->set('sort_direction', $direction);
+
+    expect($component->instance()->tickets()->pluck('name')->all())->toBe($expected_names);
+})->with([
+    'name A-Z' => ['name', 'asc', ['Alpha', 'Zulu']],
+    'name Z-A' => ['name', 'desc', ['Zulu', 'Alpha']],
+    'priority A-Z' => ['priority', 'asc', ['Alpha', 'Zulu']],
+    'priority Z-A' => ['priority', 'desc', ['Zulu', 'Alpha']],
+    'status A-Z' => ['status', 'asc', ['Alpha', 'Zulu']],
+    'status Z-A' => ['status', 'desc', ['Zulu', 'Alpha']],
+]);
+
+it('sorts by project and project key', function (string $sort, string $direction, array $expected_names) {
+    $user = User::first();
+    $first_project = Project::first();
+    $first_project->update([
+        'name' => 'Zulu Project',
+        'key' => 'ZULU',
+    ]);
+
+    $second_project = Project::factory()->create([
+        'owner_id' => $user->id,
+        'name' => 'Alpha Project',
+        'key' => 'ALPHA',
+    ]);
+    $second_project->users()->attach($user->id, ['role' => ProjectRole::OWNER->value]);
+
+    Ticket::factory()->for($second_project)->for($user, 'assignee')->create([
+        'name' => 'Alpha project ticket',
+        'sequence' => 3,
+    ]);
+
+    $component = livewire(TicketList::class, ['view' => 'list'])
+        ->set('sort', $sort)
+        ->set('sort_direction', $direction);
+
+    expect($component->instance()->tickets()->pluck('name')->all())->toBe($expected_names);
+})->with([
+    'project A-Z' => ['project', 'asc', ['Alpha project ticket', 'Test ticket', 'Test ticket 2']],
+    'project Z-A' => ['project', 'desc', ['Test ticket', 'Test ticket 2', 'Alpha project ticket']],
+    'project key ascending' => ['key', 'asc', ['Alpha project ticket', 'Test ticket', 'Test ticket 2']],
+    'project key descending' => ['key', 'desc', ['Test ticket 2', 'Test ticket', 'Alpha project ticket']],
+]);
+
+it('rejects unsupported ticket sorts', function () {
+    livewire(TicketList::class, ['view' => 'list'])
+        ->set('sort', 'assignee')
+        ->assertSet('sort', 'position')
+        ->set('sort_direction', 'sideways')
+        ->assertSet('sort_direction', 'asc');
+});
+
+it('shows a sort summary only when the default sort changes', function () {
+    livewire(TicketList::class, ['view' => 'list'])
+        ->assertSeeText('Sort')
+        ->assertDontSeeText('Position · Asc')
+        ->set('sort_direction', 'desc')
+        ->assertSeeText('Position · Desc')
+        ->set('sort', 'name')
+        ->assertSeeText('Name · Z–A')
+        ->set('sort_direction', 'asc')
+        ->assertSeeText('Name · A–Z');
+});
+
+it('resets ticket sorting to position ascending', function () {
+    livewire(TicketList::class, ['view' => 'list'])
+        ->assertDontSeeText('Reset')
+        ->set('sort', 'name')
+        ->set('sort_direction', 'desc')
+        ->assertSeeText('Reset')
+        ->call('resetTicketSort')
+        ->assertSet('sort', 'position')
+        ->assertSet('sort_direction', 'asc')
+        ->assertDontSeeText('Reset');
 });
 
 it('only applies draft filters after apply is called', function () {

@@ -40,8 +40,7 @@ class ReleaseTicketList extends Component
         return $this->release
             ->tickets()
             ->where('user_id', auth()->id())
-            ->with(['assignee', 'project'])
-            ->orderBy('position');
+            ->with(['assignee', 'project']);
     }
 
     /**
@@ -52,7 +51,10 @@ class ReleaseTicketList extends Component
     {
         $query = $this->ticketQuery()->search($this->search);
 
-        return $this->applyTicketFilters($query)->paginate(25);
+        $this->applyTicketFilters($query);
+        $this->applyTicketSort($query);
+
+        return $query->paginate(25);
     }
 
     /**
@@ -65,8 +67,10 @@ class ReleaseTicketList extends Component
             ->with('tags')
             ->search($this->search, include_tags: true);
 
-        return $this->applyTicketFilters($query)
-            ->get();
+        $this->applyTicketFilters($query);
+        $this->applyTicketSort($query);
+
+        return $query->get();
     }
 
     public function updatedSearch(): void

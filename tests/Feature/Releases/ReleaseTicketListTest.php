@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\Priority;
 use App\Enums\ProjectRole;
 use App\Enums\Status;
 use App\Livewire\ReleaseTicketList;
@@ -9,7 +10,6 @@ use App\Models\Project;
 use App\Models\Release;
 use App\Models\Ticket;
 use App\Models\User;
-
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {
@@ -126,6 +126,52 @@ it('resets pagination when the search is updated', function () {
         ->assertSet('paginators.page', 2)
         ->set('search', 'Test ticket')
         ->assertSet('paginators.page', 1);
+});
+
+it('sorts release tickets by name, priority, and status in both directions', function (string $sort, string $direction, array $expected_names) {
+    $tickets = Ticket::query()->orderBy('position')->get();
+    $tickets[0]->update([
+        'name' => 'Zulu',
+        'priority' => Priority::MEDIUM,
+        'status' => Status::OPEN,
+    ]);
+    $tickets[1]->update([
+        'name' => 'Alpha',
+        'priority' => Priority::HIGH,
+        'status' => Status::DONE,
+    ]);
+
+    $component = livewire(ReleaseTicketList::class, [
+        'release' => Release::first(),
+        'view' => 'list',
+    ])
+        ->set('sort', $sort)
+        ->set('sort_direction', $direction);
+
+    expect($component->instance()->tickets()->pluck('name')->all())->toBe($expected_names);
+})->with([
+    'name A-Z' => ['name', 'asc', ['Alpha', 'Zulu']],
+    'name Z-A' => ['name', 'desc', ['Zulu', 'Alpha']],
+    'priority A-Z' => ['priority', 'asc', ['Alpha', 'Zulu']],
+    'priority Z-A' => ['priority', 'desc', ['Zulu', 'Alpha']],
+    'status A-Z' => ['status', 'asc', ['Alpha', 'Zulu']],
+    'status Z-A' => ['status', 'desc', ['Zulu', 'Alpha']],
+]);
+
+it('resets release ticket sorting to position ascending', function () {
+    livewire(ReleaseTicketList::class, [
+        'release' => Release::first(),
+        'view' => 'list',
+    ])
+        ->assertDontSeeHtml('wire:click="resetTicketSort"')
+        ->set('sort', 'name')
+        ->set('sort_direction', 'desc')
+        ->assertSeeText('Name · Z–A')
+        ->assertSeeHtml('wire:click="resetTicketSort"')
+        ->call('resetTicketSort')
+        ->assertSet('sort', 'position')
+        ->assertSet('sort_direction', 'asc')
+        ->assertDontSeeHtml('wire:click="resetTicketSort"');
 });
 
 it('applies filters to release tickets', function () {

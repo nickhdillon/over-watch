@@ -54,9 +54,10 @@ class TicketList extends Component
             ->with(['assignee', 'project', 'release'])
             ->search($this->search);
 
-        return $this->applyTicketFilters($query)
-            ->orderBy('position')
-            ->paginate(25);
+        $this->applyTicketFilters($query);
+        $this->applyTicketSort($query);
+
+        return $query->paginate(25);
     }
 
     /**
@@ -69,10 +70,10 @@ class TicketList extends Component
             ->with(['assignee', 'project', 'release', 'tags'])
             ->search($this->search, include_tags: true);
 
-        return $this->applyTicketFilters($query)
-            ->orderBy('status')
-            ->orderBy('position')
-            ->get();
+        $this->applyTicketFilters($query);
+        $this->applyTicketSort($query);
+
+        return $query->get();
     }
 
     public function updatedSearch(): void

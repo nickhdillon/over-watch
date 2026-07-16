@@ -21,9 +21,17 @@ trait HandlesTicketQuery
 
     public array $draft_filters = [];
 
+    #[Url(except: 'position')]
+    public string $sort = 'position';
+
+    #[Url(as: 'direction', except: 'asc')]
+    public string $sort_direction = 'asc';
+
     public function mountHandlesTicketQuery(): void
     {
         $this->setFilters($this->filters);
+
+        $this->normalizeTicketSort();
     }
 
     public function syncDraftFilters(): void
@@ -56,12 +64,6 @@ trait HandlesTicketQuery
         $this->resetTicketFilterResults();
     }
 
-    /**
-     * @template TQuery of Builder|Relation
-     *
-     * @param  TQuery  $query
-     * @return TQuery
-     */
     protected function applyTicketFilters(Builder|Relation $query): Builder|Relation
     {
         $filters = collect($this->filters);
@@ -80,6 +82,77 @@ trait HandlesTicketQuery
             ))
             ->when($project_ids->isNotEmpty(), fn (Builder $query): Builder => $query->whereIn('project_id', $project_ids))
             ->when($release_ids->isNotEmpty(), fn (Builder $query): Builder => $query->whereIn('release_id', $release_ids));
+    }
+
+    protected function applyTicketSort(Builder|Relation $query): Builder|Relation
+    {
+        $query = match ($this->sort) {
+            'name' => $query->orderBy('name', $this->sort_direction),
+            'priority' => $query->orderByRaw(
+                "case priority when 'high' then 1 when 'low' then 2 when 'medium' then 3 else 4 end {$this->sort_direction}",
+            ),
+            'status' => $query->orderByRaw(
+                "case status when 'done' then 1 when 'in_progress' then 2 when 'in_review' then 3 when 'open' then 4 else 5 end {$this->sort_direction}",
+            ),
+            'project' => $query->orderBy(
+                Project::query()->select('name')->whereColumn('projects.id', 'tickets.project_id'),
+                $this->sort_direction,
+            ),
+            'key' => $query
+                ->orderBy(Project::query()->select('key')->whereColumn('projects.id', 'tickets.project_id'), $this->sort_direction)
+                ->orderBy('sequence', $this->sort_direction),
+            default => $query->orderBy('position', $this->sort_direction),
+        };
+
+        return $query->orderBy('id');
+    }
+
+    public function updatedSort(): void
+    {
+        $this->normalizeTicketSort();
+
+        $this->resetTicketSortResults();
+    }
+
+    public function updatedSortDirection(): void
+    {
+        $this->normalizeTicketSort();
+
+        $this->resetTicketSortResults();
+    }
+
+    public function resetTicketSort(): void
+    {
+        $this->sort = 'position';
+        $this->sort_direction = 'asc';
+
+        $this->resetTicketSortResults();
+    }
+
+    public function ticketSortSummary(): ?string
+    {
+        if ($this->sort === 'position' && $this->sort_direction === 'asc') return null;
+
+        $field = match ($this->sort) {
+            'name' => 'Name',
+            'priority' => 'Priority',
+            'status' => 'Status',
+            'project' => 'Project',
+            'key' => 'Project key',
+            default => 'Position',
+        };
+
+        $direction = in_array($this->sort, ['name', 'priority', 'status', 'project'], true)
+            ? ($this->sort_direction === 'asc' ? 'A–Z' : 'Z–A')
+            : ($this->sort_direction === 'asc' ? 'Asc' : 'Desc');
+
+        return "{$field} · {$direction}";
+    }
+
+    private function resetTicketSortResults(): void
+    {
+        $this->resetPage();
+        unset($this->tickets, $this->boardTickets, $this->ticketsByStatus);
     }
 
     public function ticketFilterLabel(string $filter): string
@@ -140,7 +213,6 @@ trait HandlesTicketQuery
                 ->values();
     }
 
-    /** @param array<int, mixed> $filters */
     private function setFilters(array $filters): void
     {
         $this->filters = collect($filters)
@@ -153,7 +225,6 @@ trait HandlesTicketQuery
         $this->draft_filters = $this->filters;
     }
 
-    /** @return Collection<int, string> */
     private function allowedTicketFilters(): Collection
     {
         return $this->ticketStatusFilters()
@@ -163,7 +234,6 @@ trait HandlesTicketQuery
             ->merge($this->ticketFilterReleases()->map(fn (Release $release): string => "release:{$release->id}"));
     }
 
-    /** @param Collection<int, string> $filters */
     private function ticketFilterIds(Collection $filters, string $type): Collection
     {
         return $this->ticketFilterValues($filters, $type)
@@ -171,7 +241,6 @@ trait HandlesTicketQuery
             ->filter();
     }
 
-    /** @param Collection<int, string> $filters */
     private function ticketFilterValues(Collection $filters, string $type): Collection
     {
         return $filters
@@ -179,16 +248,25 @@ trait HandlesTicketQuery
             ->map(fn (string $filter): string => str($filter)->after(':')->toString());
     }
 
-    /** @return Collection<int, string> */
     private function ticketStatusFilters(): Collection
     {
         return collect(Status::cases())->map(fn (Status $status): string => $status->value);
     }
 
-    /** @return Collection<int, string> */
     private function ticketPriorityFilters(): Collection
     {
         return collect(Priority::cases())->map(fn (Priority $priority): string => $priority->value);
+    }
+
+    private function normalizeTicketSort(): void
+    {
+        if (! in_array($this->sort, ['position', 'name', 'priority', 'status', 'project', 'key'], true)) {
+            $this->sort = 'position';
+        }
+
+        if (! in_array($this->sort_direction, ['asc', 'desc'], true)) {
+            $this->sort_direction = 'asc';
+        }
     }
 
     private function resetTicketFilterResults(): void

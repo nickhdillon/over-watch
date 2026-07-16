@@ -1,28 +1,12 @@
+@use('App\Enums\Priority', 'Priority')
+@use('App\Enums\Status', 'Status')
+
 @props([
     'filters' => [],
     'integrated' => false,
 ])
 
-@use('App\Enums\Priority', 'Priority')
-@use('App\Enums\Status', 'Status')
-
 <div
-    {{-- x-data="{
-        sort: 'manual',
-        sortLabels: {
-            manual: 'Manual order',
-            updated: 'Recently updated',
-            created: 'Recently created',
-            priority: 'Priority',
-            due_date: 'Due date',
-        },
-        sortTriggerLabels: {
-            updated: 'Updated',
-            created: 'Created',
-            priority: 'Priority',
-            due_date: 'Due date',
-        },
-    }" --}}
     @class([
         'p-2',
         'bg-white/30 dark:bg-neutral-800/50 border-b border-neutral-200 dark:border-neutral-700' => $integrated,
@@ -39,54 +23,61 @@
         />
 
         <div class="flex items-center gap-2 sm:ml-auto">
-            {{-- <flux:dropdown position="bottom" align="end">
-                <div>
-                    <div x-show="sort === 'manual'">
-                        <flux:button
-                            type="button"
-                            icon="arrows-up-down"
-                            size="sm"
-                            x-bind:title="`Sort: ${sortLabels[sort]}`"
-                            x-bind:aria-label="`Sort tickets by ${sortLabels[sort]}`"
-                        >
-                            Sort
-                        </flux:button>
-                    </div>
-
-                    <div x-cloak x-show="sort !== 'manual'">
-                        <flux:button
-                            type="button"
-                            icon="arrows-up-down"
-                            size="sm"
-                            x-bind:title="`Sort: ${sortLabels[sort]}`"
-                            x-bind:aria-label="`Sort tickets by ${sortLabels[sort]}`"
-                        >
-                            <span x-text="sortTriggerLabels[sort]"></span>
-                        </flux:button>
-                    </div>
-                </div>
+            <flux:dropdown position="bottom" align="end" class="w-full">
+                <flux:button
+                    type="button"
+                    icon="arrows-up-down"
+                    size="sm"
+                    title="{{ $this->ticketSortSummary() ? 'Sort: '. $this->ticketSortSummary() : 'Sort tickets' }}"
+                    class="w-full"
+                >
+                    {{ $this->ticketSortSummary() ?? 'Sort' }}
+                </flux:button>
 
                 <flux:menu class="min-w-48">
                     <flux:menu.heading>Sort by</flux:menu.heading>
 
-                    <flux:menu.radio.group x-model="sort">
-                        <flux:menu.radio value="manual">Manual order</flux:menu.radio>
-                        <flux:menu.radio value="updated">Recently updated</flux:menu.radio>
-                        <flux:menu.radio value="created">Recently created</flux:menu.radio>
+                    <flux:menu.radio.group wire:model.live="sort">
+                        <flux:menu.radio value="position">Position</flux:menu.radio>
+                        <flux:menu.radio value="name">Name</flux:menu.radio>
                         <flux:menu.radio value="priority">Priority</flux:menu.radio>
-                        <flux:menu.radio value="due_date">Due date</flux:menu.radio>
+                        <flux:menu.radio value="status">Status</flux:menu.radio>
+                        <flux:menu.radio value="project">Project</flux:menu.radio>
+                        <flux:menu.radio value="key">Project key</flux:menu.radio>
                     </flux:menu.radio.group>
+
+                    <flux:menu.separator />
+                    <flux:menu.heading>Direction</flux:menu.heading>
+
+                    <flux:menu.radio.group wire:model.live="sort_direction">
+                        <flux:menu.radio value="asc">Ascending</flux:menu.radio>
+                        <flux:menu.radio value="desc">Descending</flux:menu.radio>
+                    </flux:menu.radio.group>
+
+                    @if ($this->ticketSortSummary())
+                        <flux:menu.separator />
+
+                        <flux:menu.item
+                            as="button"
+                            type="button"
+                            icon="arrow-path"
+                            wire:click="resetTicketSort"
+                        >
+                            Reset
+                        </flux:menu.item>
+                    @endif
                 </flux:menu>
-            </flux:dropdown> --}}
+            </flux:dropdown>
 
             <flux:modal.trigger name="ticket-filters" wire:click="syncDraftFilters">
-                <div class="relative">
+                <div class="relative w-full">
                     <flux:button
                         type="button"
                         icon="funnel"
                         size="sm"
                         title="{{ count($filters) ? count($filters).' active filters' : 'Filter tickets' }}"
                         aria-label="{{ count($filters) ? 'Filter tickets, '.count($filters).' active' : 'Filter tickets' }}"
+                        class="w-full"
                     >
                         Filter
                     </flux:button>
