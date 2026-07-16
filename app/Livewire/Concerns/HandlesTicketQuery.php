@@ -88,12 +88,12 @@ trait HandlesTicketQuery
     {
         $query = match ($this->sort) {
             'name' => $query->orderBy('name', $this->sort_direction),
-            'priority' => $query->orderByRaw(
-                "case priority when 'high' then 1 when 'low' then 2 when 'medium' then 3 else 4 end {$this->sort_direction}",
-            ),
-            'status' => $query->orderByRaw(
-                "case status when 'done' then 1 when 'in_progress' then 2 when 'in_review' then 3 when 'open' then 4 else 5 end {$this->sort_direction}",
-            ),
+            'priority' => $query
+                ->orderBy('priority', $this->sort_direction)
+                ->orderBy('position'),
+            'status' => $query
+                ->orderBy('status', $this->sort_direction)
+                ->orderBy('position'),
             'project' => $query->orderBy(
                 Project::query()->select('name')->whereColumn('projects.id', 'tickets.project_id'),
                 $this->sort_direction,
@@ -131,7 +131,9 @@ trait HandlesTicketQuery
 
     public function ticketSortSummary(): ?string
     {
-        if ($this->sort === 'position' && $this->sort_direction === 'asc') return null;
+        if ($this->sort === 'position' && $this->sort_direction === 'asc') {
+            return null;
+        }
 
         $field = match ($this->sort) {
             'name' => 'Name',
@@ -159,7 +161,9 @@ trait HandlesTicketQuery
     {
         $enum = Status::tryFrom($filter) ?? Priority::tryFrom($filter);
 
-        if ($enum) return $enum->label();
+        if ($enum) {
+            return $enum->label();
+        }
 
         [$type, $value] = array_pad(explode(':', $filter, 2), 2, null);
 
@@ -183,14 +187,18 @@ trait HandlesTicketQuery
 
     public function ticketFilterProjects(): Collection
     {
-        if (! $this->showProjectTicketFilter()) return collect();
+        if (! $this->showProjectTicketFilter()) {
+            return collect();
+        }
 
         return auth()->user()->projects()->orderBy('name')->get();
     }
 
     public function ticketFilterReleases(): Collection
     {
-        if (! $this->showReleaseTicketFilter()) return collect();
+        if (! $this->showReleaseTicketFilter()) {
+            return collect();
+        }
 
         return isset($this->project)
             ? $this->project->releases()->orderBy('name')->get()
