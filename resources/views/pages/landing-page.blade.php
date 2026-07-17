@@ -68,7 +68,7 @@
     <main>
         <section class="mx-auto max-w-7xl px-5 pb-16 pt-20 sm:px-8 sm:pb-24">
             <div class="mx-auto max-w-4xl text-center">
-                <div class="mb-7 inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/80 px-3 py-1.5 text-xs font-semibold text-violet-700 shadow-xs backdrop-blur">
+                <div class="mb-7 inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/80 px-3 py-1.5 text-xs font-semibold text-violet-700 shadow-xs backdrop-blur motion-safe:animate-fade-in-up motion-safe:animate-duration-700">
                     <span class="relative flex size-1.75">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full size-1.75 bg-violet-500"></span>
@@ -77,17 +77,17 @@
                     For developers and small teams
                 </div>
 
-                <h1 class="text-balance text-5xl font-semibold tracking-[-0.055em] text-neutral-950 sm:text-6xl lg:text-8xl">
+                <h1 class="text-balance text-5xl font-semibold tracking-[-0.055em] text-neutral-950 motion-safe:animate-fade-in-up motion-safe:animate-delay-100 motion-safe:animate-duration-700 sm:text-6xl lg:text-8xl">
                     Plan less.
 
                     <span class="block text-violet-600">Ship faster.</span>
                 </h1>
 
-                <p class="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-8 text-neutral-600 sm:text-xl">
+                <p class="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-8 text-neutral-600 motion-safe:animate-fade-in-up motion-safe:animate-delay-200 motion-safe:animate-duration-700 sm:text-xl">
                     Overwatch keeps projects, tickets, and releases moving without burying your team in process. Everything you need to stay aligned, nothing you need to fight.
                 </p>
 
-                <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <div class="mt-9 flex flex-col items-center justify-center gap-3 motion-safe:animate-fade-in-up motion-safe:animate-delay-300 motion-safe:animate-duration-700 sm:flex-row">
                     <a href="{{ route('register') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-violet transition hover:bg-violet-500 sm:w-auto">
                         Start shipping for free
                         <svg viewBox="0 0 20 20" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
@@ -99,10 +99,10 @@
                     </a>
                 </div>
 
-                <p class="mt-4 text-xs text-neutral-500">Free to use. No credit card required.</p>
+                <p class="mt-4 text-xs text-neutral-500 motion-safe:animate-fade-in-up motion-safe:animate-delay-400 motion-safe:animate-duration-700">Free to use. No credit card required.</p>
             </div>
 
-            <div id="product" class="relative mx-auto mt-16 max-w-7xl sm:mt-20">
+            <div id="product" class="relative mx-auto mt-16 max-w-7xl motion-safe:animate-fade-in-up motion-safe:animate-delay-300 motion-safe:animate-duration-500 sm:mt-20">
                 <div class="absolute inset-x-20 bottom-0 top-24 -z-10 rounded-[3rem] bg-violet-300/25 blur-3xl"></div>
 
                 <div class="overflow-hidden rounded-xl border border-neutral-200 bg-neutral-100 sm:rounded-2xl">
@@ -135,7 +135,7 @@
                     </div>
                 </div>
 
-                <div class="absolute -bottom-6 left-6 rounded-2xl border border-neutral-200 bg-white p-4 shadow-soft">
+                <div class="absolute -bottom-6 left-6 rounded-2xl border border-neutral-200 bg-white p-4 shadow-soft motion-safe:animate-fade-in-up motion-safe:animate-delay-500 motion-safe:animate-duration-500">
                     <div class="flex items-center gap-3">
                         <span class="grid size-10 place-items-center rounded-xl bg-violet-100 text-violet-700">
                             <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
@@ -171,7 +171,7 @@
 
         <section id="workflow" class="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
             <div class="grid items-start gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-                <div class="lg:sticky lg:top-28">
+                <div class="motion-safe:animate-fade-in-left motion-safe:timeline-view motion-safe:animate-range-[entry_5%_cover_30%] lg:sticky lg:top-28">
                     <p class="text-sm font-semibold text-violet-600">One continuous workflow</p>
                     <h2 class="mt-4 text-4xl font-semibold tracking-[-0.04em] text-neutral-950 sm:text-5xl">
                         Built to stay out of your way.
@@ -182,7 +182,7 @@
                 </div>
 
                 <div class="space-y-5">
-                    <article class="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs sm:p-8">
+                    <article class="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs motion-safe:animate-fade-in-right motion-safe:timeline-view motion-safe:animate-range-[entry_5%_cover_28%] sm:p-8">
                         <div class="flex items-start gap-5">
                             <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-violet-100 text-violet-700">
                                 <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
@@ -196,7 +196,7 @@
                         </div>
                     </article>
 
-                    <article class="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs sm:p-8">
+                    <article class="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs motion-safe:animate-fade-in-right motion-safe:timeline-view motion-safe:animate-range-[entry_5%_cover_28%] sm:p-8">
                         <div class="flex items-start gap-5">
                             <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-violet-100 text-violet-700">
                                 <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
@@ -210,7 +210,7 @@
                         </div>
                     </article>
 
-                    <article class="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs sm:p-8">
+                    <article class="rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs motion-safe:animate-fade-in-right motion-safe:timeline-view motion-safe:animate-range-[entry_5%_cover_28%] sm:p-8">
                         <div class="flex items-start gap-5">
                             <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-violet-100 text-violet-700">
                                 <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
@@ -230,7 +230,7 @@
         <section id="features" class="landing-noise relative overflow-hidden border-y border-neutral-200 bg-neutral-950 text-white">
             <div class="absolute -right-40 top-12 -z-10 size-120 rounded-full bg-violet-600/15 blur-3xl"></div>
             <div class="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
-                <div class="max-w-2xl">
+                <div class="max-w-2xl motion-safe:animate-fade-in-up motion-safe:timeline-view motion-safe:animate-range-[entry_5%_cover_30%]">
                     <p class="text-sm font-semibold text-violet-400">The essentials, done well</p>
                     <h2 class="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
                         Everything your team needs to keep moving.
@@ -240,7 +240,7 @@
                     </p>
                 </div>
 
-                <div class="mt-14 grid gap-px overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-800 md:grid-cols-2 lg:grid-cols-3">
+                <div class="mt-14 grid gap-px overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-800 motion-safe:animate-zoom-in motion-safe:timeline-view motion-safe:animate-range-[entry_5%_cover_30%] md:grid-cols-2 lg:grid-cols-3">
                     <div class="bg-neutral-950 p-7">
                         <span class="grid size-10 place-items-center rounded-xl bg-violet-500/15 text-violet-300">01</span>
                         <h3 class="mt-8 text-lg font-semibold">Projects</h3>
@@ -281,7 +281,7 @@
         </section>
 
         <section id="pricing" class="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
-            <div class="landing-noise relative overflow-hidden rounded-3xl border border-violet-300/60 bg-violet-600 px-6 py-14 text-center text-white shadow-violet sm:px-12 sm:py-20">
+            <div class="landing-noise relative overflow-hidden rounded-3xl border border-violet-300/60 bg-violet-600 px-6 py-14 text-center text-white shadow-violet motion-safe:animate-slide-up-fade motion-safe:timeline-view motion-safe:animate-range-[entry_5%_cover_35%] sm:px-12 sm:py-20">
                 <div class="landing-grid absolute inset-0 -z-10 opacity-70"></div>
                 <p class="text-sm font-semibold text-violet-200">Simple from the start</p>
                 <h2 class="mx-auto mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
