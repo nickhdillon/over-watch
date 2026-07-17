@@ -48,7 +48,11 @@
                         <flux:field>
                             <flux:label>Description</flux:label>
 
-                            <flux:textarea wire:model='description' />
+                            <flux:editor
+                                toolbar="heading | bold italic underline strike | bullet ordered blockquote | link | code ~ undo redo"
+                                wire:model='description'
+                                class="overflow-scroll!"
+                            />
 
                             <flux:error name="description" />
                         </flux:field>
