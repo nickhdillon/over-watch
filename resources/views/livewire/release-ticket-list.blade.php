@@ -134,20 +134,36 @@
                                     <div
                                         wire:sortable-group.item-group="{{ $status->value }}"
                                         wire:sortable-group.options="{ animation: 100, ghostClass: 'sortable-ghost-ticket' }"
+                                        x-responsive-sortable-handle
                                         class="flex flex-1 flex-col gap-2 px-2 pb-2 min-h-24"
                                     >
                                         @foreach ($status_tickets as $ticket)
                                             <div
                                                 wire:key="board-ticket-{{ $ticket->id }}"
                                                 wire:sortable-group.item="{{ $ticket->id }}"
-                                                wire:sortable-group.handle
-                                                class="group relative rounded-lg border border-neutral-300/60 dark:border-neutral-700/40 bg-white/50 dark:bg-neutral-800/50 p-3 shadow-xs hover:bg-neutral-100/5 dark:hover:bg-neutral-800"
+                                                class="group relative rounded-lg border border-neutral-300/60 dark:border-neutral-700/40 bg-white/50 dark:bg-neutral-800/50 p-3 pr-10 sm:pr-3 shadow-xs hover:bg-neutral-100/5 dark:hover:bg-neutral-800"
                                             >
                                                 <button
                                                     aria-label="View {{ $ticket->name }}"
                                                     class="absolute inset-0 z-10 rounded-[inherit]"
                                                     x-on:click="$dispatch('load-ticket', { ticket_id: {{ $ticket->id }} })"
                                                 ></button>
+
+                                                <button
+                                                    type="button"
+                                                    wire:sortable-group.handle
+                                                    aria-label="Drag {{ $ticket->name }}"
+                                                    class="absolute right-1 top-1 z-20 flex size-8 touch-none cursor-grab items-center justify-center rounded-md text-neutral-400 active:cursor-grabbing active:bg-neutral-200 active:text-neutral-600 sm:hidden dark:active:bg-neutral-700 dark:active:text-neutral-200"
+                                                >
+                                                    <svg viewBox="0 0 16 20" aria-hidden="true" class="h-5 w-4 fill-current">
+                                                        <circle cx="5" cy="4" r="1.5" />
+                                                        <circle cx="11" cy="4" r="1.5" />
+                                                        <circle cx="5" cy="10" r="1.5" />
+                                                        <circle cx="11" cy="10" r="1.5" />
+                                                        <circle cx="5" cy="16" r="1.5" />
+                                                        <circle cx="11" cy="16" r="1.5" />
+                                                    </svg>
+                                                </button>
 
                                                 <div class="pointer-events-none space-y-3">
                                                     <div>
@@ -238,6 +254,7 @@
                     <div
                         wire:sortable="updateTicketOrder"
                         wire:sortable.options="{ animation: 100 }"
+                        x-responsive-sortable-handle
                         class="divide-y divide-neutral-200 bg-white/50 dark:divide-neutral-700 dark:bg-neutral-800/50"
                     >
                         @forelse ($this->tickets as $ticket)
@@ -246,7 +263,6 @@
                                 wire:key="list-ticket-{{ $ticket->id }}"
                                 wire:sortable.item="{{ $ticket->id }}"
                                 wire:sortable.options="{ animation: 100, ghostClass: 'sortable-ghost-ticket' }"
-                                wire:sortable.handle
                             >
                                 <button
                                     aria-label="View {{ $ticket->name }}"
@@ -254,7 +270,23 @@
                                     x-on:click="$dispatch('load-ticket', { ticket_id: {{ $ticket->id }} })"
                                 ></button>
 
-                                <div class="pointer-events-none flex min-w-0 items-center justify-between gap-3 py-2.5 px-3">
+                                <div class="pointer-events-none flex min-w-0 items-center justify-between gap-3 py-2.5 pl-1 pr-3 sm:pl-3">
+                                    <button
+                                        type="button"
+                                        wire:sortable.handle
+                                        aria-label="Drag {{ $ticket->name }}"
+                                        class="pointer-events-auto relative z-20 -mr-3! flex size-8 shrink-0 touch-none cursor-grab items-center justify-center rounded-md text-neutral-400 active:cursor-grabbing active:bg-neutral-200 active:text-neutral-600 sm:hidden dark:active:bg-neutral-700 dark:active:text-neutral-200"
+                                    >
+                                        <svg viewBox="0 0 16 20" aria-hidden="true" class="h-5 w-4 fill-current">
+                                            <circle cx="5" cy="4" r="1.5" />
+                                            <circle cx="11" cy="4" r="1.5" />
+                                            <circle cx="5" cy="10" r="1.5" />
+                                            <circle cx="11" cy="10" r="1.5" />
+                                            <circle cx="5" cy="16" r="1.5" />
+                                            <circle cx="11" cy="16" r="1.5" />
+                                        </svg>
+                                    </button>
+
                                     <div class="flex flex-1 items-center min-w-0 truncate">
                                         <div
                                             x-cloak
