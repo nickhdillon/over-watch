@@ -9,7 +9,7 @@
                     <div
                         x-cloak
                         x-show="$wire.view === 'list'"
-                        class="flex w-0 overflow-x-hidden py-px transition-all group-hover:w-6.5"
+                        class="hidden w-0 overflow-x-hidden py-px transition-all sm:flex sm:group-hover:w-6.5"
                         x-bind:class="{ 'w-6.5': selectedTickets.length }"
                     >
                         <flux:checkbox
@@ -306,7 +306,7 @@
                                     <div class="flex flex-1 items-center min-w-0 truncate">
                                         <div
                                             x-cloak
-                                            class="pointer-events-auto z-20 flex py-px w-0 shrink-0 overflow-hidden transition-all group-hover:w-7"
+                                            class="pointer-events-auto z-20 hidden py-px w-0 shrink-0 overflow-hidden transition-all sm:flex sm:group-hover:w-7"
                                             x-bind:class="{ 'w-7': selectedTickets.length || isSelected({{ $ticket->id }}) }"
                                         >
                                             <flux:checkbox
@@ -372,11 +372,11 @@
                                 No tickets
                             </div>
                         @endforelse
-
-                        @if ($this->tickets->count())
-                            <flux:pagination :paginator="$this->tickets" class="px-3! pb-3! border-none!" />
-                        @endif
                     </div>
+
+                    @if ($this->tickets->count())
+                        <flux:pagination :paginator="$this->tickets" class="px-3! pb-3! border-neutral-300!" />
+                    @endif
                 @endisland
             </div>
         @endif

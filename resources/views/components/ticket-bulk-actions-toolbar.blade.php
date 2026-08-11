@@ -4,7 +4,7 @@
     x-cloak
     x-show="selectedTickets.length"
     x-transition
-    class="fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2 rounded-xl border border-neutral-200 bg-white pl-4 pr-2 py-1.5 shadow-lg dark:border-neutral-700 dark:bg-neutral-900"
+    class="fixed bottom-6 left-1/2 z-50 hidden -translate-x-1/2 items-center gap-2 rounded-xl border border-neutral-200 bg-white pl-4 pr-2 py-1.5 shadow-lg sm:flex dark:border-neutral-700 dark:bg-neutral-900"
 >
     <p class="flex items-center gap-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-200">
         <span
