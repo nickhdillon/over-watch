@@ -271,11 +271,11 @@
                         wire:sortable="updateTicketOrder"
                         wire:sortable.options="{ animation: 100 }"
                         x-responsive-sortable-handle
-                        class="divide-y divide-neutral-200 bg-white/50 dark:divide-neutral-700 dark:bg-neutral-800/50"
+                        class="bg-white/50 dark:bg-neutral-800/50"
                     >
                         @forelse ($this->tickets as $ticket)
                             <div
-                                class="group relative hover:bg-neutral-50 dark:hover:bg-neutral-800"
+                                class="group relative border-t border-neutral-200 first:border-t-0 hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-800"
                                 wire:key="list-ticket-{{ $ticket->id }}"
                                 wire:sortable.item="{{ $ticket->id }}"
                                 wire:sortable.options="{ animation: 100, ghostClass: 'sortable-ghost-ticket' }"
@@ -286,23 +286,23 @@
                                     x-on:click="$dispatch('load-ticket', { ticket_id: {{ $ticket->id }} })"
                                 ></button>
 
-                                <div class="pointer-events-none flex min-w-0 items-center justify-between gap-3 py-2.5 pl-1 pr-3 sm:pl-3">
-                                    <button
-                                        type="button"
-                                        wire:sortable.handle
-                                        aria-label="Drag {{ $ticket->name }}"
-                                        class="pointer-events-auto -mr-3! relative z-20 flex size-8 shrink-0 touch-none cursor-grab items-center justify-center rounded-md text-neutral-400 active:cursor-grabbing active:bg-neutral-200 active:text-neutral-600 sm:hidden dark:active:bg-neutral-700 dark:active:text-neutral-200"
-                                    >
-                                        <svg viewBox="0 0 16 20" aria-hidden="true" class="h-5 w-4 fill-current">
-                                            <circle cx="5" cy="4" r="1.5" />
-                                            <circle cx="11" cy="4" r="1.5" />
-                                            <circle cx="5" cy="10" r="1.5" />
-                                            <circle cx="11" cy="10" r="1.5" />
-                                            <circle cx="5" cy="16" r="1.5" />
-                                            <circle cx="11" cy="16" r="1.5" />
-                                        </svg>
-                                    </button>
+                                <button
+                                    type="button"
+                                    wire:sortable.handle
+                                    aria-label="Drag {{ $ticket->name }}"
+                                    class="absolute left-1 top-1/2 z-20 flex size-8 -translate-y-1/2 touch-none cursor-grab items-center justify-center rounded-md text-neutral-400 active:cursor-grabbing active:bg-neutral-200 active:text-neutral-600 sm:hidden dark:active:bg-neutral-700 dark:active:text-neutral-200"
+                                >
+                                    <svg viewBox="0 0 16 20" aria-hidden="true" class="h-5 w-4 fill-current">
+                                        <circle cx="5" cy="4" r="1.5" />
+                                        <circle cx="11" cy="4" r="1.5" />
+                                        <circle cx="5" cy="10" r="1.5" />
+                                        <circle cx="11" cy="10" r="1.5" />
+                                        <circle cx="5" cy="16" r="1.5" />
+                                        <circle cx="11" cy="16" r="1.5" />
+                                    </svg>
+                                </button>
 
+                                <div class="pointer-events-none flex min-w-0 items-center justify-between gap-3 py-2.5 pl-10 pr-3 sm:px-3">
                                     <div class="flex flex-1 items-center min-w-0 truncate">
                                         <div
                                             x-cloak
@@ -375,7 +375,9 @@
                     </div>
 
                     @if ($this->tickets->count())
-                        <flux:pagination :paginator="$this->tickets" class="px-3! pb-3! border-neutral-300!" />
+                        <div class="border-t border-neutral-300 dark:border-neutral-700">
+                            <flux:pagination :paginator="$this->tickets" class="px-3! pb-3! border-none!" />
+                        </div>
                     @endif
                 @endisland
             </div>
