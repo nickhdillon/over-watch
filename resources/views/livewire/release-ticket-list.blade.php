@@ -141,7 +141,7 @@
                                             <div
                                                 wire:key="board-ticket-{{ $ticket->id }}"
                                                 wire:sortable-group.item="{{ $ticket->id }}"
-                                                class="group relative rounded-lg border border-neutral-300/60 dark:border-neutral-700/40 bg-white/50 dark:bg-neutral-800/50 p-3 pr-10 sm:pr-3 shadow-xs hover:bg-neutral-100/5 dark:hover:bg-neutral-800"
+                                                class="group relative rounded-lg border border-neutral-300/60 dark:border-neutral-700/40 bg-white/50 dark:bg-neutral-800/50 p-3 shadow-xs hover:bg-neutral-100/5 dark:hover:bg-neutral-800"
                                             >
                                                 <button
                                                     aria-label="View {{ $ticket->name }}"
@@ -171,7 +171,7 @@
                                                             {{ $ticket->issue_key }}
                                                         </p>
                                                         
-                                                        <p class="text-sm font-medium text-neutral-700 dark:text-white">
+                                                        <p class="truncate pr-7 text-sm font-medium text-neutral-700 sm:pr-0 dark:text-white">
                                                             {{ $ticket->name }}
                                                         </p>
                                                     </div>
