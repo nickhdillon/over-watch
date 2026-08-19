@@ -17,8 +17,8 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Overwatch — Plan less. Ship faster.">
     <meta name="twitter:description" content="Lightweight project management for teams that want to ship faster.">
-    <meta name="twitter:image" content="{{ asset('images/overwatch-og.png') }}">
-    <meta name="twitter:image:alt" content="Overwatch project board with the message: Plan less. Ship faster.">
+    <meta name="twitter:image" content="{{ asset('images/overwatch-twitter.png') }}">
+    <meta name="twitter:image:alt" content="Overwatch ticket board showing search, sorting, filters, and drag-and-drop workflows.">
 
     <title>Overwatch — Plan less. Ship faster.</title>
 
@@ -120,16 +120,20 @@
 
                     <div class="max-h-150 overflow-hidden sm:hidden">
                         <img
-                            src="{{ asset('product-mobile.png') }}"
-                            alt="Overwatch product board"
+                            src="{{ asset('product-mobile-v2.png') }}"
+                            alt="Overwatch mobile ticket board with search, sorting, filters, and drag handles"
+                            width="600"
+                            height="1180"
                             class="h-full w-full object-cover object-top"
                         />
                     </div>
 
                     <div class="max-h-200 overflow-hidden hidden sm:block">
                         <img
-                            src="{{ asset('product-desktop.png') }}"
-                            alt="Overwatch product board"
+                            src="{{ asset('product-desktop-v2.png') }}"
+                            alt="Overwatch ticket board with search, sorting, filters, and drag-and-drop workflow columns"
+                            width="3720"
+                            height="2505"
                             class="h-full w-full object-cover object-top"
                         />
                     </div>
