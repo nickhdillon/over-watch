@@ -16,7 +16,7 @@ class ProjectSeeder extends Seeder
      */
     public function run(): void
     {
-        $projects = Project::factory(3)
+        $projects = Project::factory(4)
             ->for(User::first(), 'owner')
             ->sequence(
                 [
@@ -25,7 +25,7 @@ class ProjectSeeder extends Seeder
                     'slug' => 'pure-finance',
                     'url' => 'https://pure-finance.app',
                     'repository_url' => 'https://github.com/nickhdillon/pure-finance',
-                    'description' => 'Personal finance app'
+                    'description' => 'Personal finance app',
                 ],
                 [
                     'name' => 'Audio Archive',
@@ -33,7 +33,7 @@ class ProjectSeeder extends Seeder
                     'slug' => 'audio-archive',
                     'url' => 'https://audio-archive.app',
                     'repository_url' => 'https://github.com/nickhdillon/audio-archive',
-                    'description' => 'Personal audio player and library'
+                    'description' => 'Personal audio player and library',
                 ],
                 [
                     'name' => 'Movie Vault',
@@ -41,7 +41,15 @@ class ProjectSeeder extends Seeder
                     'slug' => 'movie-vault',
                     'url' => 'https://movie-vault.app',
                     'repository_url' => 'https://github.com/nickhdillon/movie-vault',
-                    'description' => 'Personal movie and tv show collection'
+                    'description' => 'Personal movie and tv show collection',
+                ],
+                [
+                    'name' => 'Website Redesign',
+                    'key' => 'WEB',
+                    'slug' => 'website-redesign',
+                    'url' => 'https://overwatch.so',
+                    'repository_url' => 'https://github.com/nickhdillon/over-watch',
+                    'description' => 'Plan and deliver a complete marketing website redesign',
                 ]
             )
             ->create();
