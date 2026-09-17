@@ -8,9 +8,9 @@
 
 <div
     @class([
-        'p-2',
-        'bg-white/30 dark:bg-neutral-800/50 border-b border-neutral-200 dark:border-neutral-700' => $integrated,
-        'rounded-xl bg-neutral-400/5 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-xs' => ! $integrated,
+        'p-2 bg-neutral-400/5 dark:bg-neutral-900',
+        'border-b border-neutral-200 dark:border-neutral-700' => $integrated,
+        'rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-xs' => ! $integrated
     ])
 >
     <div class="flex flex-col gap-2 sm:flex-row sm:items-center">

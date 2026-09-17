@@ -346,7 +346,7 @@
                     </div>
 
                     @if ($this->tickets->count())
-                        <div class="border-t border-neutral-300 dark:border-neutral-700">
+                        <div class="border-t border-neutral-300 dark:border-neutral-700 bg-neutral-400/5 dark:bg-neutral-900">
                             <flux:pagination :paginator="$this->tickets" class="px-3! pb-3! border-none!" />
                         </div>
                     @endif

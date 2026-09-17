@@ -10,6 +10,7 @@
         type="button"
         x-on:click="priorityModalOpen = ! priorityModalOpen"
         x-ref="button"
+        :class="priorityModalOpen && 'bg-neutral-800/5 dark:bg-white/15'"
         class="flex items-center justify-between gap-0.75 w-full rounded-md font-medium text-xs p-2 hover:bg-neutral-800/5 dark:hover:bg-white/15"
     >
         <flux:icon :icon="$priority->icon()" class="size-4 {{ $priority->color() }} stroke-[2.5px]" />
