@@ -44,6 +44,35 @@
                     {{ $slot }}
                 </div>
             </main>
+
+            <footer class="hidden shrink-0 px-4 py-2 text-sm text-neutral-500 sm:block sm:px-6 dark:text-neutral-400">
+                <div class="mx-auto flex max-w-[1920px] flex-col items-center justify-between gap-y-4 sm:flex-row">
+                    <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-1.5">
+                            <x-app-logo />
+
+                            <span class="-ml-3">© {{ now()->year }}</span>
+                        </div>
+
+                        <span>·</span>
+
+                        <span class="font-serif text-base italic">
+                            Built to ship.
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-6">
+                        <a
+                            href="https://github.com/nickhdillon/over-watch"
+                            target="_blank"
+                            rel="noreferrer"
+                            class="rounded hover:text-neutral-900 focus:outline-none focus-visible:shadow-xs-selected dark:hover:text-white"
+                        >
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </footer>
         </div>
 
         @persist('toast')
