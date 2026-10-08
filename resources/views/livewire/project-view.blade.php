@@ -1,4 +1,4 @@
-<div class="border-t sm:border border-neutral-200 dark:border-neutral-700 shadow-xs bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2">
+<div>
     <div class="flex items-center mx-auto justify-between gap-2 p-4 max-w-5xl">
         <div class="flex w-full min-w-0 items-center gap-3 first:rounded-t-xl last:rounded-b-xl">
             @if (! $project->image_path)

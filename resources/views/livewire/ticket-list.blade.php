@@ -1,7 +1,4 @@
-<div
-    x-data="selectableList()"
-    class="border-t sm:border border-neutral-200 space-y-3 shadow-xs dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2"
->
+<div x-data="selectableList()">
     <div class="p-4 sm:py-12 mx-auto sm:w-11/12 max-w-360">
         <div class="mb-3 flex items-center justify-between gap-4">
             <div class="flex items-center justify-between gap-4 sm:justify-start">

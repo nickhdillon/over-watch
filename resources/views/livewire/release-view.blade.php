@@ -1,7 +1,4 @@
-<div
-    x-on:release-ticket-group-updated.window="$wire.$island('release-metadata').$refresh()"
-    class="border-t sm:border border-neutral-200 dark:border-neutral-700 shadow-xs bg-neutral-50/50 dark:bg-neutral-800/20 sm:rounded-lg min-h-screen sm:mx-2 sm:mb-2"
->
+<div x-on:release-ticket-group-updated.window="$wire.$island('release-metadata').$refresh()">
     <div class="p-4 sm:w-11/12 max-w-360 space-y-5 mx-auto">
         <div>
             <div class="flex items-center justify-between gap-2.5">
