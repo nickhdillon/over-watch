@@ -66,7 +66,7 @@
                             href="https://github.com/nickhdillon/over-watch"
                             target="_blank"
                             rel="noreferrer"
-                            class="rounded hover:text-neutral-900 focus:outline-none focus-visible:shadow-xs-selected dark:hover:text-white"
+                            class="rounded hover:text-violet-800 focus:outline-none focus-visible:shadow-xs-selected dark:hover:text-violet-400"
                         >
                             GitHub
                         </a>
